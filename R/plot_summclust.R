@@ -23,7 +23,7 @@ plot.summclust <- function(obj, coef = NULL){
     geom_hline(yintercept = 1, color = "red", linetype = "dotted") +
     theme_bw() +
     geom_point() +
-    ylab(TeX(r'($L_{g}$)')) +
+    ylab(TeX(r'($L_{g} / mean(L_{g})$)')) +
     ggtitle("Residual Leverage")
 
 

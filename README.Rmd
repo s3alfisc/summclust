@@ -24,7 +24,7 @@ For a very detailed description see:
 
 [MacKinnon, J.G., Nielsen, M.Ø., Webb, M.D., 2022. Leverage, influence, and the jackknife in clustered regression models: Reliable inference using summclust](https://arxiv.org/abs/2205.03288). QED Working Paper 1483. Queen’s University.
 
-A standalone implementation of the cluster jackknife estimator discussed in MNW is implemented in the [CRV3J package](https://github.com/s3alfisc/CRV3J).
+A standalone R implementation of the cluster jackknife estimator discussed in MNW is implemented in the [CRV3J package](https://github.com/s3alfisc/CRV3J).
 
 ## Installation
 
@@ -38,7 +38,7 @@ devtools::install_github("s3alfisc/summclust")
 ## Example
 
 
-```{r example, warning = FALSE, message = FALSE, out.width="50%"}
+```{r example, warning = FALSE, message = FALSE, out.width="50%", out.height="50%"}
 library(summclust)
 library(fwildclusterboot)
 library(fixest)
@@ -69,7 +69,7 @@ summclust_res <- summclust(
   cluster = data$group_id1, 
   type = "CRV3J")
 
-plot(summclust_res, coef = "treatment")
+plot(summclust_res)
 
 ```
 

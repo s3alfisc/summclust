@@ -84,7 +84,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
-      cluster = as.character(unique_clusters)
+      cluster = as.factor(unique_clusters)
     )
 
   class(res) <- "summclust"

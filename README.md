@@ -15,8 +15,8 @@ and the jackknife in clustered regression models: Reliable inference
 using summclust](https://arxiv.org/abs/2205.03288). QED Working Paper
 1483. Queen’s University.
 
-A standalone implementation of the cluster jackknife estimator discussed
-in MNW is implemented in the [CRV3J
+A standalone R implementation of the cluster jackknife estimator
+discussed in MNW is implemented in the [CRV3J
 package](https://github.com/s3alfisc/CRV3J).
 
 ## Installation
@@ -62,14 +62,14 @@ summclust_res <- summclust(
   cluster = data$group_id1, 
   type = "CRV3J")
 
-plot(summclust_res, coef = "treatment")
+plot(summclust_res)
 #> NULL
 #> $residual_leverage
 ```
 
-<img src="man/figures/README-example-1.png" width="50%" />
+<img src="man/figures/README-example-1.png" width="50%" height="50%" />
 
     #> 
     #> $coef_leverage
 
-<img src="man/figures/README-example-2.png" width="50%" />
+<img src="man/figures/README-example-2.png" width="50%" height="50%" />

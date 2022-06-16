@@ -1,6 +1,6 @@
 Package: summclust
 Title: Module for cluster specific information and cluster jackknife 
-Version: 0.0.0.9000
+Version: 0.1
 Authors@R: 
     person("Alexander", "Fischer", , "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
 Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'
