@@ -71,3 +71,9 @@ summclust_plot <- plot(summclust_res)
 summclust_plot$residual_leverage
 ```
 
+To exactly replicate output of `summclust` (Stata), you can use the `coeftable()` methods: 
+
+```{r, warning = FALSE, message=FALSE}
+coeftable(summclust_res, param = "msp")
+```
+

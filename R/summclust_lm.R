@@ -36,7 +36,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #calculate X_g'X_g
   tXgXg <- lapply(
     seq_along(unique_clusters),
-    function(x) crossprod(X[cluster == x,])
+    function(x) crossprod(X[cluster == x, ,drop = FALSE])
   )
   tXX <- Reduce("+", tXgXg)
 
@@ -48,7 +48,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   tXgyg <- lapply(
     seq_along(unique_clusters),
     function(x)
-      t(X[cluster == x,]) %*% y[cluster == x]
+      t(X[cluster == x,,drop = FALSE]) %*% y[cluster == x,drop = FALSE]
   )
   tXy <- Reduce("+", tXgyg)
 
@@ -58,7 +58,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
     lapply(
       seq_along(unique_clusters),
       function(x){
-        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
+        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,,drop = FALSE]) %*% y[cluster == x,drop = FALSE]))
       })
 
   if(type == "CRV3J"){
@@ -82,7 +82,8 @@ summclust.lm <- function(obj, cluster, type, ...) {
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
-      cluster = unique_clusters
+      cluster = unique_clusters,
+      N = N
     )
 
   class(res) <- "summclust"

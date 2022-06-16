@@ -82,3 +82,12 @@ summclust_plot$residual_leverage
 ```
 
 <img src="man/figures/README-example-1.png" width="50%" height="50%" />
+
+To exactly replicate output of `summclust` (Stata), you can use the
+`coeftable()` methods:
+
+``` r
+coeftable(summclust_res, param = "msp")
+#>          param         se     tstat       pval   confint_l   confint_u
+#> msp -0.0275151 0.01406449 -1.956353 0.07628729 -0.05847083 0.003440624
+```
