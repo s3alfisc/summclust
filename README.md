@@ -35,41 +35,50 @@ devtools::install_github("s3alfisc/summclust")
 
 ``` r
 library(summclust)
-library(fixest)
+library(lmtest)
+library(haven)
 
-set.seed(98765)
-# few large clusters (around 10000 obs)
-N <- 100000
-N_G1 <-10
-data <- fwildclusterboot:::create_data(
-    N = N,
-    N_G1 = N_G1,
-    icc1 = 0.8,
-    N_G2 = 10,
-    icc2 = 0.8,
-    numb_fe1 = 10,
-    numb_fe2 = 10,
-    seed = 12
-  )
+nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
+# drop NAs at the moment
+nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+nlswork <- na.omit(nlswork)
 
-feols_fit <- feols(
-  proposition_vote ~ treatment  + log_income |Q1_immigration + Q2_defense, 
-  cluster = ~group_id1 , 
-  data = data
-)
+lm_fit <- lm(
+  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp, 
+  data = nlswork)
 
 summclust_res <- summclust(
-  obj = feols_fit, 
-  cluster = data$group_id1, 
-  type = "CRV3J")
+  obj = lm_fit, 
+  cluster = nlswork$ind_code, 
+  type = "CRV3")
 
-plot(summclust_res)
-#> $residual_leverage
+CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code))
+CRV3 <- coeftest(lm_fit, summclust_res$vcov)
+
+CRV1[c("union", "race", "msp"),]
+#>          Estimate  Std. Error   t value     Pr(>|t|)
+#> union  0.20395972 0.061167499  3.334446 8.563242e-04
+#> race  -0.08619813 0.016150418 -5.337207 9.546801e-08
+#> msp   -0.02751510 0.009293046 -2.960827 3.071921e-03
+CRV3[c("union", "race", "msp"),]
+#>          Estimate Std. Error   t value     Pr(>|t|)
+#> union  0.20395972 0.08358587  2.440122 1.469134e-02
+#> race  -0.08619813 0.01904684 -4.525586 6.059226e-06
+#> msp   -0.02751510 0.01406412 -1.956404 5.043213e-02
+
+confint(CRV1)[c("union", "race", "msp"),]
+#>             2.5 %      97.5 %
+#> union  0.08406602  0.32385343
+#> race  -0.11785438 -0.05454188
+#> msp   -0.04573029 -0.00929991
+confint(CRV3)[c("union", "race", "msp"),]
+#>             2.5 %        97.5 %
+#> union  0.04012403  3.677954e-01
+#> race  -0.12353163 -4.886463e-02
+#> msp   -0.05508202  5.181456e-05
+
+summclust_plot <- plot(summclust_res)
+summclust_plot$residual_leverage
 ```
 
 <img src="man/figures/README-example-1.png" width="50%" height="50%" />
-
-    #> 
-    #> $coef_leverage
-
-<img src="man/figures/README-example-2.png" width="50%" height="50%" />

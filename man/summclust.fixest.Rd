@@ -4,7 +4,7 @@
 \alias{summclust.fixest}
 \title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
 \usage{
-\method{summclust}{fixest}(obj, cluster, type, ...)
+\method{summclust}{fixest}(obj, cluster, type, fixef.K = FALSE, ...)
 }
 \arguments{
 \item{obj}{An object of type fixest}
@@ -12,6 +12,9 @@
 \item{cluster}{A clustering vector}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb}
+
+\item{fixef.K}{Should out-projected fixed effects be counted when computing
+the number of estimated parameters? FALSE by default}
 
 \item{...}{other function arguments passed to 'vcov'}
 }

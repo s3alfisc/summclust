@@ -8,13 +8,13 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #' @method summclust lm
   #' @importFrom stats coef weights coefficients model.matrix
   #' @importFrom dreamerr check_arg
-  #' @importFrom Rfast spdinv
+  #' @importFrom MASS ginv
   #' @export
 
   check_arg(cluster, "character vector | numeric vector")
 
   X <- model_matrix(obj, type = "rhs", collin.rm = TRUE)
-  y <- model_matrix(obj, type = "lhs", collin.rm = TRUE)
+  y <- model.response(model.frame(obj))
 
   beta_hat <- coefficients(obj)
 
@@ -41,7 +41,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   tXX <- Reduce("+", tXgXg)
 
   leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% spdinv(tXX)))
+                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
   leverage_avg <- k / G
 
 
@@ -58,7 +58,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
     lapply(
       seq_along(unique_clusters),
       function(x){
-        spdinv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
+        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
       })
 
   if(type == "CRV3J"){

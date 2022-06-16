@@ -1,17 +1,19 @@
-summclust.fixest <- function(obj, cluster, type, ...) {
+summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
 
   #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
+  #' @param fixef.K Should out-projected fixed effects be counted when computing
+  #'        the number of estimated parameters? FALSE by default
   #' @param ... other function arguments passed to 'vcov'
-  #' @method summclust fixest
   #' @importFrom stats coef weights coefficients model.matrix
   #' @importFrom dreamerr check_arg
   #' @importFrom Rfast spdinv
   #' @export
 
-  check_arg(cluster, "character vector | numeric vector")
+  check_arg(cluster, "character vector | numeric vector |factor")
+  check_arg(fixef.K, "scalar logical")
 
   X <- model.matrix(obj, type = "rhs")
   y <- model.matrix(obj, type = "lhs")
@@ -33,8 +35,14 @@ summclust.fixest <- function(obj, cluster, type, ...) {
     y <- fixest::demean(X = y, f = fe)
   }
 
-  k <- NCOL(X)
-  N <- NROW(X)
+  N <- nrow(X)
+  if(fixef.K == TRUE){
+    k <- obj$nparams
+    print(paste("fixef.K = TRUE", k))
+  } else {
+    k <- ncol(X)
+    print(paste("fixef.K = FALSE", k))
+  }
 
   unique_clusters <- unique(cluster)
   G <- length(unique_clusters)
@@ -51,6 +59,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
                        function(x) matrix_trace(tXgXg[[x]] %*% spdinv(tXX)))
   leverage_avg <- k / G
 
+  print(paste("leverage_avg", leverage_avg))
 
   tXgyg <- lapply(
     seq_along(unique_clusters),

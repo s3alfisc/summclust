@@ -12,9 +12,13 @@ Depends: utils,
          ggplot2, 
          latex2exp, 
          dreamerr, 
-         Rfast, 
-         fabricatr
+         fabricatr, 
+         MASS, 
+         Rfast
 Suggests: 
     fixest,
+    haven, 
+    sandwich, 
+    lmtest, 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
