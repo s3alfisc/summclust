@@ -6,6 +6,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param ... other function arguments passed to 'vcov'
   #' @method summclust fixest
+  #' @importFrom stats coef weights coefficients model.matrix
   #' @export
 
   X <- model.matrix(obj, type = "rhs")

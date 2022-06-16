@@ -5,6 +5,7 @@ plot.summclust <- function(obj, coef = NULL){
   #' @param coef The coefficients for which leverages should be plotted
   #' @export
   #' @method plot summclust
+  #' @importFrom ggplot2 facet_wrap ggtitle ylab geom_point geom_hline aes ggplot
 
   dreamerr::check_arg(coef, "NULL | character vector")
 

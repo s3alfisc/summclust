@@ -4,6 +4,8 @@
 # summclust
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/s3alfisc/summclust/workflows/R-CMD-check/badge.svg)](https://github.com/s3alfisc/summclust/actions)
 <!-- badges: end -->
 
 R module for cluster level measures of leverage and influence.
