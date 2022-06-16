@@ -72,5 +72,6 @@ summclust_res <- summclust(
 
 plot(summclust_res)
 
+
 ```
 

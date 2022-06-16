@@ -29,16 +29,12 @@ plot.summclust <- function(x, ...){
 
   # plot jackknife'd coefs
 
-  k <- rownames(x$beta_jack[[1]])
+  k <- names(x$coef_estimates)
   df <- as.data.frame(Reduce("rbind", x$beta_jack))
   names(df) <- "beta_jack"
   df$coef <- rep(k, nrow(df) / length(k))
   df$cluster <- sort(rep(1:length(x$cluster), length(k)))
   df$coef_estimate <- rep(x$coef_estimates, length(x$cluster))
-
-  if(!is.null(coef)){
-    df <- df[df$coef %in% coef,]
-  }
 
   coef_leverage <-
     ggplot(data = df,
@@ -60,11 +56,9 @@ plot.summclust <- function(x, ...){
 
   res <- list(
     residual_leverage = residual_leverage,
-    coef_leverage = coef_leverage#,
-    #all_plots = residual_leverage / coef_leverage
+    coef_leverage = coef_leverage
   )
 
-  print(res$all_plots)
-  return(res)
+  res
 
 }

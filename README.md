@@ -65,7 +65,6 @@ summclust_res <- summclust(
   type = "CRV3J")
 
 plot(summclust_res)
-#> NULL
 #> $residual_leverage
 ```
 
