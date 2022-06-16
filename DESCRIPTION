@@ -1,0 +1,21 @@
+Package: summclust
+Title: Module for cluster specific information and cluster jackknife 
+Version: 0.0.0.9000
+Authors@R: 
+    person("Alexander", "Fischer", , "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
+Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Depends: MASS, 
+         utils, 
+         ggplot2, 
+         latex2exp, 
+         patchwork, 
+         dreamerr
+Suggests: 
+    fixest,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
