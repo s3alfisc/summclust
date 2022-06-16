@@ -1,17 +1,16 @@
-plot.summclust <- function(obj, coef = NULL){
+plot.summclust <- function(x, ...){
 
   #' plot methods for summclust objects
-  #' @param obj An object of type summclust
-  #' @param coef The coefficients for which leverages should be plotted
+  #' @param x An object of type summclust
+  #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
-  #' @importFrom ggplot2 facet_wrap ggtitle ylab geom_point geom_hline aes ggplot
-
-  dreamerr::check_arg(coef, "NULL | character vector")
+  #' @importFrom ggplot2 facet_wrap ggtitle ylab geom_point geom_hline aes ggplot theme_bw
+  #' @importFrom latex2exp TeX
 
   df <- data.frame(
-    cluster = obj$cluster,
-    cluster_leverage = unlist(obj$leverage_g) / obj$leverage_avg
+    cluster = x$cluster,
+    cluster_leverage = unlist(x$leverage_g) / x$leverage_avg
   )
 
   # plot residual leverage:
@@ -30,12 +29,12 @@ plot.summclust <- function(obj, coef = NULL){
 
   # plot jackknife'd coefs
 
-  k <- rownames(obj$beta_jack[[1]])
-  df <- as.data.frame(Reduce("rbind", obj$beta_jack))
+  k <- rownames(x$beta_jack[[1]])
+  df <- as.data.frame(Reduce("rbind", x$beta_jack))
   names(df) <- "beta_jack"
   df$coef <- rep(k, nrow(df) / length(k))
-  df$cluster <- sort(rep(1:length(obj$cluster), length(k)))
-  df$coef_estimate <- rep(obj$coef_estimates, length(obj$cluster))
+  df$cluster <- sort(rep(1:length(x$cluster), length(k)))
+  df$coef_estimate <- rep(x$coef_estimates, length(x$cluster))
 
   if(!is.null(coef)){
     df <- df[df$coef %in% coef,]

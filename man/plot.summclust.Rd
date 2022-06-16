@@ -4,12 +4,12 @@
 \alias{plot.summclust}
 \title{plot methods for summclust objects}
 \usage{
-\method{plot}{summclust}(obj, coef = NULL)
+\method{plot}{summclust}(x, ...)
 }
 \arguments{
-\item{obj}{An object of type summclust}
+\item{x}{An object of type summclust}
 
-\item{coef}{The coefficients for which leverages should be plotted}
+\item{...}{other optional function arguments}
 }
 \description{
 plot methods for summclust objects

@@ -3,17 +3,16 @@ Title: Module for cluster specific information and cluster jackknife
 Version: 0.1
 Authors@R: 
     person("Alexander", "Fischer", , "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
-Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'
+Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
-Depends: MASS, 
-         utils, 
+Depends: utils, 
          ggplot2, 
          latex2exp, 
-         patchwork, 
-         dreamerr
+         dreamerr, 
+         Rfast
 Suggests: 
     fixest,
     testthat (>= 3.0.0)

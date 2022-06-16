@@ -7,7 +7,11 @@ summclust.fixest <- function(obj, cluster, type, ...) {
   #' @param ... other function arguments passed to 'vcov'
   #' @method summclust fixest
   #' @importFrom stats coef weights coefficients model.matrix
+  #' @importFrom dreamerr check_arg
+  #' @importFrom Rfast spdinv
   #' @export
+
+  check_arg(cluster, "character vector | numeric vector")
 
   X <- model.matrix(obj, type = "rhs")
   y <- model.matrix(obj, type = "lhs")
@@ -44,7 +48,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
   tXX <- Reduce("+", tXgXg)
 
   leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% solve(tXX)))
+                       function(x) matrix_trace(tXgXg[[x]] %*% spdinv(tXX)))
   leverage_avg <- k / G
 
 
@@ -61,7 +65,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
     lapply(
       seq_along(unique_clusters),
       function(x){
-        solve(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
+        spdinv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
       })
 
   if(type == "CRV3J"){
@@ -85,7 +89,7 @@ summclust.fixest <- function(obj, cluster, type, ...) {
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
-      cluster = as.factor(unique_clusters)
+      cluster = unique_clusters
     )
 
   class(res) <- "summclust"
