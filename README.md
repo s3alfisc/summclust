@@ -35,7 +35,6 @@ devtools::install_github("s3alfisc/summclust")
 
 ``` r
 library(summclust)
-library(fwildclusterboot)
 library(fixest)
 
 set.seed(98765)

@@ -12,7 +12,8 @@ Depends: utils,
          ggplot2, 
          latex2exp, 
          dreamerr, 
-         Rfast
+         Rfast, 
+         fabricatr
 Suggests: 
     fixest,
     testthat (>= 3.0.0)
