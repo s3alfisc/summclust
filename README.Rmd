@@ -61,6 +61,8 @@ summclust_res <- summclust(
 # CRV3-based inference - exactly matches output of summclust-stata
 coeftable(summclust_res, param = "msp")
 coeftable(summclust_res, param = "union")
+
+summary(summclust_res, param = "msp")
 ```
 
 To plot the leverage statistics, use the `plot` method

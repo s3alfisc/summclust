@@ -59,6 +59,18 @@ coeftable(summclust_res, param = "msp")
 coeftable(summclust_res, param = "union")
 #>           param         se    tstat       pval  confint_l confint_u
 #> union 0.2039597 0.08358587 2.440122 0.03281561 0.01998847  0.387931
+
+summary(summclust_res, param = "msp")
+#>          param         se     tstat       pval   confint_l   confint_u
+#> msp -0.0275151 0.01406412 -1.956404 0.07628064 -0.05847002 0.003439815
+#>  
+#>      stat    leverage        beta
+#> 1    Min.  0.09332052 -0.03320040
+#> 2 1st Qu.  0.70440923 -0.02893131
+#> 3  Median  3.51549151 -0.02776470
+#> 4    Mean  5.41666667 -0.02691999
+#> 5 3rd Qu.  6.41132962 -0.02610221
+#> 6    Max. 20.28918187 -0.01583453
 ```
 
 To plot the leverage statistics, use the `plot` method
