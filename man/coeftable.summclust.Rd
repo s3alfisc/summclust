@@ -7,14 +7,14 @@ to compute pvalues and confidence intervals, coeftable() uses
 a t(G-1) distribution
 summclust uses tstat with different df, different p-val type}
 \usage{
-\method{coeftable}{summclust}(obj, param, pval_type = "equal-tailed")
+\method{coeftable}{summclust}(obj, ..., param)
 }
 \arguments{
 \item{obj}{An object of class 'summclust'}
 
-\item{param}{A character scalar}
+\item{...}{Other arguments}
 
-\item{pval_type}{Character scalar. 'equal-tailed' (default) or 'symmetric'}
+\item{param}{A character scalar}
 }
 \description{
 Differences between lmtest::coeftest() and summclust

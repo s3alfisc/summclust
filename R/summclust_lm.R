@@ -9,9 +9,12 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #' @importFrom stats coef weights coefficients model.matrix
   #' @importFrom dreamerr check_arg
   #' @importFrom MASS ginv
+  #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #' @export
 
-  check_arg(cluster, "character vector | numeric vector")
+  check_arg(cluster, "character scalar | formula")
+
+  call_env <- environment(formula(obj))
 
   X <- model_matrix(obj, type = "rhs", collin.rm = TRUE)
   y <- model.response(model.frame(obj))
@@ -26,17 +29,49 @@ summclust.lm <- function(obj, cluster, type, ...) {
     stop("Weighted least squares (WLS) is currently not supported for objects of type fixest.")
   }
 
+
+  if(!inherits(cluster, "formula")){
+    cluster <- reformulate(cluster)
+  }
+
+  # fetch the clustering variable
+  cluster_tmp <-
+    try(
+      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
+        suppressWarnings(expand.model.frame(
+          model = obj,
+          extras = cluster,
+          na.expand = FALSE,
+          envir = call_env
+        )
+        )
+      } else {
+        expand.model.frame(
+          obj,
+          cluster,
+          na.expand = FALSE,
+          envir = call_env
+        )
+      }
+    )
+
+  if(inherits(cluster_tmp, "try-error") && grepl("non-numeric argument to binary operator$", attr(cluster_tmp, "condition")$message)){
+    stop("In your model, you have specified multiple fixed effects, none of which are of type factor. While `fixest::feols()` handles this case without any troubles,  `summclust()` currently cannot handle this case - please change the type of (at least one) fixed effect(s) to factor. If this does not solve the error, please report the issue at https://github.com/s3alfisc/summclust")
+  }
+
+  cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
+
   k <- ncol(X)
   N <- nrow(X)
 
-  unique_clusters <- unique(cluster)
+  unique_clusters <- unique(cluster_df[,,drop = TRUE])
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
 
   #calculate X_g'X_g
   tXgXg <- lapply(
     seq_along(unique_clusters),
-    function(x) crossprod(X[cluster == x, ,drop = FALSE])
+    function(x) crossprod(X[cluster_df == x, ,drop = FALSE])
   )
   tXX <- Reduce("+", tXgXg)
 
@@ -48,7 +83,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   tXgyg <- lapply(
     seq_along(unique_clusters),
     function(x)
-      t(X[cluster == x,,drop = FALSE]) %*% y[cluster == x,drop = FALSE]
+      t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
   )
   tXy <- Reduce("+", tXgyg)
 
@@ -58,7 +93,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
     lapply(
       seq_along(unique_clusters),
       function(x){
-        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,,drop = FALSE]) %*% y[cluster == x,drop = FALSE]))
+        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]))
       })
 
   if(type == "CRV3J"){
@@ -74,6 +109,10 @@ summclust.lm <- function(obj, cluster, type, ...) {
   )
 
   vcov <- Reduce("+", V3) * small_sample_correction
+
+  beta_jack <- Reduce("cbind", beta_jack)
+  rownames(beta_jack) <- names(coef(obj))
+  colnames(beta_jack) <- unique_clusters
 
   res <-
     list(

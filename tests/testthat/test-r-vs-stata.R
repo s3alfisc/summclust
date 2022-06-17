@@ -1,4 +1,4 @@
-test_that("test against stata", {
+test_that("test against stata - CVR3 inference", {
 
   # note: minor discrepancies likely due to a) bug in my code or b)
   # different degrees of freedom in Stata vs R when computing t-stat
@@ -17,13 +17,10 @@ test_that("test against stata", {
   lm_fit <- lm(
     ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
     data = nlswork)
-  feols_fit <- feols(
-    ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
-    data = nlswork)
 
   summclust_res <- summclust(
     obj = lm_fit,
-    cluster = nlswork$ind_code,
+    cluster = ~ind_code,
     type = "CRV3")
 
   res <- summclust:::coeftable(summclust_res, param = "msp")
@@ -65,24 +62,59 @@ test_that("test against stata", {
   expect_equal(
     round(res["msp",4],4),
     0.0763,
-    ignore_attr = TRUE,
-    tolerance = 1e-02
+    ignore_attr = TRUE
   )
 
   #conf int lower
   expect_equal(
     round(res["msp","confint_l"],6),
     -0.058470,
-    ignore_attr = TRUE,
-    tolerance = 1e-02
+    ignore_attr = TRUE
   )
 
   # conf int upper
   expect_equal(
     round(res["msp","confint_u"],6),
     0.003440,
-    ignore_attr = TRUE,
-    tolerance = 1e-02
+    ignore_attr = TRUE
   )
+
+})
+
+
+
+test_that("test against stata - leverage", {
+
+  library(summclust)
+  library(lmtest)
+  library(haven)
+  library(fixest)
+
+  nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
+  # drop NAs at the moment
+  nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+  nlswork <- na.omit(nlswork)
+
+  lm_fit <- lm(
+    ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
+    data = nlswork)
+
+  summclust_res <- summclust(
+    obj = lm_fit,
+    cluster = ~ind_code,
+    type = "CRV3")
+
+  # test leverage
+  expect_equal(round(min(unlist(summclust_res$leverage_g)), 6), 0.093321)
+  expect_equal(round(max(unlist(summclust_res$leverage_g)), 5), 20.28918)
+  expect_equal(round(median(unlist(summclust_res$leverage_g)), 5), 3.51549)
+  expect_equal(round(mean(unlist(summclust_res$leverage_g)), 6), 5.416667)
+
+  # test beta no g
+  expect_equal(round(min(summclust_res$beta_jack["msp",]), 6), -0.033200)
+  expect_equal(round(max(summclust_res$beta_jack["msp",]), 6), -0.015835)
+  expect_equal(round(median(summclust_res$beta_jack["msp",]), 6), -0.027765)
+  expect_equal(round(mean(summclust_res$beta_jack["msp",]), 6), -0.026920)
+
 
 })

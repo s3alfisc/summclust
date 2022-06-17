@@ -2,15 +2,17 @@
 % Please edit documentation in R/plot_summclust.R
 \name{plot.summclust}
 \alias{plot.summclust}
-\title{plot methods for summclust objects}
+\title{autoplot method for summclust xs}
 \usage{
-\method{plot}{summclust}(x, ...)
+\method{plot}{summclust}(x, ..., param)
 }
 \arguments{
-\item{x}{An object of type summclust}
+\item{x}{An x of type summclust}
 
 \item{...}{other optional function arguments}
+
+\item{param}{Character vector. Which parameters should be plotted?}
 }
 \description{
-plot methods for summclust objects
+autoplot method for summclust xs
 }

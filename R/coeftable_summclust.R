@@ -1,4 +1,4 @@
-coeftable.summclust <- function(obj, param){
+coeftable.summclust <- function(obj, ..., param){
 
 
   #' Differences between lmtest::coeftest() and summclust
@@ -6,8 +6,10 @@ coeftable.summclust <- function(obj, param){
   #' a t(G-1) distribution
   #' summclust uses tstat with different df, different p-val type
   #' @param obj An object of class 'summclust'
+  #' @param ... Other arguments
   #' @param param A character scalar
   #' @method coeftable summclust
+  #' @importFrom stats qt pt
   #' @export
 
   dreamerr::check_arg(param, "character scalar")
@@ -38,7 +40,7 @@ coeftable.summclust <- function(obj, param){
 coeftable <- function(obj, ...) {
 
   #' Inference based on CRV3 and CRV3J estimates
-  #' @param obj An object of class `lm` or `fixest`
+  #' @param obj An object of class `summclust`
   #' @param ... Other arguments
   #' @export
 

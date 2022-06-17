@@ -1,12 +1,15 @@
-plot.summclust <- function(x, ...){
+plot.summclust <- function(x, ..., param){
 
-  #' plot methods for summclust objects
-  #' @param x An object of type summclust
+  #' autoplot method for summclust xs
+  #' @param x An x of type summclust
+  #' @param param Character vector. Which parameters should be plotted?
   #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
   #' @importFrom ggplot2 facet_wrap ggtitle ylab geom_point geom_hline aes ggplot theme_bw
   #' @importFrom latex2exp TeX
+  #' @importFrom utils stack
+
 
   df <- data.frame(
     cluster = x$cluster,
@@ -29,24 +32,29 @@ plot.summclust <- function(x, ...){
 
   # plot jackknife'd coefs
 
-  k <- names(x$coef_estimates)
-  df <- as.data.frame(Reduce("rbind", x$beta_jack))
-  names(df) <- "beta_jack"
-  df$coef <- rep(k, nrow(df) / length(k))
-  df$cluster <- sort(rep(1:length(x$cluster), length(k)))
-  df$coef_estimate <- rep(x$coef_estimates, length(x$cluster))
+  df <- as.data.frame(x$beta_jack)
+
+  if(!is.null(param)){
+    df <- df[rownames(df) %in% param, ]
+  }
+
+  df_long <- stack(df, select = colnames(df))
+  names(df_long) <- c("values", "cluster")
+
+  df_long$variable <- rep(rownames(df), length(param))
+  df_long$coef_estimate <- rep(x$coef_estimates[names(x$coef_estimates) %in% param], length(param))
 
   coef_leverage <-
-    ggplot(data = df,
+    ggplot(data = df_long,
            aes(
              x = cluster,
-             y = beta_jack
+             y = values
            )) +
-    facet_wrap(~ coef) +
+    facet_wrap(~ variable) +
     ylab(TeX(r'($\hat{\beta}_{j}^{g}$)')) +
     theme_bw() +
     geom_point() +
-    geom_hline(data = df,
+    geom_hline(data = df_long,
                aes(
                  yintercept = coef_estimate
                ),

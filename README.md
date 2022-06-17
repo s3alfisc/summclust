@@ -49,7 +49,7 @@ lm_fit <- lm(
 
 summclust_res <- summclust(
   obj = lm_fit,
-  cluster = nlswork$ind_code,
+  cluster = ~ind_code,
   type = "CRV3")
 
 # CRV3-based inference - exactly matches output of summclust-stata
@@ -59,12 +59,21 @@ coeftable(summclust_res, param = "msp")
 coeftable(summclust_res, param = "union")
 #>           param         se    tstat       pval  confint_l confint_u
 #> union 0.2039597 0.08358587 2.440122 0.03281561 0.01998847  0.387931
-
-summclust_plot <- plot(summclust_res)
-summclust_plot$residual_leverage
 ```
 
-<img src="man/figures/README-example-1.png" width="50%" height="50%" />
+To plot the leverage statistics, use the `plot` method
+
+``` r
+plot(summclust_res, param = c("msp","union"))
+#> $residual_leverage
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="50%" />
+
+    #> 
+    #> $coef_leverage
+
+<img src="man/figures/README-unnamed-chunk-2-2.png" width="50%" />
 
 Note that you can also use CVR3 and CRV3J covariance matrices computed
 via `summclust` with the `lmtest()` and `fixest` packages.

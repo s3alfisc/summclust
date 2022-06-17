@@ -7,7 +7,7 @@
 coeftable(obj, ...)
 }
 \arguments{
-\item{obj}{An object of class \code{lm} or \code{fixest}}
+\item{obj}{An object of class \code{summclust}}
 
 \item{...}{Other arguments}
 }

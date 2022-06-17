@@ -13,8 +13,7 @@ Depends: utils,
          latex2exp, 
          dreamerr, 
          fabricatr, 
-         MASS, 
-         Rfast
+         MASS
 Suggests: 
     fixest,
     haven, 

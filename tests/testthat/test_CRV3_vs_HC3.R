@@ -16,7 +16,7 @@ test_that("CV3 = HC3 with N = G", {
 
   summclust_res <- summclust(
     obj = lm_fit,
-    cluster = nlswork$count,
+    cluster = ~count,
     type = "CRV3")
 
   vcovHC3 <- vcovHC(lm_fit, type = "HC3")
