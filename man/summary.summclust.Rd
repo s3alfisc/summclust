@@ -4,14 +4,14 @@
 \alias{summary.summclust}
 \title{\code{summary()} method for objects of type \code{summclust}}
 \usage{
-\method{summary}{summclust}(x, ..., param)
+\method{summary}{summclust}(object, ..., param)
 }
 \arguments{
-\item{x}{An objet of type summclust}
+\item{object}{An objet of type summclust}
 
 \item{...}{misc arguments}
 
-\item{param}{The parameter to be summarized}
+\item{param}{Character vector. The parameters to be summarized}
 }
 \description{
 \code{summary()} method for objects of type \code{summclust}

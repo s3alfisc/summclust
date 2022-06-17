@@ -4,10 +4,10 @@ test_that("test against stata - CVR3 inference", {
   # different degrees of freedom in Stata vs R when computing t-stat
   # degrees of freedom (?)
 
+  library(fixest)
   library(summclust)
   library(lmtest)
   library(haven)
-  library(fixest)
 
   nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   # drop NAs at the moment
@@ -23,7 +23,8 @@ test_that("test against stata - CVR3 inference", {
     cluster = ~ind_code,
     type = "CRV3")
 
-  res <- summclust:::coeftable(summclust_res, param = "msp")
+
+  res <- summclust::coeftable(summclust_res, param = "msp")
 
 
   # res_lm <- coeftest(lm_fit, summclust_res$vcov, df = )
@@ -46,14 +47,14 @@ test_that("test against stata - CVR3 inference", {
 
   #t-stat
   expect_equal(
-    round(res["msp",3],4),
+    round(res["msp",2],4),
     -1.9564,
     ignore_attr = TRUE
   )
 
   # standard error
   expect_equal(
-    round(res["msp",2],6),
+    round(res["msp",3],6),
     0.014064,
     ignore_attr = TRUE
   )
@@ -67,14 +68,14 @@ test_that("test against stata - CVR3 inference", {
 
   #conf int lower
   expect_equal(
-    round(res["msp","confint_l"],6),
+    round(res["msp","conf_int_l"],6),
     -0.058470,
     ignore_attr = TRUE
   )
 
   # conf int upper
   expect_equal(
-    round(res["msp","confint_u"],6),
+    round(res["msp","conf_int_u"],6),
     0.003440,
     ignore_attr = TRUE
   )

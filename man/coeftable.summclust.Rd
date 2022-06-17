@@ -14,7 +14,7 @@ summclust uses tstat with different df, different p-val type}
 
 \item{...}{Other arguments}
 
-\item{param}{A character scalar}
+\item{param}{A character vector}
 }
 \description{
 Differences between lmtest::coeftest() and summclust

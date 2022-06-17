@@ -7,33 +7,46 @@ coeftable.summclust <- function(obj, ..., param){
   #' summclust uses tstat with different df, different p-val type
   #' @param obj An object of class 'summclust'
   #' @param ... Other arguments
-  #' @param param A character scalar
+  #' @param param A character vector
   #' @method coeftable summclust
   #' @importFrom stats qt pt
   #' @export
 
-  dreamerr::check_arg(param, "character scalar")
+  dreamerr::check_arg(param, "character vector")
 
   N <- obj$N
-  coef <- obj$coef_estimates
   vcov <- obj$vcov
   G <- length(obj$cluster)
-  param_ <- which(names(coef) == param)
-  se <- sqrt(vcov[param_, param_])
-  cv3t <- coef[param_] / se
+  param_ <- which(names(obj$coef_estimates) %in% param )
+  param_vals <- obj$coef_estimates[param_]
+  se <- diag(sqrt(vcov[param_, param_, drop = FALSE]))
+  cv3t <- param_vals / se
 
-  conf_int <- coef[param_] + c(-1, 1) * qt(0.025, df = G - 1) * se
+  conduct_inference <- function(x, param_vals, se, cv3t){
 
-  p_val <- 2* min(pt(cv3t, G-1), 1 - pt(cv3t, G-1))
-  #p_val <- 2* pt(cv3t, G-1)
+    conf_int <- param_vals[x] + c(-1, 1) * qt(0.025, df = G - 1) * se[x]
+    p_val <- 2* min(pt(cv3t[x], G-1), 1 - pt(cv3t[x], G-1))
 
-  data.frame(param = coef[param_],
-             se = se,
-             tstat = cv3t,
-             pval = p_val,
-             confint_l = conf_int[2] ,
-             confint_u = conf_int[1])
+    res <-
+    data.frame(coef = param_vals[x],
+               tstat = cv3t[x],
+               se = se[x],
+               p_val = p_val,
+               conf_int_l = conf_int[2],
+               conf_int_u = conf_int[1])
 
+    res
+
+  }
+
+
+  vals <-
+  lapply(seq_along(param),
+         function(x) conduct_inference(x, param_vals = param_vals, se = se, cv3t = cv3t))
+
+  res <- as.data.frame(Reduce("rbind", vals))
+
+  res
 }
 
 

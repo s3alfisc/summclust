@@ -31,7 +31,7 @@ You can install the development version of summclust from
 devtools::install_github("s3alfisc/summclust")
 ```
 
-## Example
+## Using `summclust`
 
 ``` r
 library(summclust)
@@ -53,24 +53,23 @@ summclust_res <- summclust(
   type = "CRV3")
 
 # CRV3-based inference - exactly matches output of summclust-stata
-coeftable(summclust_res, param = "msp")
-#>          param         se     tstat       pval   confint_l   confint_u
-#> msp -0.0275151 0.01406412 -1.956404 0.07628064 -0.05847002 0.003439815
-coeftable(summclust_res, param = "union")
-#>           param         se    tstat       pval  confint_l confint_u
-#> union 0.2039597 0.08358587 2.440122 0.03281561 0.01998847  0.387931
+coeftable(summclust_res, param = c("msp", "union"))
+#>             coef     tstat         se      p_val  conf_int_l  conf_int_u
+#> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980
+#> msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815
 
-summary(summclust_res, param = "msp")
-#>          param         se     tstat       pval   confint_l   confint_u
-#> msp -0.0275151 0.01406412 -1.956404 0.07628064 -0.05847002 0.003439815
+summary(summclust_res, param = c("msp","union"))
+#>             coef     tstat         se      p_val  conf_int_l  conf_int_u
+#> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980
+#> msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815
 #>  
-#>      stat    leverage        beta
-#> 1    Min.  0.09332052 -0.03320040
-#> 2 1st Qu.  0.70440923 -0.02893131
-#> 3  Median  3.51549151 -0.02776470
-#> 4    Mean  5.41666667 -0.02691999
-#> 5 3rd Qu.  6.41132962 -0.02610221
-#> 6    Max. 20.28918187 -0.01583453
+#>            leverage    beta-msp beta-union
+#> Min.     0.09332052 -0.03320040  0.1624754
+#> 1st Qu.  0.70440923 -0.02893131  0.1994694
+#> Median   3.51549151 -0.02776470  0.2045197
+#> Mean     5.41666667 -0.02691999  0.2053997
+#> 3rd Qu.  6.41132962 -0.02610221  0.2056569
+#> Max.    20.28918187 -0.01583453  0.2754228
 ```
 
 To plot the leverage statistics, use the `plot` method
@@ -86,6 +85,8 @@ plot(summclust_res, param = c("msp","union"))
     #> $coef_leverage
 
 <img src="man/figures/README-unnamed-chunk-2-2.png" width="50%" />
+
+## Using `summclust` with `coefplot` and `fixest`
 
 Note that you can also use CVR3 and CRV3J covariance matrices computed
 via `summclust` with the `lmtest()` and `fixest` packages.

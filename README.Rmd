@@ -36,7 +36,7 @@ You can install the development version of summclust from [GitHub](https://githu
 devtools::install_github("s3alfisc/summclust")
 ```
 
-## Example
+## Using `summclust`
 
 
 ```{r example, warning = FALSE, message = FALSE, out.width="50%", out.height="50%"}
@@ -59,10 +59,9 @@ summclust_res <- summclust(
   type = "CRV3")
 
 # CRV3-based inference - exactly matches output of summclust-stata
-coeftable(summclust_res, param = "msp")
-coeftable(summclust_res, param = "union")
+coeftable(summclust_res, param = c("msp", "union"))
 
-summary(summclust_res, param = "msp")
+summary(summclust_res, param = c("msp","union"))
 ```
 
 To plot the leverage statistics, use the `plot` method
@@ -71,6 +70,7 @@ To plot the leverage statistics, use the `plot` method
 plot(summclust_res, param = c("msp","union"))
 ```
 
+## Using `summclust` with `coefplot` and `fixest`
 
 Note that you can also use CVR3 and CRV3J covariance matrices computed via `summclust` with the `lmtest()` and `fixest` packages.
 
