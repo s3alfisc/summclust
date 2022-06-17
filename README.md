@@ -44,38 +44,21 @@ nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "
 nlswork <- na.omit(nlswork)
 
 lm_fit <- lm(
-  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp, 
+  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
   data = nlswork)
 
 summclust_res <- summclust(
-  obj = lm_fit, 
-  cluster = nlswork$ind_code, 
+  obj = lm_fit,
+  cluster = nlswork$ind_code,
   type = "CRV3")
 
-CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code))
-CRV3 <- coeftest(lm_fit, summclust_res$vcov)
-
-CRV1[c("union", "race", "msp"),]
-#>          Estimate  Std. Error   t value     Pr(>|t|)
-#> union  0.20395972 0.061167499  3.334446 8.563242e-04
-#> race  -0.08619813 0.016150418 -5.337207 9.546801e-08
-#> msp   -0.02751510 0.009293046 -2.960827 3.071921e-03
-CRV3[c("union", "race", "msp"),]
-#>          Estimate Std. Error   t value     Pr(>|t|)
-#> union  0.20395972 0.08358587  2.440122 1.469134e-02
-#> race  -0.08619813 0.01904684 -4.525586 6.059226e-06
-#> msp   -0.02751510 0.01406412 -1.956404 5.043213e-02
-
-confint(CRV1)[c("union", "race", "msp"),]
-#>             2.5 %      97.5 %
-#> union  0.08406602  0.32385343
-#> race  -0.11785438 -0.05454188
-#> msp   -0.04573029 -0.00929991
-confint(CRV3)[c("union", "race", "msp"),]
-#>             2.5 %        97.5 %
-#> union  0.04012403  3.677954e-01
-#> race  -0.12353163 -4.886463e-02
-#> msp   -0.05508202  5.181456e-05
+# CRV3-based inference - exactly matches output of summclust-stata
+coeftable(summclust_res, param = "msp")
+#>          param         se     tstat       pval   confint_l   confint_u
+#> msp -0.0275151 0.01406412 -1.956404 0.07628064 -0.05847002 0.003439815
+coeftable(summclust_res, param = "union")
+#>           param         se    tstat       pval  confint_l confint_u
+#> union 0.2039597 0.08358587 2.440122 0.03281561 0.01998847  0.387931
 
 summclust_plot <- plot(summclust_res)
 summclust_plot$residual_leverage
@@ -83,11 +66,59 @@ summclust_plot$residual_leverage
 
 <img src="man/figures/README-example-1.png" width="50%" height="50%" />
 
-To exactly replicate output of `summclust` (Stata), you can use the
-`coeftable()` methods:
+Note that you can also use CVR3 and CRV3J covariance matrices computed
+via `summclust` with the `lmtest()` and `fixest` packages.
 
 ``` r
-coeftable(summclust_res, param = "msp")
-#>          param         se     tstat       pval   confint_l   confint_u
-#> msp -0.0275151 0.01406449 -1.956353 0.07628729 -0.05847083 0.003440624
+library(lmtest)
+library(fixest)
+
+df <- length(summclust_res$cluster) - 1
+
+# with lmtest
+CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code), df = df)
+CRV3 <- coeftest(lm_fit, summclust_res$vcov, df = df)
+
+CRV1[c("union", "race", "msp"),]
+#>          Estimate  Std. Error   t value     Pr(>|t|)
+#> union  0.20395972 0.061167499  3.334446 0.0066585766
+#> race  -0.08619813 0.016150418 -5.337207 0.0002384275
+#> msp   -0.02751510 0.009293046 -2.960827 0.0129561148
+CRV3[c("union", "race", "msp"),]
+#>          Estimate Std. Error   t value    Pr(>|t|)
+#> union  0.20395972 0.08358587  2.440122 0.032815614
+#> race  -0.08619813 0.01904684 -4.525586 0.000864074
+#> msp   -0.02751510 0.01406412 -1.956404 0.076280639
+
+confint(CRV1)[c("union", "race", "msp"),]
+#>             2.5 %       97.5 %
+#> union  0.06933097  0.338588481
+#> race  -0.12174496 -0.050651302
+#> msp   -0.04796896 -0.007061245
+confint(CRV3)[c("union", "race", "msp"),]
+#>             2.5 %       97.5 %
+#> union  0.01998847  0.387930980
+#> race  -0.12811995 -0.044276312
+#> msp   -0.05847002  0.003439815
+
+# with fixest
+feols_fit <- feols(
+  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
+  data = nlswork)
+
+fixest::coeftable(
+  feols_fit,
+  vcov = summclust_res$vcov,
+  ssc = ssc(adj = FALSE, cluster.adj = FALSE)
+)[c("msp", "union", "race"),]
+#>          Estimate Std. Error   t value     Pr(>|t|)
+#> msp   -0.02751510 0.01406412 -1.956404 5.043213e-02
+#> union  0.20395972 0.08358587  2.440122 1.469134e-02
+#> race  -0.08619813 0.01904684 -4.525586 6.059226e-06
 ```
+
+Note that the p-value and confidence intervals for `fixest::coeftable()`
+differs from `lmtest::coeftest()` and `summclust::coeftable()`. This is
+due to a fact that `fixest::coeftable()` uses a different degree of
+freedom for the t-distribution used in these calculation (I believe it
+uses t(N-1)).

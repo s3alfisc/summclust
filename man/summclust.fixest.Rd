@@ -4,7 +4,7 @@
 \alias{summclust.fixest}
 \title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
 \usage{
-\method{summclust}{fixest}(obj, cluster, type, fixef.K = FALSE, ...)
+\method{summclust}{fixest}(obj, cluster, fe = TRUE, type, fixef.K = FALSE, ...)
 }
 \arguments{
 \item{obj}{An object of type fixest}
@@ -17,6 +17,9 @@
 the number of estimated parameters? FALSE by default}
 
 \item{...}{other function arguments passed to 'vcov'}
+
+\item{logical}{fe TRUE by default. Should the cluster variable be projected out?
+This increases numerical stability.}
 }
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest

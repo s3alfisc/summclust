@@ -50,16 +50,33 @@ nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "
 nlswork <- na.omit(nlswork)
 
 lm_fit <- lm(
-  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp, 
+  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
   data = nlswork)
 
 summclust_res <- summclust(
-  obj = lm_fit, 
-  cluster = nlswork$ind_code, 
+  obj = lm_fit,
+  cluster = nlswork$ind_code,
   type = "CRV3")
 
-CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code))
-CRV3 <- coeftest(lm_fit, summclust_res$vcov)
+# CRV3-based inference - exactly matches output of summclust-stata
+coeftable(summclust_res, param = "msp")
+coeftable(summclust_res, param = "union")
+
+summclust_plot <- plot(summclust_res)
+summclust_plot$residual_leverage
+```
+
+Note that you can also use CVR3 and CRV3J covariance matrices computed via `summclust` with the `lmtest()` and `fixest` packages.
+
+```{r, warning = FALSE, message=FALSE}
+library(lmtest)
+library(fixest)
+
+df <- length(summclust_res$cluster) - 1
+
+# with lmtest
+CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code), df = df)
+CRV3 <- coeftest(lm_fit, summclust_res$vcov, df = df)
 
 CRV1[c("union", "race", "msp"),]
 CRV3[c("union", "race", "msp"),]
@@ -67,13 +84,18 @@ CRV3[c("union", "race", "msp"),]
 confint(CRV1)[c("union", "race", "msp"),]
 confint(CRV3)[c("union", "race", "msp"),]
 
-summclust_plot <- plot(summclust_res)
-summclust_plot$residual_leverage
+# with fixest
+feols_fit <- feols(
+  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
+  data = nlswork)
+
+fixest::coeftable(
+  feols_fit,
+  vcov = summclust_res$vcov,
+  ssc = ssc(adj = FALSE, cluster.adj = FALSE)
+)[c("msp", "union", "race"),]
+
 ```
 
-To exactly replicate output of `summclust` (Stata), you can use the `coeftable()` methods: 
-
-```{r, warning = FALSE, message=FALSE}
-coeftable(summclust_res, param = "msp")
-```
+Note that the p-value and confidence intervals for `fixest::coeftable()` differs from `lmtest::coeftest()` and `summclust::coeftable()`. This is due to a fact that `fixest::coeftable()` uses a different degree of freedom for the t-distribution used in these calculation (I believe it uses t(N-1)).
 

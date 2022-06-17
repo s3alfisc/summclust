@@ -1,8 +1,10 @@
-summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
+summclust.fixest <- function(obj, cluster, fe = TRUE, type, fixef.K = FALSE, ...) {
 
   #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
+  #' @param logical fe TRUE by default. Should the cluster variable be projected out?
+  #'                This increases numerical stability.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param fixef.K Should out-projected fixed effects be counted when computing
   #'        the number of estimated parameters? FALSE by default
@@ -12,8 +14,10 @@ summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
   #' @importFrom Rfast spdinv
   #' @export
 
-  check_arg(cluster, "character vector | numeric vector |factor")
+  check_arg(cluster, "character scalar | formula")
   check_arg(fixef.K, "scalar logical")
+
+  call_env <- obj$call_env
 
   X <- model.matrix(obj, type = "rhs")
   y <- model.matrix(obj, type = "lhs")
@@ -22,14 +26,59 @@ summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
   w <- weights(obj)
 
   if(!is.null(w)){
+    stop("Weighted least squares (WLS) is currently not supported for objects of type fixest.")
     X <- sqrt(w) * X
     y <- sqrt(w) * y
-    stop("Weighted least squares (WLS) is currently not supported for objects of type fixest.")
   }
 
+
+  # get the clustering variable
+
+  if(!inherits(cluster, "formula")){
+    cluster <- reformulate(cluster)
+  }
+
+  cluster_tmp <-
+    try(
+      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
+        suppressWarnings(expand.model.frame(
+          model = obj,
+          extras = cluster,
+          na.expand = FALSE,
+          envir = call_env
+        )
+        )
+      } else {
+        expand.model.frame(
+          obj,
+          cluster,
+          na.expand = FALSE,
+          envir = call_env
+        )
+      }
+    )
+
+  if(inherits(cluster_tmp, "try-error") && grepl("non-numeric argument to binary operator$", attr(cluster_tmp, "condition")$message)){
+    stop("In your model, you have specified multiple fixed effects, none of which are of type factor. While `fixest::feols()` handles this case without any troubles,  `summclust()` currently cannot handle this case - please change the type of (at least one) fixed effect(s) to factor. If this does not solve the error, please report the issue at https://github.com/s3alfisc/summclust")
+  }
+
+  cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
+
+  # preprocess fixed effects
   has_fe <- length(obj$fixef_vars) > 0
 
   if(has_fe){
+
+    transform_fe(
+      object = object,
+      X = X,
+      Y = Y,
+      fe = cluster,
+      has_weights = FALSE,
+      N = N
+    )
+
+
     fe <- model.matrix(obj, type = "fixef")
     X <- fixest::demean(X = X, f = fe)
     y <- fixest::demean(X = y, f = fe)
@@ -44,14 +93,14 @@ summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
     print(paste("fixef.K = FALSE", k))
   }
 
-  unique_clusters <- unique(cluster)
+  unique_clusters <- unique(cluster_df)
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
 
   #calculate X_g'X_g
   tXgXg <- lapply(
     seq_along(unique_clusters),
-    function(x) crossprod(X[cluster == x,])
+    function(x) crossprod(X[cluster_df == x,,drop = FALSE])
   )
   tXX <- Reduce("+", tXgXg)
 
@@ -64,7 +113,7 @@ summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
   tXgyg <- lapply(
     seq_along(unique_clusters),
     function(x)
-      t(X[cluster == x,]) %*% y[cluster == x]
+      t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
   )
   tXy <- Reduce("+", tXgyg)
 
@@ -74,7 +123,7 @@ summclust.fixest <- function(obj, cluster, type, fixef.K = FALSE, ...) {
     lapply(
       seq_along(unique_clusters),
       function(x){
-        spdinv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster == x,]) %*% y[cluster == x]))
+        spdinv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]))
       })
 
   if(type == "CRV3J"){

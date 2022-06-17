@@ -26,7 +26,7 @@ test_that("test against stata", {
     cluster = nlswork$ind_code,
     type = "CRV3")
 
-  res <- coeftable(summclust_res, param = "msp")
+  res <- summclust:::coeftable(summclust_res, param = "msp")
 
 
   # res_lm <- coeftest(lm_fit, summclust_res$vcov, df = )

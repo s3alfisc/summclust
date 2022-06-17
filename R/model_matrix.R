@@ -28,3 +28,29 @@ model_matrix.lm <- function(object, collin.rm = TRUE, ...){
   X
 
 }
+
+
+model_matrix.fixest <- function(object, type, collin.rm = TRUE, ...){
+
+  #' Enhanced model.matrix for objects of type fixest
+  #' @method model_matrix fixest
+  #' @export
+  #' @param object An object of class fixest
+  #' @param type rhs lhs or fixef
+  #' @param collin.rm Should collinear variables be dropped?
+  #' @param ... Other arguments
+
+  dreamerr::check_arg(type, "charin(rhs, fixef)" )
+
+  if(type == "rhs"){
+    mm <- model.matrix(object, type = "rhs", na.rm = TRUE, collin.rm = collin.rm, as.df = TRUE)
+  } else if(type == "fixef"){
+    mm <- model.matrix(object, type = type, na.rm = TRUE, collin.rm = collin.rm, as.df = TRUE)
+    # make sure that all fixef vars are of type factor
+    i <- seq_along(mm)
+    mm[,i] <- lapply(i, function(x) factor(mm[,x]))
+  }
+
+  mm
+
+}

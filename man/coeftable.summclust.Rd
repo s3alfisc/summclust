@@ -2,12 +2,23 @@
 % Please edit documentation in R/coeftable_summclust.R
 \name{coeftable.summclust}
 \alias{coeftable.summclust}
-\title{Differences between lmtest::coeftest() and summclust:
+\title{Differences between lmtest::coeftest() and summclust
+to compute pvalues and confidence intervals, coeftable() uses
+a t(G-1) distribution
 summclust uses tstat with different df, different p-val type}
 \usage{
-\method{coeftable}{summclust}(obj, param)
+\method{coeftable}{summclust}(obj, param, pval_type = "equal-tailed")
+}
+\arguments{
+\item{obj}{An object of class 'summclust'}
+
+\item{param}{A character scalar}
+
+\item{pval_type}{Character scalar. 'equal-tailed' (default) or 'symmetric'}
 }
 \description{
-Differences between lmtest::coeftest() and summclust:
+Differences between lmtest::coeftest() and summclust
+to compute pvalues and confidence intervals, coeftable() uses
+a t(G-1) distribution
 summclust uses tstat with different df, different p-val type
 }
