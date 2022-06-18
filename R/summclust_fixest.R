@@ -32,6 +32,9 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #'}
 
   check_arg(cluster, "character scalar | formula")
+  if(obj$method != "feols"){
+    stop("'summclust' currently only works with estimation method 'feols'.")
+  }
 
   call_env <- obj$call_env
 
