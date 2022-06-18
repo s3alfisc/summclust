@@ -4,28 +4,26 @@
 \alias{summclust.fixest}
 \title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
 \usage{
-\method{summclust}{fixest}(obj, cluster, fe = TRUE, type, fixef.K = FALSE, ...)
+\method{summclust}{fixest}(obj, cluster, absorb_cluster_fixef = TRUE, type, ...)
 }
 \arguments{
 \item{obj}{An object of type fixest}
 
 \item{cluster}{A clustering vector}
 
+\item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed effects be projected out?
+This increases numerical stability.}
+
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb}
 
-\item{fixef.K}{Should out-projected fixed effects be counted when computing
-the number of estimated parameters? FALSE by default}
-
 \item{...}{other function arguments passed to 'vcov'}
-
-\item{logical}{fe TRUE by default. Should the cluster variable be projected out?
-This increases numerical stability.}
 }
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest
 }
 \examples{
 
+\dontrun{
 library(summclust)
 library(fixest)
 library(haven)
@@ -39,5 +37,5 @@ feols_fit <- feols(
   ln_wage ~ union +  race + msp | birth_yr + age + grade,
   data = nlswork,
   cluster = ~ind_code)
-
+}
 }

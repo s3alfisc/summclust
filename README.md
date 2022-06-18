@@ -8,18 +8,18 @@
 [![R-CMD-check](https://github.com/s3alfisc/summclust/workflows/R-CMD-check/badge.svg)](https://github.com/s3alfisc/summclust/actions)
 <!-- badges: end -->
 
-R module for cluster level measures of leverage and influence.
+R module for cluster level measures of leverage, influence, and a
+cluster jackknife variance estimator.
 
-For a very detailed description see:
+For a very detailed description of the implemented methods, see:
 
 [MacKinnon, J.G., Nielsen, M.Ø., Webb, M.D., 2022. Leverage, influence,
 and the jackknife in clustered regression models: Reliable inference
 using summclust](https://arxiv.org/abs/2205.03288). QED Working Paper
 1483. Queen’s University.
 
-A standalone R implementation of the cluster jackknife estimator
-discussed in MNW is implemented in the [CRV3J
-package](https://github.com/s3alfisc/CRV3J).
+For the Stata version of the package, see
+[here](https://github.com/mattdwebb/summclust).
 
 ## Installation
 
@@ -139,8 +139,7 @@ fixest::coeftable(
 #> race  -0.08619813 0.01904684 -4.525586 6.059226e-06
 ```
 
-Note that the p-value and confidence intervals for `fixest::coeftable()`
-differs from `lmtest::coeftest()` and `summclust::coeftable()`. This is
-due to a fact that `fixest::coeftable()` uses a different degree of
-freedom for the t-distribution used in these calculation (I believe it
-uses t(N-1)).
+The p-value and confidence intervals for `fixest::coeftable()` differ
+from `lmtest::coeftest()` and `summclust::coeftable()`. This is due to a
+fact that `fixest::coeftable()` uses a different degree of freedom for
+the t-distribution used in these calculation (I believe it uses t(N-1)).

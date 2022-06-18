@@ -1,6 +1,6 @@
 Package: summclust
 Title: Module for cluster specific information and cluster jackknife 
-Version: 0.1
+Version: 0.2
 Authors@R: 
     person("Alexander", "Fischer", , "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
 Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'.
@@ -13,9 +13,10 @@ Depends: utils,
          latex2exp, 
          dreamerr, 
          fabricatr, 
-         MASS
+         MASS, 
+         collapse
 Suggests: 
-    fixest,
+    fixest, 
     haven, 
     sandwich, 
     lmtest, 

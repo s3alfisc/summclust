@@ -24,9 +24,8 @@
      data = data
    )
 #
-   lm_fit <- feols(
+   lm_fit <- lm(
      proposition_vote ~ treatment  + log_income ,
-     cluster = ~group_id1 ,
      data = data
    )
 #
@@ -93,11 +92,12 @@
      data = data
    )
 #
+   # Test 1: absorb_cluster_fixef == FALSE
    summclust_feols <- summclust(
      obj = feols_fit,
      cluster = ~group_id1,
      type = "CRV3J",
-     fixef.K = TRUE)
+     absorb_cluster_fixef = FALSE)
 #
    summclust_lm <- summclust(
      obj = lm_fit,
@@ -120,6 +120,39 @@
      summclust_feols$beta_jack,
      summclust_lm$beta_jack[names(coef(feols_fit)),])
 #
+   expect_equal(
+     summclust_feols$cluster,
+     summclust_lm$cluster)
+
+
+   # Test 2: absorb_cluster_fixef == TRUE
+   summclust_feols <- summclust(
+     obj = feols_fit,
+     cluster = ~group_id1,
+     type = "CRV3J",
+     absorb_cluster_fixef = TRUE)
+   #
+   summclust_lm <- summclust(
+     obj = lm_fit,
+     cluster = ~group_id1,
+     type = "CRV3J")
+   #
+   expect_equal(
+     summclust_feols$vcov,
+     summclust_lm$vcov[names(coef(feols_fit)), names(coef(feols_fit))])
+
+   expect_equal(
+     unlist(summclust_feols$leverage_g) + 1, # +1 because k2 = G less param estimated
+     unlist(summclust_lm$leverage_g) )
+
+   expect_equal(
+     summclust_feols$leverage_avg + 1,
+     summclust_lm$leverage_avg)
+   # #
+   expect_equal(
+     summclust_feols$beta_jack,
+     summclust_lm$beta_jack[names(coef(feols_fit)),])
+   #
    expect_equal(
      summclust_feols$cluster,
      summclust_lm$cluster)

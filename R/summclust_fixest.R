@@ -1,19 +1,21 @@
-summclust.fixest <- function(obj, cluster, fe = TRUE, type, ...) {
+summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ...) {
 
   #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
-  #' @param logical fe TRUE by default. Should the cluster variable be projected out?
+  #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed effects be projected out?
   #'                This increases numerical stability.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param ... other function arguments passed to 'vcov'
-  #' @importFrom stats coef weights coefficients model.matrix
+  #' @importFrom stats coef weights coefficients model.matrix nobs terms
   #' @importFrom dreamerr check_arg
   #' @importFrom MASS ginv
+  #' @importFrom collapse fwithin add_vars GRP
   #' @export
   #'
   #' @examples
   #'
+  #'\dontrun{
   #' library(summclust)
   #' library(fixest)
   #' library(haven)
@@ -27,15 +29,17 @@ summclust.fixest <- function(obj, cluster, fe = TRUE, type, ...) {
   #'   ln_wage ~ union +  race + msp | birth_yr + age + grade,
   #'   data = nlswork,
   #'   cluster = ~ind_code)
-  #'
+  #'}
 
   check_arg(cluster, "character scalar | formula")
-  check_arg(fixef.K, "scalar logical")
 
   call_env <- obj$call_env
 
   X <- model.matrix(obj, type = "rhs")
   y <- model.matrix(obj, type = "lhs")
+
+  N <- nobs(obj)
+
   beta_hat <- coefficients(obj)
 
   w <- weights(obj)
@@ -77,58 +81,64 @@ summclust.fixest <- function(obj, cluster, fe = TRUE, type, ...) {
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
+  unique_clusters <- unique(cluster_df[,,drop = TRUE])
+  G <- length(unique_clusters)
+  small_sample_correction <- (G-1)/G
 
   # preprocess fixed effects
   has_fe <- length(obj$fixef_vars) > 0
+
+  if(inherits(cluster, "formula")){
+    cluster_char <- attr(terms(cluster), "term.labels")
+  } else {
+    cluster_char <- cluster
+  }
 
   # add all fixed effects variables as dummies
   if(has_fe){
 
     fixef_vars <- obj$fixef_vars
     fe <- model_matrix(obj, type = "fixef")
-    #sapply(fe, class)
 
-    if(inherits(cluster, "formula")){
-      cluster_char <- attr(terms(cluster), "term.labels")
+    # if the clustering variable is a cluster fixed effect & if absorb_cluster_fixef == TRUE,
+    # then demean X and y by the cluster fixed effect
+    if(absorb_cluster_fixef && cluster_char %in% fixef_vars){
+
+        fixef_vars_minus_cluster <- fixef_vars[cluster_char != fixef_vars]
+        add_fe <- fe[,fixef_vars_minus_cluster, drop = FALSE]
+        fml_fe <- reformulate(fixef_vars_minus_cluster, response = NULL)
+        add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
+        # drop the intercept
+        add_fe_dummies <- add_fe_dummies[, -which(colnames(add_fe_dummies) =="(Intercept)")]
+        X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
+
+        g <- collapse::GRP(cluster_df, call = FALSE)
+        X <- collapse::fwithin(X, g)
+        y <- collapse::fwithin(y, g)
+
     } else {
-      cluster_char <- cluster
-    }
 
-    # fixef_vars minus cluster
-    #fixef_vars_minus_cluster <- fixef_vars[!(fixef_vars %in% cluster_char)]
-
-    # if there is only one fixed effect - a cluster fixed effect
-    #if(length(fixef_vars_minus_cluster) == 0){
-    #
-    #  fml_fe <- reformulate(fixef_vars_minus_cluster, response = NULL)
-    #  add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
-    #  X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
-
-    #} else {
       add_fe <- fe[, fixef_vars, drop = FALSE]
       fml_fe <- reformulate(fixef_vars, response = NULL)
       add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
       # drop the intercept
-      add_fe_dummies <- add_fe_dummies[, -which(colnames(add_fe_dummies) =="(Intercept)")]
       X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
-      X <- cbind(1, X)
-      colnames(X)[1] <- "(Intercept)"
-    #}
+    }
 
   }
 
   k <- ncol(X)
 
-  unique_clusters <- unique(cluster_df[,,drop = TRUE])
-  G <- length(unique_clusters)
-  small_sample_correction <- (G-1)/G
 
   #calculate X_g'X_g
   tXgXg <- lapply(
     seq_along(unique_clusters),
     function(x) crossprod(X[cluster_df == x, ,drop = FALSE])
   )
+
   tXX <- Reduce("+", tXgXg)
+  coef_selector <- which(colnames(tXX) %in% names(coef(obj)))
+
 
   leverage_g <- lapply(seq_along(unique_clusters),
                        function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
@@ -160,17 +170,16 @@ summclust.fixest <- function(obj, cluster, fe = TRUE, type, ...) {
   V3 <- lapply(
     seq_along(unique_clusters),
     function(x)
-      tcrossprod(beta_jack[[x]] - beta_center)
+      tcrossprod(beta_jack[[x]][coef_selector] - beta_center[coef_selector])
   )
 
   vcov <- Reduce("+", V3) * small_sample_correction
 
-  rownames(vcov) <- colnames(vcov) <- colnames(tXX)
-  vcov <- vcov[names(coef(obj)), names(coef(obj))]
+  rownames(vcov) <- colnames(vcov) <- colnames(tXX)[coef_selector]
 
   beta_jack <- Reduce("cbind", beta_jack)
   rownames(beta_jack) <-  colnames(tXX)
-  beta_jack <- beta_jack[names(coef(obj)),]
+  beta_jack <- beta_jack[coef_selector,]
   colnames(beta_jack) <- unique_clusters
 
   res <-

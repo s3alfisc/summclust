@@ -11,6 +11,23 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #' @importFrom MASS ginv
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #' @export
+  #'
+  #' @examples
+  #'\dontrun{
+  #' library(summclust)
+  #' library(fixest)
+  #' library(haven)
+  #'
+  #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
+  #' # drop NAs at the moment
+  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+  #' nlswork <- na.omit(nlswork)
+  #'
+  #' feols_fit <- lm(
+  #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
+  #'   data = nlswork,
+  #'   cluster = ~ind_code)
+  #'}
 
   check_arg(cluster, "character scalar | formula")
 
@@ -60,13 +77,12 @@ summclust.lm <- function(obj, cluster, type, ...) {
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-
-  k <- ncol(X)
-  N <- nrow(X)
-
   unique_clusters <- unique(cluster_df[,,drop = TRUE])
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
+
+  k <- ncol(X)
+  N <- nrow(X)
 
   #calculate X_g'X_g
   tXgXg <- lapply(
