@@ -109,7 +109,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   )
 
   vcov <- Reduce("+", V3) * small_sample_correction
-
+  colnames(vcov) <- rownames(vcov) <- names(coef(obj))
   beta_jack <- Reduce("cbind", beta_jack)
   rownames(beta_jack) <- names(coef(obj))
   colnames(beta_jack) <- unique_clusters
