@@ -26,17 +26,6 @@ test_that("test against stata - CVR3 inference", {
 
   res <- summclust::coeftable(summclust_res, param = "msp")
 
-
-  # res_lm <- coeftest(lm_fit, summclust_res$vcov, df = )
-  #
-  # res_feols <- coeftable(
-  #   feols_fit,
-  #   vcov = nobs(lm_fit) / (nobs(lm_fit) - 1) * summclust_res$vcov,
-  #   ssc = ssc(adj = FALSE,
-  #             cluster.adj = FALSE))
-  #
-  # confintres_feols
-
   #estimate
   expect_equal(
     res["msp",1],
@@ -117,6 +106,11 @@ test_that("test against stata - leverage", {
   expect_equal(round(median(summclust_res$beta_jack["msp",]), 6), -0.027765)
   expect_equal(round(mean(summclust_res$beta_jack["msp",]), 6), -0.026920)
 
+  # test partial leverage
+  expect_equal(round(min(summclust_res$partial_leverage["msp",]), 6), 0.001622)
+  expect_equal(round(max(summclust_res$partial_leverage["msp",]), 6), 0.312995)
+  expect_equal(round(median(summclust_res$partial_leverage["msp",]), 6), 0.056682)
+  expect_equal(round(mean(summclust_res$partial_leverage["msp",]), 6), 0.083333)
 
 })
 
@@ -172,6 +166,12 @@ test_that("test against stata - leverage, fixef absorb", {
   expect_equal(round(max(summclust_res_lm$beta_jack["msp",]), 6), -0.015001)
   expect_equal(round(median(summclust_res_lm$beta_jack["msp",]), 6), -0.021258)
   expect_equal(round(mean(summclust_res_lm$beta_jack["msp",]), 6), -0.020770)
+
+  # test partial leverage
+  expect_equal(round(min(summclust_res$partial_leverage["msp",]), 6), 0.001561)
+  expect_equal(round(max(summclust_res$partial_leverage["msp",]), 6), 0.312377)
+  expect_equal(round(median(summclust_res$partial_leverage["msp",]), 6), 0.056073)
+  expect_equal(round(mean(summclust_res$partial_leverage["msp",]), 6), 0.083333)
 
 
 })

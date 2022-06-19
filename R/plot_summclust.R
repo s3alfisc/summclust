@@ -30,6 +30,41 @@ plot.summclust <- function(x, ..., param){
     ggtitle("Residual Leverage")
 
 
+  # coef leverage
+
+  df <- as.data.frame(x$partial_leverage)
+
+  if(!is.null(param)){
+    df <- df[rownames(df) %in% param, ]
+  }
+
+  df_long <- stack(df, select = colnames(df))
+  names(df_long) <- c("values", "cluster")
+
+  df_long$variable <- rep(rownames(df), length(param))
+
+  G <- length(x$cluster)
+  df_long$G <- G
+
+  coef_leverage <-
+    ggplot(data = df_long,
+           aes(
+             x = cluster,
+             y = values
+           )) +
+    facet_wrap(~ variable) +
+    ylab(TeX(r'($\hat{\L}_{j}^{g}$)')) +
+    theme_bw() +
+    geom_point() +
+    geom_hline(data = df_long,
+               aes(
+                 yintercept = 1 / G
+               ),
+               color = "red",
+               linetype ="dotted"
+    )
+
+
   # plot jackknife'd coefs
 
   df <- as.data.frame(x$beta_jack)
@@ -44,7 +79,7 @@ plot.summclust <- function(x, ..., param){
   df_long$variable <- rep(rownames(df), length(param))
   df_long$coef_estimate <- rep(x$coef_estimates[names(x$coef_estimates) %in% param], length(param))
 
-  coef_leverage <-
+  coef_beta <-
     ggplot(data = df_long,
            aes(
              x = cluster,
@@ -62,9 +97,12 @@ plot.summclust <- function(x, ..., param){
                linetype ="dotted"
     )
 
+
+
   res <- list(
     residual_leverage = residual_leverage,
-    coef_leverage = coef_leverage
+    coef_leverage = coef_leverage,
+    coef_beta = coef_beta
   )
 
   res

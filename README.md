@@ -63,13 +63,20 @@ summary(summclust_res, param = c("msp","union"))
 #> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980
 #> msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815
 #>  
-#>            leverage    beta-msp beta-union
-#> Min.     0.09332052 -0.03320040  0.1624754
-#> 1st Qu.  0.70440923 -0.02893131  0.1994694
-#> Median   3.51549151 -0.02776470  0.2045197
-#> Mean     5.41666667 -0.02691999  0.2053997
-#> 3rd Qu.  6.41132962 -0.02610221  0.2056569
-#> Max.    20.28918187 -0.01583453  0.2754228
+#>            leverage partial-leverage-msp partial-leverage-union    beta-msp
+#> Min.     0.09332052          0.001622359           0.0006662968 -0.03320040
+#> 1st Qu.  0.70440923          0.009133996           0.0048899422 -0.02893131
+#> Median   3.51549151          0.056682344           0.0379535242 -0.02776470
+#> Mean     5.41666667          0.083333333           0.0833333333 -0.02691999
+#> 3rd Qu.  6.41132962          0.106083114           0.1004277711 -0.02610221
+#> Max.    20.28918187          0.312994532           0.3597669210 -0.01583453
+#>         beta-union
+#> Min.     0.1624754
+#> 1st Qu.  0.1994694
+#> Median   0.2045197
+#> Mean     0.2053997
+#> 3rd Qu.  0.2056569
+#> Max.     0.2754228
 ```
 
 To plot the leverage statistics, use the `plot` method
@@ -85,6 +92,11 @@ plot(summclust_res, param = c("msp","union"))
     #> $coef_leverage
 
 <img src="man/figures/README-unnamed-chunk-2-2.png" width="50%" />
+
+    #> 
+    #> $coef_beta
+
+<img src="man/figures/README-unnamed-chunk-2-3.png" width="50%" />
 
 ## Using `summclust` with `coefplot` and `fixest`
 

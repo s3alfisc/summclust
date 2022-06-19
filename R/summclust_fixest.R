@@ -132,6 +132,30 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
   k <- ncol(X)
 
+  #calculate partial leverage
+  X_tilde_j <- lapply(
+    1:k,
+    function(j){
+      X[,j] - X[,-j] %*% ( solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j]) )
+    }
+  )
+
+  partial_leverage <-
+    lapply(
+      1:k,
+      function(j){
+        res2 <-
+          lapply(
+            seq_along(unique_clusters),
+            function(g){
+              crossprod(X_tilde_j[[j]][cluster_df == g, ]) / crossprod(X_tilde_j[[j]])
+            }
+          )
+        unlist(res2)
+      }
+    )
+
+  partial_leverage <- Reduce("rbind", partial_leverage)
 
   #calculate X_g'X_g
   tXgXg <- lapply(
@@ -181,9 +205,10 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   rownames(vcov) <- colnames(vcov) <- colnames(tXX)[coef_selector]
 
   beta_jack <- Reduce("cbind", beta_jack)
-  rownames(beta_jack) <-  colnames(tXX)
+  rownames(beta_jack) <- rownames(partial_leverage) <-  colnames(tXX)
   beta_jack <- beta_jack[coef_selector,]
-  colnames(beta_jack) <- unique_clusters
+  colnames(beta_jack) <- colnames(partial_leverage) <- unique_clusters
+
 
   res <-
     list(
@@ -192,10 +217,11 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
+      partial_leverage = partial_leverage,
       cluster = unique_clusters
     )
 
   class(res) <- "summclust"
-  res
+  invisible(res)
 
 }

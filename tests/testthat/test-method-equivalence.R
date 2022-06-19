@@ -58,6 +58,10 @@
    expect_equal(
      summclust_feols$cluster,
      summclust_lm$cluster)
+
+   expect_equal(
+     summclust_feols$partial_leverage,
+     summclust_lm$partial_leverage)
  })
 
 
@@ -124,6 +128,9 @@
      summclust_feols$cluster,
      summclust_lm$cluster)
 
+   # expect_equal(
+   #   summclust_feols$partial_leverage,
+   #   summclust_lm$partial_leverage[names(coef(feols_fit)),])
 
    # Test 2: absorb_cluster_fixef == TRUE
    summclust_feols <- summclust(
@@ -156,4 +163,9 @@
    expect_equal(
      summclust_feols$cluster,
      summclust_lm$cluster)
+
+   # expect_equal(
+   #   summclust_feols$partial_leverage,
+   #   summclust_lm$partial_leverage,
+   #   ignore_attr = TRUE)
  })

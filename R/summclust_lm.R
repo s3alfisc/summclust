@@ -23,10 +23,11 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
   #' nlswork <- na.omit(nlswork)
   #'
-  #' feols_fit <- lm(
+  #' lm_fit <- lm(
   #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
-  #'   data = nlswork,
-  #'   cluster = ~ind_code)
+  #'   data = nlswork)
+  #'
+  #' summclust(lm_fit)
   #'}
 
   check_arg(cluster, "character scalar | formula")
@@ -91,10 +92,35 @@ summclust.lm <- function(obj, cluster, type, ...) {
   )
   tXX <- Reduce("+", tXgXg)
 
+  # calculate leverage
   leverage_g <- lapply(seq_along(unique_clusters),
                        function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
   leverage_avg <- k / G
 
+  #calculate partial leverage
+  X_tilde_j <- lapply(
+    1:k,
+    function(j){
+       X[,j] - X[,-j] %*% ( solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j]) )
+    }
+  )
+
+  partial_leverage <-
+    lapply(
+      1:k,
+      function(j){
+        res2 <-
+          lapply(
+          seq_along(unique_clusters),
+          function(g){
+            crossprod(X_tilde_j[[j]][cluster_df == g, ]) / crossprod(X_tilde_j[[j]])
+          }
+        )
+        unlist(res2)
+      }
+    )
+
+  partial_leverage <- Reduce("rbind", partial_leverage)
 
   tXgyg <- lapply(
     seq_along(unique_clusters),
@@ -127,8 +153,10 @@ summclust.lm <- function(obj, cluster, type, ...) {
   vcov <- Reduce("+", V3) * small_sample_correction
   colnames(vcov) <- rownames(vcov) <- names(coef(obj))
   beta_jack <- Reduce("cbind", beta_jack)
-  rownames(beta_jack) <- names(coef(obj))
-  colnames(beta_jack) <- unique_clusters
+
+  rownames(beta_jack) <- rownames(partial_leverage) <- names(coef(obj))
+  colnames(beta_jack) <- colnames(partial_leverage) <- unique_clusters
+
 
   res <-
     list(
@@ -137,11 +165,12 @@ summclust.lm <- function(obj, cluster, type, ...) {
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
+      partial_leverage = partial_leverage,
       cluster = unique_clusters,
       N = N
     )
 
   class(res) <- "summclust"
-  res
+  invisible(res)
 
 }
