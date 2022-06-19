@@ -109,11 +109,14 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
         fixef_vars_minus_cluster <- fixef_vars[cluster_char != fixef_vars]
         add_fe <- fe[,fixef_vars_minus_cluster, drop = FALSE]
-        fml_fe <- reformulate(fixef_vars_minus_cluster, response = NULL)
-        add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
-        # drop the intercept
-        add_fe_dummies <- add_fe_dummies[, -which(colnames(add_fe_dummies) =="(Intercept)")]
-        X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
+
+        if(length(fixef_vars_minus_cluster) > 0){
+          fml_fe <- reformulate(fixef_vars_minus_cluster, response = NULL)
+          add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
+          # drop the intercept
+          add_fe_dummies <- add_fe_dummies[, -which(colnames(add_fe_dummies) =="(Intercept)")]
+          X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
+        }
 
         g <- collapse::GRP(cluster_df, call = FALSE)
         X <- collapse::fwithin(X, g)
@@ -169,7 +172,7 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
   leverage_g <- lapply(seq_along(unique_clusters),
                        function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
-  leverage_avg <- k / G
+  leverage_avg <- Reduce("+", leverage_g) / G
 
 
   tXgyg <- lapply(

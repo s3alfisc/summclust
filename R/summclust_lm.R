@@ -95,7 +95,8 @@ summclust.lm <- function(obj, cluster, type, ...) {
   # calculate leverage
   leverage_g <- lapply(seq_along(unique_clusters),
                        function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
-  leverage_avg <- k / G
+  leverage_avg <- Reduce("+", leverage_g) / G
+  #leverage_avg <- k / G
 
   #calculate partial leverage
   X_tilde_j <- lapply(

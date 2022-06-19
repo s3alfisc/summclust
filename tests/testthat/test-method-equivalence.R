@@ -82,17 +82,17 @@
      icc2 = 0.8,
      numb_fe1 = 10,
      numb_fe2 = 10,
-     seed = 123
+     seed = 123123
    )
 #
    feols_fit <- feols(
-     proposition_vote ~ treatment  + log_income | group_id1 + Q1_immigration,
+     proposition_vote ~ treatment  + log_income | group_id1 ,
      cluster = ~group_id1 ,
      data = data
    )
 #
    lm_fit <- lm(
-     proposition_vote ~ treatment  + log_income + as.factor(group_id1) + as.factor(Q1_immigration),
+     proposition_vote ~ treatment  + log_income + as.factor(group_id1),
      data = data
    )
 #
