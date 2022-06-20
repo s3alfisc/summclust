@@ -24,9 +24,13 @@ For the Stata version of the package, see
 ## Installation
 
 You can install the development version of summclust from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/) and [r-universe](https://r-universe.dev/)
+with:
 
 ``` r
+# from r-universe (windows & mac, compiled R > 4.0 required)
+install.packages('summclust', repos ='https://s3alfisc.r-universe.dev')
+
 # install.packages("devtools")
 devtools::install_github("s3alfisc/summclust")
 ```
