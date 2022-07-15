@@ -9,6 +9,8 @@ test_that("test against stata - CVR3 inference", {
   library(lmtest)
   library(haven)
 
+  skip_on_cran()
+
   nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   # drop NAs at the moment
   nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
