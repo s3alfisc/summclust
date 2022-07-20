@@ -1,9 +1,9 @@
 Package: summclust
-Title: Module for cluster specific information and cluster jackknife 
+Title: Module for Cluster Specific Information and Cluster Jackknife 
 Version: 0.2
 Authors@R: 
-    person("Alexander", "Fischer", , "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
-Description: Module for cluster specific information and cluster jackknife - similar to Stata's 'summclust'.
+    person("Alexander", "Fischer", "alexander-fischer1801@t-online.de", role = c("aut", "cre"))
+Description: Module for Cluster Specific Information and Cluster Jackknife - similar to the 'summclust' Stata package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

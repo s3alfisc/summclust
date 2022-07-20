@@ -156,6 +156,7 @@ fixest::coeftable(
 ```
 
 The p-value and confidence intervals for `fixest::coeftable()` differ
-from `lmtest::coeftest()` and `summclust::coeftable()`. This is due to a
-fact that `fixest::coeftable()` uses a different degree of freedom for
-the t-distribution used in these calculation (I believe it uses t(N-1)).
+from `lmtest::coeftest()` and `summclust::coeftable()`. This is due to
+the fact that `fixest::coeftable()` uses a different degree of freedom
+for the t-distribution used in these calculation (I believe it uses
+t(N-1)).
