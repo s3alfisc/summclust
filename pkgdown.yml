@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-07-15T16:04Z
+last_built: 2022-07-20T18:40Z
 urls:
   reference: https://s3alfisc.github.io/summclust/reference
   article: https://s3alfisc.github.io/summclust/articles
