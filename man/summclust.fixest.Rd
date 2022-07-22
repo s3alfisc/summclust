@@ -11,8 +11,8 @@
 
 \item{cluster}{A clustering vector}
 
-\item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed effects be projected out?
-This increases numerical stability.}
+\item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed
+effects be projected out? This increases numerical stability.}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb}
 

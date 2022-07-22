@@ -3,8 +3,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
-  #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed effects be projected out?
-  #'                This increases numerical stability.
+  #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
+  #'        effects be projected out? This increases numerical stability.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param ... other function arguments passed to 'vcov'
   #' @importFrom stats coef weights coefficients model.matrix nobs terms
@@ -133,6 +133,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
   }
 
+  print(head(X))
+  print(k)
   k <- ncol(X)
 
   #calculate partial leverage
