@@ -88,6 +88,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
 
+  k <- obj$nparams
+
   # preprocess fixed effects
   has_fe <- length(obj$fixef_vars) > 0
 
@@ -98,6 +100,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   }
 
   # add all fixed effects variables as dummies
+  cluster_fixef_outprojected <- FALSE
+
   if(has_fe){
 
     fixef_vars <- obj$fixef_vars
@@ -105,7 +109,11 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
     # if the clustering variable is a cluster fixed effect & if absorb_cluster_fixef == TRUE,
     # then demean X and y by the cluster fixed effect
+
+
     if(absorb_cluster_fixef && cluster_char %in% fixef_vars){
+
+        cluster_fixef_outprojected <- TRUE
 
         fixef_vars_minus_cluster <- fixef_vars[cluster_char != fixef_vars]
         add_fe <- fe[,fixef_vars_minus_cluster, drop = FALSE]
@@ -132,10 +140,6 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
     }
 
   }
-
-  print(head(X))
-  print(k)
-  k <- ncol(X)
 
   #calculate partial leverage
   X_tilde_j <- lapply(
@@ -173,7 +177,7 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
 
   leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
+                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)) + 1)
   leverage_avg <- Reduce("+", leverage_g) / G
 
 

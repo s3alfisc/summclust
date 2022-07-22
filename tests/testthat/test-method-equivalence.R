@@ -70,10 +70,10 @@
    library(summclust)
    library(fixest)
 
-   set.seed(98765)
+   set.seed(765)
 
    N <- 10000
-   N_G1 <-10
+   N_G1 <- 23
    data <- summclust:::create_data(
      N = N,
      N_G1 = N_G1,

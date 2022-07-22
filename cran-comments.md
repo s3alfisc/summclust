@@ -1,5 +1,8 @@
 ## R CMD check results
 
++ I have switched imports to depends, this solves the 'excessive importing' 
+  note
+
 * This is a new release.
 * The package was checked on rhub, r-devel, and github actions (windows, mac, 
   ubuntu)
