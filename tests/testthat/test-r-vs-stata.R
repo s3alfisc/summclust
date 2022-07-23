@@ -153,10 +153,10 @@ test_that("test against stata - leverage, fixef absorb", {
   expect_equal(round(median(unlist(summclust_res$leverage_g)), 6), 3.442673)
   expect_equal(round(mean(unlist(summclust_res$leverage_g)), 6), 5.333333)
 
-  expect_equal(round(min(unlist(summclust_res_lm$leverage_g)), 6), 0.087112)
-  expect_equal(round(max(unlist(summclust_res_lm$leverage_g)), 6), 20.011074)
-  expect_equal(round(median(unlist(summclust_res_lm$leverage_g)), 6),3.442673)
-  expect_equal(round(mean(unlist(summclust_res_lm$leverage_g)), 6), 5.333333)
+  expect_equal(round(min(unlist(summclust_res_lm$leverage_g)), 6), 0.087112 + 1)
+  expect_equal(round(max(unlist(summclust_res_lm$leverage_g)), 6), 20.011074 + 1)
+  expect_equal(round(median(unlist(summclust_res_lm$leverage_g)), 6),3.442673 + 1)
+  expect_equal(round(mean(unlist(summclust_res_lm$leverage_g)), 6), 5.333333+ 1)
 
   # test beta no g
   expect_equal(round(min(summclust_res$beta_jack["msp",]), 6), -0.023382)
