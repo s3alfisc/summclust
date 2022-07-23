@@ -1,6 +1,6 @@
 Package: summclust
 Title: Module for Cluster Specific Information and Cluster Jackknife 
-Version: 0.2
+Version: 0.3
 Authors@R: 
     c(
     person(given = "Alexander",
@@ -8,7 +8,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "alexander-fischer1801@t-online.de")
     )
-Description: Module for Cluster Specific Information and Cluster Jackknife - similar to the 'summclust' Stata package.
+Description: Module for Cluster Specific Information and Cluster Jackknife as in the 'summclust' Stata package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -19,14 +19,17 @@ Imports:
     MASS, 
     collapse
 Suggests: 
-    ggplot2, 
-    latex2exp, 
-    fabricatr, 
-    fixest, 
-    haven, 
-    sandwich, 
-    lmtest, 
-    testthat (>= 3.0.0)
+    ggplot2,
+    latex2exp,
+    fabricatr,
+    fixest,
+    haven,
+    sandwich,
+    lmtest,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 URL: https://s3alfisc.github.io/summclust/
 BugReports: https://github.com/s3alfisc/summclust/issues
+VignetteBuilder: knitr

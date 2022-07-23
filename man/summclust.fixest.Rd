@@ -2,7 +2,8 @@
 % Please edit documentation in R/summclust_fixest.R
 \name{summclust.fixest}
 \alias{summclust.fixest}
-\title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
+\title{Compute CR3 Jackknive variance covariance matrices of objects
+of type fixest}
 \usage{
 \method{summclust}{fixest}(obj, cluster, absorb_cluster_fixef = TRUE, type, ...)
 }
@@ -19,14 +20,14 @@ effects be projected out? This increases numerical stability.}
 \item{...}{other function arguments passed to 'vcov'}
 }
 \description{
-Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+Compute CR3 Jackknive variance covariance matrices of objects
+of type fixest
 }
 \examples{
-
 \dontrun{
-library(summclust)
-library(fixest)
 library(haven)
+library(fixest)
+library(summclust)
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
@@ -34,8 +35,25 @@ nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "
 nlswork <- na.omit(nlswork)
 
 feols_fit <- feols(
-  ln_wage ~ union +  race + msp | birth_yr + age + grade,
-  data = nlswork,
-  cluster = ~ind_code)
+  ln_wage ~ union +  race + msp | grade + age + birth_yr + ind_code,
+  data = nlswork)
+
+res1 <- summclust(
+  obj = feols_fit,
+  cluster = ~ind_code,
+  type = "CRV3",
+  absorb_cluster_fixef = TRUE
+)
+
+res2 <- summclust(
+  obj = feols_fit,
+  cluster = ~ind_code,
+  type = "CRV3",
+  absorb_cluster_fixef = FALSE
+)
+
+summary(res1, param = c("msp","union"))
+coeftable(res1, param = c("msp","union"))
+plot(res1, param = c("msp","union"))
 }
 }

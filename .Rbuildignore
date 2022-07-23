@@ -8,3 +8,6 @@
 ^pkgdown$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^vignettes/articles$
+^doc$
+^Meta$

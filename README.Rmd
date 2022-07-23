@@ -17,15 +17,20 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/s3alfisc/summclust/workflows/R-CMD-check/badge.svg)](https://github.com/s3alfisc/summclust/actions)
-[![pkgcheck](https://github.com/<org>/<repo>/workflows/pkgcheck/badge.svg)](https://github.com/<org>/<repo>/actions?query=workflow%3Apkgcheck)
+[![pkgcheck](https://github.com/s3alfisc/summclust/workflows/pkgcheck/badge.svg)](https://github.com/<org>/<repo>/actions?query=workflow%3Apkgcheck)
 ![runiverse-package](https://s3alfisc.r-universe.dev/badges/summclust)
 `r badger::badge_cran_download("summclust", "grand-total", "blue")`
 `r badger::badge_cran_download("summclust", "last-month", "green")`
 <!-- badges: end -->
 
-R module for cluster level measures of leverage, influence, and a cluster jackknife variance estimator.
+`summclust` is an R module for cluster level measures of leverage and influence,
+and further implements CRV3 and CRV3J cluster robust variance estimators.
 
-For a very detailed description of the implemented methods, see:
+For a quick overview of different CRV estimators, take a look at the [cluster robust
+variance estimation vignette]().
+
+For a very detailed description of the implemented methods, in particular a
+discussion of the different leverage and influence metrics, see:
 
 [MacKinnon, J.G., Nielsen, M.Ø., Webb, M.D., 2022. Leverage, influence, and the jackknife in clustered regression models: Reliable inference using summclust](https://arxiv.org/abs/2205.03288). QED Working Paper 1483. Queen’s University.
 
@@ -42,73 +47,3 @@ install.packages('summclust', repos ='https://s3alfisc.r-universe.dev')
 # install.packages("devtools")
 devtools::install_github("s3alfisc/summclust")
 ```
-
-## Using `summclust`
-
-
-```{r example, warning = FALSE, message = FALSE, out.width="50%", out.height="50%"}
-library(summclust)
-library(lmtest)
-library(haven)
-
-nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
-# drop NAs at the moment
-nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
-nlswork <- na.omit(nlswork)
-
-lm_fit <- lm(
-  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
-  data = nlswork)
-
-summclust_res <- summclust(
-  obj = lm_fit,
-  cluster = ~ind_code,
-  type = "CRV3")
-
-# CRV3-based inference - exactly matches output of summclust-stata
-coeftable(summclust_res, param = c("msp", "union"))
-
-summary(summclust_res, param = c("msp","union"))
-```
-
-To visually inspect the leverage statistics, use the `plot` method
-
-```{r, warning = FALSE, message = FALSE, out.width="50%"}
-plot(summclust_res, param = c("msp","union"))
-```
-
-## Using `summclust` with `coefplot` and `fixest`
-
-Note that you can also use CVR3 and CRV3J covariance matrices computed via `summclust` with the `lmtest()` and `fixest` packages.
-
-```{r, warning = FALSE, message=FALSE}
-library(lmtest)
-library(fixest)
-
-df <- length(summclust_res$cluster) - 1
-
-# with lmtest
-CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code), df = df)
-CRV3 <- coeftest(lm_fit, summclust_res$vcov, df = df)
-
-CRV1[c("union", "race", "msp"),]
-CRV3[c("union", "race", "msp"),]
-
-confint(CRV1)[c("union", "race", "msp"),]
-confint(CRV3)[c("union", "race", "msp"),]
-
-# with fixest
-feols_fit <- feols(
-  ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) + union +  race + msp,
-  data = nlswork)
-
-fixest::coeftable(
-  feols_fit,
-  vcov = summclust_res$vcov,
-  ssc = ssc(adj = FALSE, cluster.adj = FALSE)
-)[c("msp", "union", "race"),]
-
-```
-
-The p-value and confidence intervals for `fixest::coeftable()` differ from `lmtest::coeftest()` and `summclust::coeftable()`. This is due to the fact that `fixest::coeftable()` uses a different degree of freedom for the t-distribution used in these calculation (I believe it uses t(N-1)).
-

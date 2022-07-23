@@ -15,23 +15,38 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #' @export
   #'
   #' @examples
-  #'
-  #'\dontrun{
-  #' library(summclust)
-  #' library(fixest)
+  #' \dontrun{
   #' library(haven)
+  #' library(fixest)
+  #' library(summclust)
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
-  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr",
-  #' "union", "race", "msp", "ind_code")]
+  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
   #' nlswork <- na.omit(nlswork)
   #'
   #' feols_fit <- feols(
-  #'   ln_wage ~ union +  race + msp | birth_yr + age + grade,
-  #'   data = nlswork,
-  #'   cluster = ~ind_code)
-  #'}
+  #'   ln_wage ~ union +  race + msp | grade + age + birth_yr + ind_code,
+  #'   data = nlswork)
+  #'
+  #' res1 <- summclust(
+  #'   obj = feols_fit,
+  #'   cluster = ~ind_code,
+  #'   type = "CRV3",
+  #'   absorb_cluster_fixef = TRUE
+  #' )
+  #'
+  #' res2 <- summclust(
+  #'   obj = feols_fit,
+  #'   cluster = ~ind_code,
+  #'   type = "CRV3",
+  #'   absorb_cluster_fixef = FALSE
+  #' )
+  #'
+  #' summary(res1, param = c("msp","union"))
+  #' coeftable(res1, param = c("msp","union"))
+  #' plot(res1, param = c("msp","union"))
+  #' }
 
   check_arg(cluster, "character scalar | formula")
 
@@ -87,7 +102,7 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   if(inherits(cluster_tmp, "try-error")
   && grepl("non-numeric argument to
            binary operator$",
-      ttr(cluster_tmp, "condition")$message)){
+      attr(cluster_tmp, "condition")$message)){
     stop("In your model, you have specified multiple fixed effects,
          none of which are of type factor. While `fixest::feols()` handles
          this case without any troubles,  `summclust()` currently cannot

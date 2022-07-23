@@ -1,0 +1,119 @@
+---
+title: "Cluster-Robust Variance Estimators: CRV 1-3"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+`summclust` handles cluster robust variance estimation of linear regression models of the form 
+
+\begin{align}
+y &= X \beta + u \\
+  &= 
+\begin{bmatrix}
+y_{1} \\
+y_{2} \\
+...\\
+y_{G}
+\end{bmatrix}
+=
+\begin{bmatrix}
+X_{1} \\
+X_{2} \\
+...\\
+X_{G}
+\end{bmatrix} \beta + 
+\begin{bmatrix}
+u_{1} \\
+u_{2} \\
+...\\
+u_{G}
+\end{bmatrix},
+\end{align}
+
+with $E(u|X) = 0$, where group $g$ contains $N_{g}$ observations so that $N = \sum_{g = 1}^{G} N_{g}$. The regression residuals $u$ are allowed to be correlated within clusters, but are assumed to be uncorrelated across clusters. In consequence, the models' covariance matrix is block diagonal. For each cluster, we denote $E(u_{g} u_{g}') =\Sigma_{g}$. We denote the predicted residual as $\hat{u} = y - X \beta$.
+
+
+## Three Cluster-Robust Variance Estimators
+
+The literature on cluster robust inference has proposed three different estimators, which all follow the same 'sandwich' structure
+
+\begin{align}
+  \hat{V}(\hat{\beta}) &= m (X'X)^{-1} (\sum_{g=1}^{G} \hat{\Sigma}_{g} ) (X'X)^{-1} \\ 
+  &=  m (X'X)^{-1} (\sum_{g=1}^{G} \hat{s}_{g} \hat{s}_{g}')  (X'X)^{-1}
+\end{align}
+
+The three proposed types of CRV estimators vary in how $\hat{s}_{g}$ is estimated
+and in how small sample corrections $m$ are applied. 
+
+The most common cluster robust estimator, the CRV1 estimator, is defined as 
+
+\begin{align}
+\hat{s}_{g} =  X_{g}'\hat{u}_{g} && \& && m = \frac{N-1}{N-k} / \frac{G}{G-1} 
+\end{align}
+
+When each cluster contains a unique observation, i.e. when $G=N$, the CRV1 
+estimator is equivalent to the HC1 heteroskedasticity robust estimator. 
+
+The CRV2 estimator is computed as 
+
+\begin{align}
+\hat{s}_{g} =  X_{g}' M_{gg}^{-1/2} \hat{u}_{g} && \& && m = 1.
+\end{align}
+
+To define $M_{gg}$, we first define the "hat" matrix 
+
+\begin{equation}
+  H_g = X_g (X'X)^{-1} X_g' 
+\end{equation}
+
+and $I_{N_g}$ as the diagonal matrix for all observations in cluster $g$. 
+
+$M_{gg}$ is then defined as 
+
+\begin{equation}
+  M_{gg} = I_{N_g} - H_g.
+\end{equation}
+
+Last, the CRV3 estimator is defined as 
+
+\begin{align}
+\hat{s}_{g} =  X_{g}' M_{gg}^{-1} \hat{u}_{g} && \& && m = G/(G-1).
+\end{align}
+
+## Jackknife formulation of the CRV3 estimator (CRV3J)
+
+Building on work by [Niccodemi and Wansbeek](https://www.mdpi.com/2225-1146/10/1/6), [MacKinnon, Nielsen and Webb](https://www.econ.queensu.ca/sites/econ.queensu.ca/files/wpaper/qed_wp_1485.pdf) show that the CRV3 estimator can be computed as a Jackknife estimator. 
+
+First, let's define $\hat{\beta}^{(g)}$, the OLS estimate of (1) when cluster g is omitted: 
+
+\begin{equation}
+\hat{\beta}^{(g)} = ((X'X)^{-1} - (X_{g}'X_{g})^{-1})(X'y - X_{g}'y_{g}), g = 1, ... , G.
+\end{equation}
+
+MNW show the the `CRV3` estimator is equivalent to computing 
+
+\begin{equation}
+\hat{V}_{3}(\hat{\beta}) = \frac{G}{G-1} \sum{g = 1}^{G} (\hat{\beta}^{(g)} - \hat{\beta}) (\hat{\beta}^{(g)} - \hat{\beta})'
+\end{equation}
+
+They further propose the following Jackknive estimator, CRVJ: 
+
+\begin{equation}
+\hat{V}_{3J}(\hat{\beta}) = \frac{G}{G-1} \sum{g = 1}^{G} (\hat{\beta}^{(g)} - \bar{\beta}) (\hat{\beta}^{(g)} - \bar{\beta})'
+\end{equation}
+
+with $\bar{\beta} = G^{-1} \sum_{g=1}^{G} \hat{\beta}^{(g)}$.
+
+When $G=N$, this Jackknife estimator is equivalent to the HC3 heteroskedasticity-robust estimator as proposed in [MacKinnon and White](https://www.econstor.eu/bitstream/10419/189084/1/qed_wp_0537.pdf).
+
+
+## Literature
+
+

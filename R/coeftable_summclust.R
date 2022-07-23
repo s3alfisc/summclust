@@ -1,16 +1,39 @@
 coeftable.summclust <- function(obj, ..., param) {
 
 
-  #' Differences between lmtest::coeftest() and summclust
-  #' to compute pvalues and confidence intervals, coeftable() uses
-  #' a t(G-1) distribution
-  #' summclust uses tstat with different df, different p-val type
+  #' Extract a coeftable for an object of type `summclust`
+  #'
   #' @param obj An object of class 'summclust'
   #' @param ... Other arguments
   #' @param param A character vector
   #' @method coeftable summclust
   #' @importFrom stats qt pt
   #' @export
+  #' @examples
+  #' \dontrun{
+  #' library(summclust)
+  #' library(haven)
+  #'
+  #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
+  #' # drop NAs at the moment
+  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+  #' nlswork <- na.omit(nlswork)
+  #'
+  #' lm_fit <- lm(
+  #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
+  #'   data = nlswork)
+  #'
+  #' res <- summclust(
+  #'    obj = lm_fit,
+  #'    cluster = ~ind_code,
+  #'    type = "CRV3"
+  #'  )
+  #'
+  #'  summary(res, param = c("msp","union"))
+  #'  coeftable(res, param = c("msp","union"))
+  #'  plot(res, param = c("msp","union"))
+  #' }
+
 
   dreamerr::check_arg(param, "character vector")
 
@@ -64,6 +87,31 @@ coeftable <- function(obj, ...) {
   #' @param obj An object of class `summclust`
   #' @param ... Other arguments
   #' @export
+  #' @examples
+  #' \dontrun{
+  #' library(summclust)
+  #' library(haven)
+  #'
+  #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
+  #' # drop NAs at the moment
+  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+  #' nlswork <- na.omit(nlswork)
+  #'
+  #' lm_fit <- lm(
+  #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
+  #'   data = nlswork)
+  #'
+  #' res <- summclust(
+  #'    obj = lm_fit,
+  #'    cluster = ~ind_code,
+  #'    type = "CRV3"
+  #'  )
+  #'
+  #'  summary(res, param = c("msp","union"))
+  #'  coeftable(res, param = c("msp","union"))
+  #'  plot(res, param = c("msp","union"))
+  #' }
+
 
   UseMethod("coeftable")
 }
