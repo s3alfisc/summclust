@@ -1,5 +1,3 @@
-matrix_trace <- function(x){
-
+matrix_trace <- function(x) {
   sum(diag(x))
-
 }

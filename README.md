@@ -6,6 +6,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/s3alfisc/summclust/workflows/R-CMD-check/badge.svg)](https://github.com/s3alfisc/summclust/actions)
+[![pkgcheck](https://github.com/%3Corg%3E/%3Crepo%3E/workflows/pkgcheck/badge.svg)](https://github.com/%3Corg%3E/%3Crepo%3E/actions?query=workflow%3Apkgcheck)
+![runiverse-package](https://s3alfisc.r-universe.dev/badges/summclust)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/summclust?color=blue)](https://cran.r-project.org/package=summclust)
+[![](http://cranlogs.r-pkg.org/badges/last-month/summclust?color=green)](https://cran.r-project.org/package=summclust)
 <!-- badges: end -->
 
 R module for cluster level measures of leverage, influence, and a

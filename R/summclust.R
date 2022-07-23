@@ -6,5 +6,4 @@ summclust <- function(obj, ...) {
   #' @export
 
   UseMethod("summclust")
-
 }

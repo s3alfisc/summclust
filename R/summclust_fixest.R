@@ -1,6 +1,7 @@
 summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ...) {
 
-  #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+  #' Compute CR3 Jackknive variance covariance matrices of objects
+  #' of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
@@ -22,7 +23,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
-  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
+  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr",
+  #' "union", "race", "msp", "ind_code")]
   #' nlswork <- na.omit(nlswork)
   #'
   #' feols_fit <- feols(
@@ -49,7 +51,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   w <- weights(obj)
 
   if(!is.null(w)){
-    stop("Weighted least squares (WLS) is currently not supported for objects of type fixest.")
+    stop("Weighted least squares (WLS) is currently not supported for objects
+         of type fixest.")
     X <- sqrt(w) * X
     y <- sqrt(w) * y
   }
@@ -62,7 +65,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
   cluster_tmp <-
     try(
-      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
+      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential
+        #warnings due to | in Formula
         suppressWarnings(expand.model.frame(
           model = obj,
           extras = cluster,
@@ -80,8 +84,16 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
       }
     )
 
-  if(inherits(cluster_tmp, "try-error") && grepl("non-numeric argument to binary operator$", attr(cluster_tmp, "condition")$message)){
-    stop("In your model, you have specified multiple fixed effects, none of which are of type factor. While `fixest::feols()` handles this case without any troubles,  `summclust()` currently cannot handle this case - please change the type of (at least one) fixed effect(s) to factor. If this does not solve the error, please report the issue at https://github.com/s3alfisc/summclust")
+  if(inherits(cluster_tmp, "try-error")
+  && grepl("non-numeric argument to
+           binary operator$",
+      ttr(cluster_tmp, "condition")$message)){
+    stop("In your model, you have specified multiple fixed effects,
+         none of which are of type factor. While `fixest::feols()` handles
+         this case without any troubles,  `summclust()` currently cannot
+         handle this case - please change the type of (at least one)
+         fixed effect(s) to factor. If this does not solve the error,
+         please report the issue at https://github.com/s3alfisc/summclust")
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
@@ -152,7 +164,9 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   X_tilde_j <- lapply(
     1:k,
     function(j){
-      X[,j] - X[,-j] %*% ( solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j]) )
+      X[,j] - X[,-j] %*% (
+        solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j])
+        )
     }
   )
 
@@ -164,7 +178,9 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
           lapply(
             seq_along(unique_clusters),
             function(g){
-              crossprod(X_tilde_j[[j]][cluster_df == g, ]) / crossprod(X_tilde_j[[j]])
+              crossprod(
+                X_tilde_j[[j]][cluster_df == g, ]
+              ) / crossprod(X_tilde_j[[j]])
             }
           )
         unlist(res2)
@@ -184,14 +200,16 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
 
   leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
+                       function(x) matrix_trace(
+                         tXgXg[[x]] %*% MASS::ginv(tXX)))
   leverage_avg <- Reduce("+", leverage_g) / G
 
 
   tXgyg <- lapply(
     seq_along(unique_clusters),
     function(x)
-      t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
+      t(
+        X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
   )
   tXy <- Reduce("+", tXgyg)
 
@@ -201,7 +219,14 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
     lapply(
       seq_along(unique_clusters),
       function(x){
-        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]))
+        MASS::ginv(
+          tXX - tXgXg[[x]]
+        ) %*%
+          (tXy - (
+            t(X[cluster_df == x,,drop = FALSE]) %*%
+              y[cluster_df == x,drop = FALSE]
+            )
+           )
       })
 
   if(type == "CRV3J"){
@@ -213,7 +238,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   V3 <- lapply(
     seq_along(unique_clusters),
     function(x)
-      tcrossprod(beta_jack[[x]][coef_selector] - beta_center[coef_selector])
+      tcrossprod(
+        beta_jack[[x]][coef_selector] - beta_center[coef_selector])
   )
 
   vcov <- Reduce("+", V3) * small_sample_correction

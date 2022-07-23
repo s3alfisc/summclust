@@ -29,3 +29,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://s3alfisc.github.io/summclust/
+BugReports: https://github.com/s3alfisc/summclust/issues

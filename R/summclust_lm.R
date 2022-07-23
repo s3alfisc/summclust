@@ -13,7 +13,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #' @export
   #'
   #' @examples
-  #'\dontrun{
+  #' \dontrun{
   #' library(summclust)
   #' library(fixest)
   #' library(haven)
@@ -28,7 +28,7 @@ summclust.lm <- function(obj, cluster, type, ...) {
   #'   data = nlswork)
   #'
   #' summclust(lm_fit)
-  #'}
+  #' }
 
   check_arg(cluster, "character scalar | formula")
 
@@ -41,28 +41,27 @@ summclust.lm <- function(obj, cluster, type, ...) {
 
   w <- weights(obj)
 
-  if(!is.null(w)){
+  if (!is.null(w)) {
     X <- sqrt(w) * X
     y <- sqrt(w) * y
     stop("Weighted least squares (WLS) is currently not supported for objects of type fixest.")
   }
 
 
-  if(!inherits(cluster, "formula")){
+  if (!inherits(cluster, "formula")) {
     cluster <- reformulate(cluster)
   }
 
   # fetch the clustering variable
   cluster_tmp <-
     try(
-      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
+      if ("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
         suppressWarnings(expand.model.frame(
           model = obj,
           extras = cluster,
           na.expand = FALSE,
           envir = call_env
-        )
-        )
+        ))
       } else {
         expand.model.frame(
           obj,
@@ -73,50 +72,52 @@ summclust.lm <- function(obj, cluster, type, ...) {
       }
     )
 
-  if(inherits(cluster_tmp, "try-error") && grepl("non-numeric argument to binary operator$", attr(cluster_tmp, "condition")$message)){
+  if (inherits(cluster_tmp, "try-error") && grepl("non-numeric argument to binary operator$", attr(cluster_tmp, "condition")$message)) {
     stop("In your model, you have specified multiple fixed effects, none of which are of type factor. While `fixest::feols()` handles this case without any troubles,  `summclust()` currently cannot handle this case - please change the type of (at least one) fixed effect(s) to factor. If this does not solve the error, please report the issue at https://github.com/s3alfisc/summclust")
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-  unique_clusters <- unique(cluster_df[,,drop = TRUE])
+  unique_clusters <- unique(cluster_df[, , drop = TRUE])
   G <- length(unique_clusters)
-  small_sample_correction <- (G-1)/G
+  small_sample_correction <- (G - 1) / G
 
   k <- ncol(X)
   N <- nrow(X)
 
-  #calculate X_g'X_g
+  # calculate X_g'X_g
   tXgXg <- lapply(
     seq_along(unique_clusters),
-    function(x) crossprod(X[cluster_df == x, ,drop = FALSE])
+    function(x) crossprod(X[cluster_df == x, , drop = FALSE])
   )
   tXX <- Reduce("+", tXgXg)
 
   # calculate leverage
-  leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
+  leverage_g <- lapply(
+    seq_along(unique_clusters),
+    function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX))
+  )
   leverage_avg <- Reduce("+", leverage_g) / G
-  #leverage_avg <- k / G
+  # leverage_avg <- k / G
 
-  #calculate partial leverage
+  # calculate partial leverage
   X_tilde_j <- lapply(
     1:k,
-    function(j){
-       X[,j] - X[,-j] %*% ( solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j]) )
+    function(j) {
+      X[, j] - X[, -j] %*% (solve(crossprod(X[, -j])) %*% (t(X[, -j]) %*% X[, j]))
     }
   )
 
   partial_leverage <-
     lapply(
       1:k,
-      function(j){
+      function(j) {
         res2 <-
           lapply(
-          seq_along(unique_clusters),
-          function(g){
-            crossprod(X_tilde_j[[j]][cluster_df == g, ]) / crossprod(X_tilde_j[[j]])
-          }
-        )
+            seq_along(unique_clusters),
+            function(g) {
+              crossprod(X_tilde_j[[j]][cluster_df == g, ]) / crossprod(X_tilde_j[[j]])
+            }
+          )
         unlist(res2)
       }
     )
@@ -125,8 +126,9 @@ summclust.lm <- function(obj, cluster, type, ...) {
 
   tXgyg <- lapply(
     seq_along(unique_clusters),
-    function(x)
-      t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
+    function(x) {
+      t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]
+    }
   )
   tXy <- Reduce("+", tXgyg)
 
@@ -135,20 +137,22 @@ summclust.lm <- function(obj, cluster, type, ...) {
   beta_jack <-
     lapply(
       seq_along(unique_clusters),
-      function(x){
-        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]))
-      })
+      function(x) {
+        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]))
+      }
+    )
 
-  if(type == "CRV3J"){
+  if (type == "CRV3J") {
     beta_bar <- beta_center <- Reduce("+", beta_jack) / G
-  } else if(type == "CRV3"){
+  } else if (type == "CRV3") {
     beta_center <- beta_hat
   }
 
   V3 <- lapply(
     seq_along(unique_clusters),
-    function(x)
+    function(x) {
       tcrossprod(beta_jack[[x]] - beta_center)
+    }
   )
 
   vcov <- Reduce("+", V3) * small_sample_correction
@@ -173,5 +177,4 @@ summclust.lm <- function(obj, cluster, type, ...) {
 
   class(res) <- "summclust"
   invisible(res)
-
 }
