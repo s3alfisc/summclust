@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 and further implements CRV3 and CRV3J cluster robust variance estimators.
 
 For a quick overview of different CRV estimators, take a look at the [cluster robust
-variance estimation vignette]().
+variance estimation vignette](https://s3alfisc.github.io/summclust/articles/Cluster-Robust-Variance-Estimators-CRV-1-3.html).
 
 For a very detailed description of the implemented methods, in particular a
 discussion of the different leverage and influence metrics, see:
