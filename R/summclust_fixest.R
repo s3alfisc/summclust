@@ -99,22 +99,37 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
       }
     )
 
-  if(inherits(cluster_tmp, "try-error")
-  && grepl("non-numeric argument to
-           binary operator$",
-      attr(cluster_tmp, "condition")$message)){
-    stop("In your model, you have specified multiple fixed effects,
-         none of which are of type factor. While `fixest::feols()` handles
-         this case without any troubles,  `summclust()` currently cannot
-         handle this case - please change the type of (at least one)
-         fixed effect(s) to factor. If this does not solve the error,
-         please report the issue at https://github.com/s3alfisc/summclust")
+  if (
+    inherits(
+      cluster_tmp,
+      "try-error"
+    ) &&
+    grepl(
+      "non-numeric argument to binary operator$",
+      attr(
+        cluster_tmp,
+        "condition"
+      )$message
+    )
+  ) {
+    stop(
+      "In your model, you have specified multiple fixed effects,
+      none of which are of type factor. While `fixest::feols()` handles
+      this case gracefully,  `summclust()` currently cannot handle this
+      case - please change the type of (at least one) fixed effect(s) to
+      factor. If this does not solve the error, please report the issue
+      at https://github.com/s3alfisc/summclust")
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
   unique_clusters <- unique(cluster_df[,,drop = TRUE])
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
+  N_g <- lapply(
+    seq_along(unique_clusters),
+    function(x) nrow(cluster_df[,,drop = TRUE] == x)
+  )
+
 
   k <- obj$nparams
 

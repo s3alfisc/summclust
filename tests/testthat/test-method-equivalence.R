@@ -79,7 +79,7 @@ test_that("test method equivalence, with fixed effects", {
 
   set.seed(765)
 
-  N <- 10000
+  N <- 1000
   N_G1 <- 23
   data <- summclust:::create_data(
     N = N,
@@ -93,13 +93,14 @@ test_that("test method equivalence, with fixed effects", {
   )
   #
   feols_fit <- feols(
-    proposition_vote ~ treatment + log_income | group_id1,
+    proposition_vote ~ treatment + log_income | group_id1 + group_id2,
     cluster = ~group_id1,
     data = data
   )
   #
   lm_fit <- lm(
-    proposition_vote ~ treatment + log_income + as.factor(group_id1),
+    proposition_vote ~ treatment + log_income + as.factor(group_id1)
+    + as.factor(group_id2),
     data = data
   )
   #

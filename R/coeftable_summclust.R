@@ -6,9 +6,9 @@ coeftable.summclust <- function(obj, ..., param) {
   #' @param obj An object of class 'summclust'
   #' @param ... Other arguments
   #' @param param A character vector
+  #' @export
   #' @method coeftable summclust
   #' @importFrom stats qt pt
-  #' @export
   #' @examples
   #' \dontrun{
   #' library(summclust)
