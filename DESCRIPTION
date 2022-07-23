@@ -15,17 +15,19 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Imports: 
     utils, 
+    dreamerr, 
+    MASS, 
+    collapse, 
+    Rcpp
+Suggests: 
     ggplot2, 
     latex2exp, 
-    dreamerr, 
     fabricatr, 
-    MASS, 
-    collapse
-Suggests: 
     fixest, 
     haven, 
     sandwich, 
     lmtest, 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+LinkingTo: Rcpp, RcppArmadillo
 URL: https://s3alfisc.github.io/summclust/

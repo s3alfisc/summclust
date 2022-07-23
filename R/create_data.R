@@ -14,7 +14,6 @@
 #' @param weights Possible regression weights to be used in estimation
 #' @return A simulated \code{data.frame} with specified numbers of clusters,
 #'         intra-cluster correlations and dimensionality of fixed effects.
-#' @importFrom fabricatr fabricate
 #' @importFrom stats na.omit rlnorm rnorm
 #' @noRd
 
@@ -27,6 +26,14 @@
 
 create_data <-
   function(N, N_G1, icc1, N_G2, icc2, numb_fe1, numb_fe2, seed, weights) {
+
+    if(requireNamespace("fabricatr")){
+      fabricatr_installed <- TRUE
+    } else {
+      stop("Please install the 'fabricatr' package to use this function")
+    }
+
+
     set.seed(seed)
     voters <-
       fabricatr::fabricate(

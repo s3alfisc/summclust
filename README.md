@@ -83,7 +83,7 @@ summary(summclust_res, param = c("msp","union"))
 #> Max.     0.2754228
 ```
 
-To plot the leverage statistics, use the `plot` method
+To visually inspect the leverage statistics, use the `plot` method
 
 ``` r
 plot(summclust_res, param = c("msp","union"))

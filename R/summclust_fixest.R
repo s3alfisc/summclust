@@ -32,6 +32,7 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #'}
 
   check_arg(cluster, "character scalar | formula")
+
   if(obj$method != "feols"){
     stop("'summclust' currently only works with estimation method 'feols'.")
   }
@@ -141,6 +142,12 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
   }
 
+  if(cluster_fixef_outprojected){
+    k <- dim(X)[2]
+  } else {
+    k <- obj$nparams
+  }
+
   #calculate partial leverage
   X_tilde_j <- lapply(
     1:k,
@@ -177,7 +184,7 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
 
 
   leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)) + 1)
+                       function(x) matrix_trace(tXgXg[[x]] %*% MASS::ginv(tXX)))
   leverage_avg <- Reduce("+", leverage_g) / G
 
 

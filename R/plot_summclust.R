@@ -6,9 +6,18 @@ plot.summclust <- function(x, ..., param){
   #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
-  #' @importFrom ggplot2 facet_wrap ggtitle ylab geom_point geom_hline aes ggplot theme_bw
-  #' @importFrom latex2exp TeX
   #' @importFrom utils stack
+
+  if(requireNamespace("ggplot2")){
+    ggplot_installed <- TRUE
+    if(requireNamespace("latex2exp")){
+      latex2exp_installed <- TRUE
+    } else {
+      stop("Please install the 'latex2exp' package to use this function")
+    }
+  } else {
+    stop("Please install the 'ggplot2' package to use this function")
+  }
 
 
   df <- data.frame(
@@ -19,15 +28,15 @@ plot.summclust <- function(x, ..., param){
   # plot residual leverage:
 
   residual_leverage <-
-    ggplot(data = df,
-           aes(
+    ggplot2::ggplot(data = df,
+            ggplot2::aes(
              x = cluster,
              y = cluster_leverage)) +
-    geom_hline(yintercept = 1, color = "red", linetype = "dotted") +
-    theme_bw() +
-    geom_point() +
-    ylab(TeX(r'($L_{g} / mean(L_{g})$)')) +
-    ggtitle("Residual Leverage")
+    ggplot2::geom_hline(yintercept = 1, color = "red", linetype = "dotted") +
+    ggplot2::theme_bw() +
+    ggplot2::geom_point() +
+    ggplot2::ylab(latex2exp::TeX(r'($L_{g} / mean(L_{g})$)')) +
+    ggplot2::ggtitle("Residual Leverage")
 
 
   # coef leverage
@@ -47,17 +56,17 @@ plot.summclust <- function(x, ..., param){
   df_long$G <- G
 
   coef_leverage <-
-    ggplot(data = df_long,
-           aes(
+    ggplot2::ggplot(data = df_long,
+                    ggplot2::aes(
              x = cluster,
              y = values
            )) +
-    facet_wrap(~ variable) +
-    ylab(TeX(r'($\hat{\L}_{j}^{g}$)')) +
-    theme_bw() +
-    geom_point() +
-    geom_hline(data = df_long,
-               aes(
+    ggplot2::facet_wrap(~ variable) +
+    ggplot2::ylab(latex2exp::TeX(r'($\hat{\L}_{j}^{g}$)')) +
+    ggplot2::theme_bw() +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(data = df_long,
+                        ggplot2::aes(
                  yintercept = 1 / G
                ),
                color = "red",
@@ -80,17 +89,17 @@ plot.summclust <- function(x, ..., param){
   df_long$coef_estimate <- rep(x$coef_estimates[names(x$coef_estimates) %in% param], length(param))
 
   coef_beta <-
-    ggplot(data = df_long,
-           aes(
+    ggplot2::ggplot(data = df_long,
+                    ggplot2::aes(
              x = cluster,
              y = values
            )) +
-    facet_wrap(~ variable) +
-    ylab(TeX(r'($\hat{\beta}_{j}^{g}$)')) +
-    theme_bw() +
-    geom_point() +
-    geom_hline(data = df_long,
-               aes(
+    ggplot2::facet_wrap(~ variable) +
+    ggplot2::ylab(latex2exp::TeX(r'($\hat{\beta}_{j}^{g}$)')) +
+    ggplot2::theme_bw() +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(data = df_long,
+                        ggplot2::aes(
                  yintercept = coef_estimate
                ),
                color = "red",

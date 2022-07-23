@@ -67,7 +67,7 @@ coeftable(summclust_res, param = c("msp", "union"))
 summary(summclust_res, param = c("msp","union"))
 ```
 
-To plot the leverage statistics, use the `plot` method
+To visually inspect the leverage statistics, use the `plot` method
 
 ```{r, warning = FALSE, message = FALSE, out.width="50%"}
 plot(summclust_res, param = c("msp","union"))
