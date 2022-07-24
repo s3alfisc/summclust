@@ -1,5 +1,19 @@
 ## R CMD check results
 
+
++ Submission 4: 
+
+fixed broken link; ignore misspelled Stata (it is not misspelled)
+
+"
+Possibly misspelled words in DESCRIPTION:
+  Stata (11:98)
+
+Found the following (possibly) invalid URLs:
+  URL: https://github.com/%3Corg%3E/%3Crepo%3E/actions?query=workflow%3Apkgcheck
+    From: README.md
+"
+
 + Submission 3: 
 
 * filled in an empty URL in the readme file
