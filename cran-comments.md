@@ -3,7 +3,8 @@
 
 + Submission 4: 
 
-fixed broken link; ignore misspelled Stata (it is not misspelled)
+deleted broken link; ignore misspelled Stata (it is not misspelled); checked again on 
+rhub; github actions 
 
 "
 Possibly misspelled words in DESCRIPTION:
