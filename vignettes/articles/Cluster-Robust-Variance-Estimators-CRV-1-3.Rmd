@@ -114,6 +114,7 @@ with $\bar{\beta} = G^{-1} \sum_{g=1}^{G} \hat{\beta}^{(g)}$.
 When $G=N$, this Jackknife estimator is equivalent to the HC3 heteroskedasticity-robust estimator as proposed in [MacKinnon and White](https://www.econstor.eu/bitstream/10419/189084/1/qed_wp_0537.pdf).
 
 
-## Literature
+<!-- ## Literature -->
+
 
 

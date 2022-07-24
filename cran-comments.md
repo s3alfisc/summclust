@@ -1,5 +1,19 @@
 ## R CMD check results
 
++ Submission 3: 
+
+* filled in an empty URL in the readme file
+* checked on rhub, win_devel and github actions (Mac, Ubuntu, windows), 
+  no errors, messages received, but the following notes 
+  
+  "Possibly misspelled words in DESCRIPTION:
+  Stata (11:98)
+
+* checking for detritus in the temp directory ... NOTE
+Found the following files/directories:
+  'lastMiKTeXException'
+  "
+  
 + I have switched imports to depends, this solves the 'excessive importing' 
   note
 
