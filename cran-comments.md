@@ -1,5 +1,19 @@
 ## R CMD check results
 
++ Submission 5: 
+
+I have changed Stata to 'STATA' in description; add 'codemeta.json' to .Rbuildignore 
+after receiving the following feedback: 
+
+New submission
+
+Possibly misspelled words in DESCRIPTION:
+  Stata (11:98)
+* checking top-level files ... NOTE
+Non-standard file/directory found at top level:
+  'codemeta.json'
+
+No notes on r-hub, r-devel.
 
 + Submission 4: 
 

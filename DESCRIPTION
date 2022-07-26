@@ -8,7 +8,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "alexander-fischer1801@t-online.de")
     )
-Description: Module for Cluster Specific Information and Cluster Jackknife as in the 'summclust' Stata package.
+Description: Module for Cluster Specific Information and Cluster Jackknife as in the 'summclust' 'STATA' package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
