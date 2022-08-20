@@ -1,9 +1,18 @@
-summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ...) {
+summclust.fixest <- function(
+    obj,
+    cluster,
+    params,
+    absorb_cluster_fixef = TRUE,
+    type,
+    ...) {
 
   #' Compute CR3 Jackknive variance covariance matrices of objects
   #' of type fixest
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
+  #' @param params A character vector of variables for which leverage statistics
+  #' should be computed. If NULL, leverage statistics will be computed for all
+  #' k model covariates
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
   #'        effects be projected out? This increases numerical stability.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
@@ -49,237 +58,62 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
   #' }
 
   check_arg(cluster, "character scalar | formula")
+  check_arg(params, "character scalar | character vector | formula ")
+  check_arg(type, "character scalar")
+  check_arg(absorb_cluster_fixef, "logical scalar")
 
-  if(obj$method != "feols"){
-    stop("'summclust' currently only works with estimation method 'feols'.")
+  if(inherits(params, "formula")){
+    params <- attr(terms(params), "term.labels")
   }
 
-  call_env <- obj$call_env
+  get_vcov <-
+    vcov_CR3J.fixest(
+      obj = obj,
+      cluster = cluster,
+      absorb_cluster_fixef = absorb_cluster_fixef,
+      type = "CRV3",
+      return_all = TRUE
+    )
 
-  X <- model.matrix(obj, type = "rhs")
-  y <- model.matrix(obj, type = "lhs")
-
+  vcov <- get_vcov$vcov
+  unique_clusters <- get_vcov$unique_clusters
+  tXgXg <- get_vcov$tXgXg
+  tXX <- get_vcov$tXX
+  G <- get_vcov$G
+  X_tilde_j <- get_vcov$X_tilde_j
+  cluster_df <- get_vcov$cluster_df
+  X <- get_vcov$X
+  y <- get_vcov$y
+  tXy <- get_vcov$tXy
+  beta_hat <- get_vcov$beta_hat
+  beta_jack <- get_vcov$beta_jack
+  small_sample_correction <- get_vcov$small_sample_correction
   N <- nobs(obj)
+  k <- get_vcov$k
 
-  beta_hat <- coefficients(obj)
-
-  w <- weights(obj)
-
-  if(!is.null(w)){
-    stop("Weighted least squares (WLS) is currently not supported for objects
-         of type fixest.")
-    X <- sqrt(w) * X
-    y <- sqrt(w) * y
-  }
-
-  # get the clustering variable
-
-  if(!inherits(cluster, "formula")){
-    cluster <- reformulate(cluster)
-  }
-
-  cluster_tmp <-
-    try(
-      if("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential
-        #warnings due to | in Formula
-        suppressWarnings(expand.model.frame(
-          model = obj,
-          extras = cluster,
-          na.expand = FALSE,
-          envir = call_env
-        )
-        )
-      } else {
-        expand.model.frame(
-          obj,
-          cluster,
-          na.expand = FALSE,
-          envir = call_env
-        )
-      }
-    )
-
-  if (
-    inherits(
-      cluster_tmp,
-      "try-error"
-    ) &&
-    grepl(
-      "non-numeric argument to binary operator$",
-      attr(
-        cluster_tmp,
-        "condition"
-      )$message
-    )
-  ) {
-    stop(
-      "In your model, you have specified multiple fixed effects,
-      none of which are of type factor. While `fixest::feols()` handles
-      this case gracefully,  `summclust()` currently cannot handle this
-      case - please change the type of (at least one) fixed effect(s) to
-      factor. If this does not solve the error, please report the issue
-      at https://github.com/s3alfisc/summclust")
-  }
-
-  cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-  unique_clusters <- unique(cluster_df[,,drop = TRUE])
-  G <- length(unique_clusters)
-  small_sample_correction <- (G-1)/G
-  N_g <- lapply(
-    seq_along(unique_clusters),
-    function(x) nrow(cluster_df[,,drop = TRUE] == x)
-  )
-
-
-  k <- obj$nparams
-
-  # preprocess fixed effects
-  has_fe <- length(obj$fixef_vars) > 0
-
-  if(inherits(cluster, "formula")){
-    cluster_char <- attr(terms(cluster), "term.labels")
-  } else {
-    cluster_char <- cluster
-  }
-
-  # add all fixed effects variables as dummies
-  cluster_fixef_outprojected <- FALSE
-
-  if(has_fe){
-
-    fixef_vars <- obj$fixef_vars
-    fe <- model_matrix(obj, type = "fixef")
-
-    # if the clustering variable is a cluster fixed effect & if absorb_cluster_fixef == TRUE,
-    # then demean X and y by the cluster fixed effect
-
-
-    if(absorb_cluster_fixef && cluster_char %in% fixef_vars){
-
-        cluster_fixef_outprojected <- TRUE
-
-        fixef_vars_minus_cluster <- fixef_vars[cluster_char != fixef_vars]
-        add_fe <- fe[,fixef_vars_minus_cluster, drop = FALSE]
-
-        if(length(fixef_vars_minus_cluster) > 0){
-          fml_fe <- reformulate(fixef_vars_minus_cluster, response = NULL)
-          add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
-          # drop the intercept
-          add_fe_dummies <- add_fe_dummies[, -which(colnames(add_fe_dummies) =="(Intercept)")]
-          X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
-        }
-
-        g <- collapse::GRP(cluster_df, call = FALSE)
-        X <- collapse::fwithin(X, g)
-        y <- collapse::fwithin(y, g)
-
-    } else {
-
-      add_fe <- fe[, fixef_vars, drop = FALSE]
-      fml_fe <- reformulate(fixef_vars, response = NULL)
-      add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
-      # drop the intercept
-      X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
-    }
-
-  }
-
-  if(cluster_fixef_outprojected){
-    k <- dim(X)[2]
-  } else {
-    k <- obj$nparams
-  }
-
-  #calculate partial leverage
-  X_tilde_j <- lapply(
-    1:k,
-    function(j){
-      X[,j] - X[,-j] %*% (
-        solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j])
-        )
-    }
-  )
+  k_coefs <- which(names(coef(obj)) %in% params)
 
   partial_leverage <-
-    lapply(
-      1:k,
-      function(j){
-        res2 <-
-          lapply(
-            seq_along(unique_clusters),
-            function(g){
-              crossprod(
-                X_tilde_j[[j]][cluster_df == g, ]
-              ) / crossprod(X_tilde_j[[j]])
-            }
-          )
-        unlist(res2)
-      }
+    get_partial_leverages(
+      k = k,
+      X = X,
+      k_coefs = k_coefs,
+      unique_clusters = unique_clusters,
+      params = params,
+      cluster_df = cluster_df
     )
 
-  partial_leverage <- Reduce("rbind", partial_leverage)
+  leverage_list <-
+    get_leverage(
+      unique_clusters = unique_clusters,
+      tXgXg = tXgXg,
+      tXX = tXX,
+      G = G
+    )
 
-  #calculate X_g'X_g
-  tXgXg <- lapply(
-    seq_along(unique_clusters),
-    function(x) crossprod(X[cluster_df == x, ,drop = FALSE])
-  )
-
-  tXX <- Reduce("+", tXgXg)
-  coef_selector <- which(colnames(tXX) %in% names(coef(obj)))
-
-
-  leverage_g <- lapply(seq_along(unique_clusters),
-                       function(x) matrix_trace(
-                         tXgXg[[x]] %*% MASS::ginv(tXX)))
-  leverage_avg <- Reduce("+", leverage_g) / G
-
-
-  tXgyg <- lapply(
-    seq_along(unique_clusters),
-    function(x)
-      t(
-        X[cluster_df == x,,drop = FALSE]) %*% y[cluster_df == x,drop = FALSE]
-  )
-  tXy <- Reduce("+", tXgyg)
-
-  # initiate jackknife
-
-  beta_jack <-
-    lapply(
-      seq_along(unique_clusters),
-      function(x){
-        MASS::ginv(
-          tXX - tXgXg[[x]]
-        ) %*%
-          (tXy - (
-            t(X[cluster_df == x,,drop = FALSE]) %*%
-              y[cluster_df == x,drop = FALSE]
-            )
-           )
-      })
-
-  if(type == "CRV3J"){
-    beta_bar <- beta_center <- Reduce("+", beta_jack) / G
-  } else if(type == "CRV3"){
-    beta_center <- beta_hat
-  }
-
-  V3 <- lapply(
-    seq_along(unique_clusters),
-    function(x)
-      tcrossprod(
-        beta_jack[[x]][coef_selector] - beta_center[coef_selector])
-  )
-
-  vcov <- Reduce("+", V3) * small_sample_correction
-
-  rownames(vcov) <- colnames(vcov) <- colnames(tXX)[coef_selector]
-
-  beta_jack <- Reduce("cbind", beta_jack)
-  rownames(beta_jack) <- rownames(partial_leverage) <-  colnames(tXX)
-  beta_jack <- beta_jack[coef_selector,]
-  colnames(beta_jack) <- colnames(partial_leverage) <- unique_clusters
+  leverage_g <- unlist(leverage_list$leverage_g)
+  names(leverage_g) <- unique_clusters
+  leverage_avg <- leverage_list$leverage_avg
 
 
   res <-
@@ -290,7 +124,8 @@ summclust.fixest <- function(obj, cluster, absorb_cluster_fixef = TRUE, type, ..
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
       partial_leverage = partial_leverage,
-      cluster = unique_clusters
+      cluster = unique_clusters,
+      params = params
     )
 
   class(res) <- "summclust"

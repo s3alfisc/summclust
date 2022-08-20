@@ -31,10 +31,13 @@ test_that("test against stata - CVR3 inference", {
 
   summclust_res <- summclust(obj = lm_fit,
                              cluster = ~ ind_code,
+                             params = c("msp","union"),
                              type = "CRV3")
 
 
-  res <- summclust::coeftable(summclust_res, param = "msp")
+  res <- summclust::coeftable(
+    summclust_res
+  )
 
   # estimate
   expect_equal(res["msp", 1],-0.027515,
@@ -92,9 +95,11 @@ test_that("test against stata - leverage", {
     data = nlswork
   )
 
-  summclust_res <- summclust(obj = lm_fit,
-                             cluster = ~ ind_code,
-                             type = "CRV3")
+  summclust_res <- summclust(
+    obj = lm_fit,
+    cluster = ~ ind_code,
+    params = c("msp")
+  )
 
   # test leverage
   expect_equal(round(min(unlist(
@@ -165,10 +170,12 @@ test_that("test against stata - leverage, fixef absorb", {
 
   summclust_res <- summclust(obj = feols_fit,
                              cluster = ~ ind_code,
+                             params = c("union", "race","msp"),
                              type = "CRV3")
 
   summclust_res_lm <- summclust(obj = lm_fit,
                                 cluster = ~ ind_code,
+                                params = c("union", "race","msp"),
                                 type = "CRV3")
 
   # test leverage

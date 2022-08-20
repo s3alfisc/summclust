@@ -4,14 +4,12 @@
 \alias{plot.summclust}
 \title{Plotting method for objects of type \code{summclust}}
 \usage{
-\method{plot}{summclust}(x, ..., param)
+\method{plot}{summclust}(x, ...)
 }
 \arguments{
 \item{x}{An x of type summclust}
 
 \item{...}{other optional function arguments}
-
-\item{param}{Character vector. Which parameters should be plotted?}
 }
 \description{
 Plotting method for objects of type \code{summclust}

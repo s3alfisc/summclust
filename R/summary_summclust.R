@@ -1,9 +1,8 @@
-summary.summclust <- function(object, ..., param) {
+summary.summclust <- function(object, ...) {
 
   #' `summary()` method for objects of type `summclust`
   #'
   #' @param object An objet of type summclust
-  #' @param param Character vector. The parameters to be summarized
   #' @param ... misc arguments
   #' @method summary summclust
   #' @export
@@ -34,6 +33,7 @@ summary.summclust <- function(object, ..., param) {
   #' }
 
 
+  param <- object$params
   # jackknifed'd betas
   beta_jack <- as.data.frame(t(object$beta_jack[param, , drop = FALSE]))
   beta <-
@@ -62,9 +62,10 @@ summary.summclust <- function(object, ..., param) {
   # partial leverage
   partial_leverage <- as.data.frame(
     t(
-      object$partial_leverage[param, , drop = FALSE]
+      object$partial_leverage[, , drop = FALSE]
     )
   )
+
   partial <-
     lapply(
       seq_along(param),

@@ -33,6 +33,7 @@ test_that("test methods", {
   summclust(
     obj = feols_fit,
     cluster = ~ group_id1,
+    params = c("treatment", "log_income"),
     type = "CRV3J"
   )
 
@@ -40,12 +41,13 @@ test_that("test methods", {
   summclust(
     obj = feols_fit,
     cluster = ~ group_id1,
-    type = "CRV3J"
+    type = "CRV3J",
+    params = c("treatment", "log_income"),
   )
 
   expect_equal(
-    coeftable(summ_feols, param = "treatment"),
-    coeftable(summ_lm, param = "treatment")
+    summclust::coeftable(summ_feols, param = "treatment"),
+    summclust::coeftable(summ_lm, param = "treatment")
   )
 
   expect_equal(

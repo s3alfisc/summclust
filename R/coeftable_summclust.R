@@ -1,11 +1,10 @@
-coeftable.summclust <- function(obj, ..., param) {
+coeftable.summclust <- function(obj, ...) {
 
 
   #' Extract a coeftable for an object of type `summclust`
   #'
   #' @param obj An object of class 'summclust'
   #' @param ... Other arguments
-  #' @param param A character vector
   #' @export
   #' @method coeftable summclust
   #' @importFrom stats qt pt
@@ -37,6 +36,7 @@ coeftable.summclust <- function(obj, ..., param) {
 
   dreamerr::check_arg(param, "character vector")
 
+  param <- obj$params
   N <- obj$N
   vcov <- obj$vcov
   G <- length(obj$cluster)

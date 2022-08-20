@@ -5,7 +5,7 @@ test_that("test method equivalence, no fixed effects", {
 
   set.seed(98765)
   # few large clusters (around 10000 obs)
-  N <- 100000
+  N <- 1000
   N_G1 <- 10
   data <- summclust:::create_data(
     N = N,
@@ -32,12 +32,14 @@ test_that("test method equivalence, no fixed effects", {
   summclust_feols <- summclust(
     obj = feols_fit,
     cluster = ~group_id1,
+    params = c("treatment"),
     type = "CRV3J"
   )
   #
   summclust_lm <- summclust(
     obj = lm_fit,
     cluster = ~group_id1,
+    params = c("treatment"),
     type = "CRV3J"
   )
   #
@@ -108,19 +110,21 @@ test_that("test method equivalence, with fixed effects", {
   summclust_feols <- summclust(
     obj = feols_fit,
     cluster = ~group_id1,
-    type = "CRV3J",
+    params = c("treatment", "log_income"),
     absorb_cluster_fixef = FALSE
   )
   #
   summclust_lm <- summclust(
     obj = lm_fit,
     cluster = ~group_id1,
+    params = c("treatment", "log_income"),
     type = "CRV3J"
   )
   #
+  params <- c("treatment", "log_income")
   expect_equal(
-    summclust_feols$vcov,
-    summclust_lm$vcov[names(coef(feols_fit)), names(coef(feols_fit))]
+    summclust_feols$vcov[params, params],
+    summclust_lm$vcov[params, params]
   )
   #
   expect_equal(
@@ -134,8 +138,8 @@ test_that("test method equivalence, with fixed effects", {
   )
   #
   expect_equal(
-    summclust_feols$beta_jack,
-    summclust_lm$beta_jack[names(coef(feols_fit)), ]
+    summclust_feols$beta_jack[params,],
+    summclust_lm$beta_jack[params, ]
   )
   #
   expect_equal(
@@ -151,19 +155,19 @@ test_that("test method equivalence, with fixed effects", {
   summclust_feols <- summclust(
     obj = feols_fit,
     cluster = ~group_id1,
-    type = "CRV3J",
+    params = c("treatment", "log_income"),
     absorb_cluster_fixef = TRUE
   )
   #
   summclust_lm <- summclust(
     obj = lm_fit,
     cluster = ~group_id1,
-    type = "CRV3J"
+    params = c("treatment", "log_income")
   )
   #
   expect_equal(
-    summclust_feols$vcov,
-    summclust_lm$vcov[names(coef(feols_fit)), names(coef(feols_fit))]
+    summclust_feols$vcov[params, params],
+    summclust_lm$vcov[params, params]
   )
 
   expect_equal(
@@ -178,8 +182,8 @@ test_that("test method equivalence, with fixed effects", {
   )
   # #
   expect_equal(
-    summclust_feols$beta_jack,
-    summclust_lm$beta_jack[names(coef(feols_fit)), ]
+    summclust_feols$beta_jack[params,],
+    summclust_lm$beta_jack[params, ]
   )
   #
   expect_equal(

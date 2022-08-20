@@ -43,33 +43,46 @@ lm_fit <- lm(
 summclust_res <- summclust(
   obj = lm_fit,
   cluster = ~ind_code,
-  type = "CRV3")
+  params = c("msp", "union")
+)
 
 # CRV3-based inference - exactly matches output of summclust-stata
-coeftable(summclust_res, param = c("msp", "union"))
+coeftable(summclust_res)
 
-summary(summclust_res, param = c("msp","union"))
+summary(summclust_res)
 ```
 
 To visually inspect the leverage statistics, use the `plot` method
 
 ```{r, warning = FALSE, message = FALSE, out.width="50%"}
-plot(summclust_res, param = c("msp","union"))
+plot(summclust_res)
 ```
 
 ## Using `summclust` with `coefplot` and `fixest`
 
-Note that you can also use CVR3 and CRV3J covariance matrices computed via `summclust` with the `lmtest()` and `fixest` packages.
+Note that you can also use CVR3 and CRV3J covariance matrices computed via `summclust` or its `vcov_CR3J` method with the `lmtest()` and `fixest` packages.
 
 ```{r, warning = FALSE, message=FALSE}
 library(lmtest)
 library(fixest)
 
+vcov3J <- 
+vcov_CR3J(
+  lm_fit, 
+  cluster = ~ ind_code
+)
+
+
+all.equal(
+  vcov3J, 
+  summclust_res$vcov
+)
+
 df <- length(summclust_res$cluster) - 1
 
 # with lmtest
 CRV1 <- coeftest(lm_fit, sandwich::vcovCL(lm_fit, ~ind_code), df = df)
-CRV3 <- coeftest(lm_fit, summclust_res$vcov, df = df)
+CRV3 <- coeftest(lm_fit, vcov3J, df = df)
 
 CRV1[c("union", "race", "msp"),]
 CRV3[c("union", "race", "msp"),]

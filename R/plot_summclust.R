@@ -1,9 +1,8 @@
-plot.summclust <- function(x, ..., param) {
+plot.summclust <- function(x, ...) {
 
   #' Plotting method for objects of type `summclust`
   #'
   #' @param x An x of type summclust
-  #' @param param Character vector. Which parameters should be plotted?
   #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
@@ -45,6 +44,7 @@ plot.summclust <- function(x, ..., param) {
     stop("Please install the 'ggplot2' package to use this function")
   }
 
+  param <- x$params
 
   df <- data.frame(
     cluster = x$cluster,
@@ -75,10 +75,6 @@ plot.summclust <- function(x, ..., param) {
   # coef leverage
 
   df <- as.data.frame(x$partial_leverage)
-
-  if (!is.null(param)) {
-    df <- df[rownames(df) %in% param, ]
-  }
 
   df_long <- stack(df, select = colnames(df))
   names(df_long) <- c("values", "cluster")

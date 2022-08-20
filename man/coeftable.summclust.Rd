@@ -4,14 +4,12 @@
 \alias{coeftable.summclust}
 \title{Extract a coeftable for an object of type \code{summclust}}
 \usage{
-\method{coeftable}{summclust}(obj, ..., param)
+\method{coeftable}{summclust}(obj, ...)
 }
 \arguments{
 \item{obj}{An object of class 'summclust'}
 
 \item{...}{Other arguments}
-
-\item{param}{A character vector}
 }
 \description{
 Extract a coeftable for an object of type \code{summclust}

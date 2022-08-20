@@ -5,12 +5,16 @@
 \title{Compute CR3 Jackknive variance covariance matrices of objects
 of type fixest}
 \usage{
-\method{summclust}{fixest}(obj, cluster, absorb_cluster_fixef = TRUE, type, ...)
+\method{summclust}{fixest}(obj, cluster, params, absorb_cluster_fixef = TRUE, type, ...)
 }
 \arguments{
 \item{obj}{An object of type fixest}
 
 \item{cluster}{A clustering vector}
+
+\item{params}{A character vector of variables for which leverage statistics
+should be computed. If NULL, leverage statistics will be computed for all
+k model covariates}
 
 \item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed
 effects be projected out? This increases numerical stability.}

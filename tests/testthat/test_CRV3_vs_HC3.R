@@ -17,7 +17,7 @@ test_that("CV3 = HC3 with N = G", {
     data = nlswork
   )
 
-  summclust_res <- summclust(
+  vcovCR3 <- vcov_CR3J(
     obj = lm_fit,
     cluster = ~count,
     type = "CRV3"
@@ -25,7 +25,7 @@ test_that("CV3 = HC3 with N = G", {
 
   vcovHC3 <- vcovHC(lm_fit, type = "HC3")
 
-  expect_equal(nobs(lm_fit) / (nobs(lm_fit) - 1) * summclust_res$vcov,
+  expect_equal(nobs(lm_fit) / (nobs(lm_fit) - 1) * vcovCR3,
     vcovHC3,
     ignore_attr = TRUE
   )
