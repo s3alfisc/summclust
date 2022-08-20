@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">summclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,26 +107,27 @@
 <span><span class="va">summclust_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summclust.html">summclust</a></span><span class="op">(</span></span>
 <span>  obj <span class="op">=</span> <span class="va">lm_fit</span>,</span>
 <span>  cluster <span class="op">=</span> <span class="op">~</span><span class="va">ind_code</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"CRV3"</span><span class="op">)</span></span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>, <span class="st">"union"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># CRV3-based inference - exactly matches output of summclust-stata</span></span>
-<span><span class="fu"><a href="../reference/coeftable.html">coeftable</a></span><span class="op">(</span><span class="va">summclust_res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>, <span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/coeftable.html">coeftable</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             coef     tstat         se      p_val  conf_int_l  conf_int_u</span></span>
 <span><span class="co">#&gt; union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span></span>
 <span><span class="co">#&gt; msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">summclust_res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>,<span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             coef     tstat         se      p_val  conf_int_l  conf_int_u</span></span>
 <span><span class="co">#&gt; union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span></span>
 <span><span class="co">#&gt; msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;            leverage partial-leverage-msp partial-leverage-union    beta-msp</span></span>
-<span><span class="co">#&gt; Min.     0.09332052          0.001622359           0.0006662968 -0.03320040</span></span>
-<span><span class="co">#&gt; 1st Qu.  0.70440923          0.009133996           0.0048899422 -0.02893131</span></span>
-<span><span class="co">#&gt; Median   3.51549151          0.056682344           0.0379535242 -0.02776470</span></span>
-<span><span class="co">#&gt; Mean     5.41666667          0.083333333           0.0833333333 -0.02691999</span></span>
-<span><span class="co">#&gt; 3rd Qu.  6.41132962          0.106083114           0.1004277711 -0.02610221</span></span>
-<span><span class="co">#&gt; Max.    20.28918187          0.312994532           0.3597669210 -0.01583453</span></span>
+<span><span class="co">#&gt; Min.     0.09332052         0.0006662968            0.001622359 -0.03320040</span></span>
+<span><span class="co">#&gt; 1st Qu.  0.70440923         0.0048899422            0.009133996 -0.02893131</span></span>
+<span><span class="co">#&gt; Median   3.51549151         0.0379535242            0.056682344 -0.02776470</span></span>
+<span><span class="co">#&gt; Mean     5.41666667         0.0833333333            0.083333333 -0.02691999</span></span>
+<span><span class="co">#&gt; 3rd Qu.  6.41132962         0.1004277711            0.106083114 -0.02610221</span></span>
+<span><span class="co">#&gt; Max.    20.28918187         0.3597669210            0.312994532 -0.01583453</span></span>
 <span><span class="co">#&gt;         beta-union</span></span>
 <span><span class="co">#&gt; Min.     0.1624754</span></span>
 <span><span class="co">#&gt; 1st Qu.  0.1994694</span></span>
@@ -136,7 +137,7 @@
 <span><span class="co">#&gt; Max.     0.2754228</span></span></code></pre></div>
 <p>To visually inspect the leverage statistics, use the <code>plot</code> method</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">summclust_res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>,<span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $residual_leverage</span></span></code></pre></div>
 <p><img src="summclust_files/figure-html/unnamed-chunk-2-1.png" width="50%"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
@@ -149,16 +150,29 @@
 <div class="section level2">
 <h2 id="using-summclust-with-coefplot-and-fixest">Using <code>summclust</code> with <code>coefplot</code> and <code>fixest</code><a class="anchor" aria-label="anchor" href="#using-summclust-with-coefplot-and-fixest"></a>
 </h2>
-<p>Note that you can also use CVR3 and CRV3J covariance matrices computed via <code>summclust</code> with the <code>lmtest()</code> and <code>fixest</code> packages.</p>
+<p>Note that you can also use CVR3 and CRV3J covariance matrices computed via <code>summclust</code> or its <code>vcov_CR3J</code> method with the <code>lmtest()</code> and <code>fixest</code> packages.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lrberge.github.io/fixest/" class="external-link">fixest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vcov3J</span> <span class="op">&lt;-</span> </span>
+<span><span class="fu"><a href="../reference/vcov_CR3J.html">vcov_CR3J</a></span><span class="op">(</span></span>
+<span>  <span class="va">lm_fit</span>, </span>
+<span>  cluster <span class="op">=</span> <span class="op">~</span> <span class="va">ind_code</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span>
+<span>  <span class="va">vcov3J</span>, </span>
+<span>  <span class="va">summclust_res</span><span class="op">$</span><span class="va">vcov</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
 <span></span>
 <span><span class="co"># with lmtest</span></span>
 <span><span class="va">CRV1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lm_fit</span>, <span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovCL.html" class="external-link">vcovCL</a></span><span class="op">(</span><span class="va">lm_fit</span>, <span class="op">~</span><span class="va">ind_code</span><span class="op">)</span>, df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
-<span><span class="va">CRV3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lm_fit</span>, <span class="va">summclust_res</span><span class="op">$</span><span class="va">vcov</span>, df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
+<span><span class="va">CRV3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lm_fit</span>, <span class="va">vcov3J</span>, df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">CRV1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"union"</span>, <span class="st">"race"</span>, <span class="st">"msp"</span><span class="op">)</span>,<span class="op">]</span></span>
 <span><span class="co">#&gt;          Estimate  Std. Error   t value     Pr(&gt;|t|)</span></span>

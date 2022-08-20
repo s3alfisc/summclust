@@ -14,7 +14,7 @@ of type fixest"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
     
     <a class="navbar-brand me-2" href="../index.html">summclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@ of type fixest</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for fixest</span></span>
-<span><span class="fu"><a href="summclust.html">summclust</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">cluster</span>, absorb_cluster_fixef <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">type</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="summclust.html">summclust</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">cluster</span>, <span class="va">params</span>, absorb_cluster_fixef <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">type</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,6 +75,12 @@ of type fixest</p>
 
 <dt>cluster</dt>
 <dd><p>A clustering vector</p></dd>
+
+
+<dt>params</dt>
+<dd><p>A character vector of variables for which leverage statistics
+should be computed. If NULL, leverage statistics will be computed for all
+k model covariates</p></dd>
 
 
 <dt>absorb_cluster_fixef</dt>

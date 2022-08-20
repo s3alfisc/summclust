@@ -51,4 +51,13 @@
   <url>
     <loc>https://s3alfisc.github.io/summclust/reference/summclust.lm.html</loc>
   </url>
+  <url>
+    <loc>https://s3alfisc.github.io/summclust/reference/vcov_CR3J.fixest.html</loc>
+  </url>
+  <url>
+    <loc>https://s3alfisc.github.io/summclust/reference/vcov_CR3J.html</loc>
+  </url>
+  <url>
+    <loc>https://s3alfisc.github.io/summclust/reference/vcov_CR3J.lm.html</loc>
+  </url>
 </urlset>
