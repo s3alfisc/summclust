@@ -10,6 +10,8 @@
 ![runiverse-package](https://s3alfisc.r-universe.dev/badges/summclust)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/summclust?color=blue)](https://cran.r-project.org/package=summclust)
 [![](http://cranlogs.r-pkg.org/badges/last-month/summclust?color=green)](https://cran.r-project.org/package=summclust)
+[![Codecov test
+coverage](https://codecov.io/gh/s3alfisc/summclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/s3alfisc/summclust?branch=main)
 <!-- badges: end -->
 
 `summclust` is an R module for cluster level measures of leverage and
