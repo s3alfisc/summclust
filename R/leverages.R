@@ -22,7 +22,7 @@ get_partial_leverages <- function(
       function(j){
         res2 <-
           lapply(
-            seq_along(unique_clusters),
+            unique_clusters,
             function(g){
               crossprod(
                 X_tilde_j[[j]][cluster_df == g, ]
@@ -57,7 +57,7 @@ get_leverage <- function(
     tXX,
     G){
 
-  leverage_g <- lapply(seq_along(unique_clusters),
+  leverage_g <- lapply(unique_clusters,
                        function(x) matrix_trace(
                          tXgXg[[x]] %*% MASS::ginv(tXX)))
   leverage_avg <- Reduce("+", leverage_g) / G

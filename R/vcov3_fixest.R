@@ -126,9 +126,11 @@ vcov_CR3J.fixest <- function(
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-  unique_clusters <- unique(cluster_df[,,drop = TRUE])
+  unique_clusters <- as.character(unique(cluster_df[, , drop = TRUE]))
+
   G <- length(unique_clusters)
   small_sample_correction <- (G-1)/G
+
   N_g <- lapply(
     seq_along(unique_clusters),
     function(x) nrow(cluster_df[,,drop = TRUE] == x)
@@ -201,6 +203,7 @@ vcov_CR3J.fixest <- function(
       y = y,
       X = X,
       cluster_df = cluster_df,
+      unique_clusters = unique_clusters,
       G = G,
       k = k
     )
@@ -208,6 +211,7 @@ vcov_CR3J.fixest <- function(
 
   if(return_all == TRUE){
     res[["unique_clusters"]] <- unique_clusters
+    res[["cluster_df"]] <- cluster_df
   } else {
     res <- res$vcov
   }

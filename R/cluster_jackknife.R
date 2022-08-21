@@ -5,11 +5,10 @@ cluster_jackknife <- function(
     X,
     cluster_df,
     G,
-    k){
+    k,
+    unique_clusters){
 
   small_sample_correction <- (G - 1) / G
-  cluster_df <- as.character(cluster_df[,1])
-  unique_clusters <- unique(cluster_df)
   # calculate X_g'X_g
   tXgXg <- lapply(
     unique_clusters,
@@ -70,7 +69,7 @@ cluster_jackknife <- function(
       tXy = tXy,
       G = G,
       k = k,
-      cluster_df = cluster_df,
+      #cluster_df = cluster_df,
       small_sample_correction = small_sample_correction
     )
 

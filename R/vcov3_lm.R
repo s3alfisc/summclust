@@ -114,7 +114,8 @@ vcov_CR3J.lm <- function(
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
 
-  unique_clusters <- unique(cluster_df[, , drop = TRUE])
+  unique_clusters <- as.character(unique(cluster_df[, , drop = TRUE]))
+
   G <- length(unique_clusters)
 
   k <- ncol(X)
@@ -127,6 +128,7 @@ vcov_CR3J.lm <- function(
       y = y,
       X = X,
       cluster_df = cluster_df,
+      unique_clusters = unique_clusters,
       G = G,
       k = k
     )
@@ -134,6 +136,8 @@ vcov_CR3J.lm <- function(
 
   if(return_all == TRUE){
     res[["unique_clusters"]] <- unique_clusters
+    res[["cluster_df"]] <- cluster_df
+
   } else {
     res <- res$vcov
   }
