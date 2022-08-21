@@ -1,5 +1,10 @@
 ## R CMD check results
 
++ Submission 6: 
+
+This is a re-submission of submission 5, which happened during your (the CRAN team's) well deserved summer break. 
+I have checked the package locally, on github actions (no comments), rhub (2 notes for linux: detritus in them and lastMiKTexTexException), and wind-develop.
+
 + Submission 5: 
 
 I have changed Stata to 'STATA' in description; add 'codemeta.json' to .Rbuildignore 
