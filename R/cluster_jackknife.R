@@ -8,28 +8,33 @@ cluster_jackknife <- function(
     k){
 
   small_sample_correction <- (G - 1) / G
-  unique_clusters <- unique(cluster_df[,1])
+  cluster_df <- as.character(cluster_df[,1])
+  unique_clusters <- unique(cluster_df)
   # calculate X_g'X_g
   tXgXg <- lapply(
-    seq_along(unique_clusters),
+    unique_clusters,
     function(x) crossprod(X[cluster_df == x, , drop = FALSE])
   )
+  names(tXgXg) <- unique_clusters
   tXX <- Reduce("+", tXgXg)
+  # all.equal(tXX, crossprod(X))
 
   tXgyg <- lapply(
-    seq_along(unique_clusters),
+    unique_clusters,
     function(x) {
       t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]
     }
   )
-  tXy <- Reduce("+", tXgyg)
+  names(tXgyg) <- unique_clusters
 
+  tXy <- Reduce("+", tXgyg)
+  # all.equal(tXy, t(X) %*% y)
   beta_hat <- solve(tXX) %*% tXy
   # initiate jackknife
 
   beta_jack <-
     lapply(
-      seq_along(unique_clusters),
+      unique_clusters,
       function(x) {
         MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]))
       }
