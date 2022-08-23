@@ -1,15 +1,20 @@
-coeftable.summclust <- function(obj, ...) {
+tidy.summclust <- function(x, ...) {
 
 
-  #' Extract a coeftable for an object of type `summclust`
+  #' Extract a data.frame with various regression coefficients and
+  #' inference based on a CRV3 variance-covariance matrix for an
+  #' object of type `summclust`
   #'
-  #' @param obj An object of class 'summclust'
+  #' @param x An object of class 'summclust'
   #' @param ... Other arguments
   #' @export
-  #' @method coeftable summclust
+  #' @method tidy summclust
   #' @importFrom stats qt pt
+  #' @importFrom generics tidy
+  #'
   #' @examples
-  #' \dontrun{
+  #'
+  #' \donttest{
   #' library(summclust)
   #' library(haven)
   #'
@@ -24,24 +29,29 @@ coeftable.summclust <- function(obj, ...) {
   #'
   #' res <- summclust(
   #'    obj = lm_fit,
+  #'    params = c("msp", "union"),
   #'    cluster = ~ind_code,
-  #'    type = "CRV3"
   #'  )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #'  summary(res)
+  #'  tidy(res)
+  #'  plot(res)
   #' }
+  #'
+  #' @return
+  #'
+  #' A data.frame containing coefficient estimates,
+  #' t-statistics, standard errors, p-value, and confidence
+  #' intervals based on CRV3 variance-covariance matrix
+  #' and t(G-1) distribution
 
 
-  dreamerr::check_arg(param, "character vector")
-
-  param <- obj$params
-  N <- obj$N
-  vcov <- obj$vcov
-  G <- length(obj$cluster)
-  param_ <- which(names(obj$coef_estimates) %in% param)
-  param_vals <- obj$coef_estimates[param_]
+  param <- x$params
+  N <- x$N
+  vcov <- x$vcov
+  G <- length(x$cluster)
+  param_ <- which(names(x$coef_estimates) %in% param)
+  param_vals <- x$coef_estimates[param_]
   se <- diag(sqrt(vcov[param_, param_, drop = FALSE]))
   cv3t <- param_vals / se
 
@@ -81,37 +91,3 @@ coeftable.summclust <- function(obj, ...) {
 }
 
 
-coeftable <- function(obj, ...) {
-
-  #' Inference based on CRV3 and CRV3J estimates
-  #' @param obj An object of class `summclust`
-  #' @param ... Other arguments
-  #' @export
-  #' @examples
-  #' \dontrun{
-  #' library(summclust)
-  #' library(haven)
-  #'
-  #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
-  #' # drop NAs at the moment
-  #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
-  #' nlswork <- na.omit(nlswork)
-  #'
-  #' lm_fit <- lm(
-  #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
-  #'   data = nlswork)
-  #'
-  #' res <- summclust(
-  #'    obj = lm_fit,
-  #'    cluster = ~ind_code,
-  #'    type = "CRV3"
-  #'  )
-  #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
-  #' }
-
-
-  UseMethod("coeftable")
-}

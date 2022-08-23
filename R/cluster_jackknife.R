@@ -4,13 +4,26 @@ cluster_jackknife <- function(
     cluster_df,
     type){
 
-  #' Confucts the Cluster Jackknife as in MNW (2022) for
+  #' Conducts the Cluster Jackknife as in MNW (2022) for
   #' CRV3 / CRV3J variance matrix estimation
-  #' @param y A vector containing a dependent variable
+  #' @param y A vector containing the dependent variable
   #' @param X A regression design matrix
-  #' @param cluster_df A data.frame containing a clustering variable
+  #' @param cluster_df A data.frame containing the clustering variable
   #' @param type Either "CRV3" or "CRV3J", where each implements the
-  #' variance-covariance estimator from MNW (2022) of the same name  #'
+  #' variance-covariance estimator from MNW (2022) of the same name
+  #'
+  #' @return An list, containing
+  #' \item{vcov}{The CRV3 variance-covariance matrix}
+  #' \item{beta_jack}{The leave-one-cluster-out jackknive regression
+  #'  coefficients}
+  #' \item{unique_clusters}{A vector containing all unique clusters contained in
+  #' `cluster_df`}
+  #' \item{tXgXg}{A list containing crossproducts of Xg, where X g is the
+  #' submatrix of the design matrix X which belong to observations in cluster g}
+  #' \item{tXX}{The crossproduct of the design matrix X}
+  #' \item{tXy}{t(X) %*% y}
+  #' \item{G}{The number of unique clusters}
+  #' \item{small_sample_correction}{The employed small sample correction}
   #' @noRd
 
 

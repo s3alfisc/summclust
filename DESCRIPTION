@@ -17,7 +17,8 @@ Imports:
     utils, 
     dreamerr, 
     MASS, 
-    collapse
+    collapse, 
+    generics
 Suggests: 
     ggplot2,
     latex2exp,
