@@ -24,10 +24,10 @@ summclust.fixest <- function(
   #' @export
   #'
   #' @examples
-  #' \dontrun{
+  #' \donttest{
+  #' library(summclust)
   #' library(haven)
   #' library(fixest)
-  #' library(summclust)
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -35,27 +35,21 @@ summclust.fixest <- function(
   #' nlswork <- na.omit(nlswork)
   #'
   #' feols_fit <- feols(
-  #'   ln_wage ~ union +  race + msp | grade + age + birth_yr + ind_code,
+  #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   #'   data = nlswork)
   #'
-  #' res1 <- summclust(
-  #'   obj = feols_fit,
-  #'   cluster = ~ind_code,
-  #'   type = "CRV3",
-  #'   absorb_cluster_fixef = TRUE
-  #' )
+  #' res <- summclust(
+  #'    obj = lm_fit,
+  #'    cluster = ~ind_code,
+  #'    params = c("msp", "union")
+  #'  )
   #'
-  #' res2 <- summclust(
-  #'   obj = feols_fit,
-  #'   cluster = ~ind_code,
-  #'   type = "CRV3",
-  #'   absorb_cluster_fixef = FALSE
-  #' )
-  #'
-  #' summary(res1, param = c("msp","union"))
-  #' coeftable(res1, param = c("msp","union"))
-  #' plot(res1, param = c("msp","union"))
+  #'  summary(res)
+  #'  coeftable(res)
+  #'  plot(res)
   #' }
+
+  call <- match.call()
 
   check_arg(cluster, "character scalar | formula")
   check_arg(params, "character scalar | character vector | formula ")
@@ -115,6 +109,7 @@ summclust.fixest <- function(
   names(leverage_g) <- unique_clusters
   leverage_avg <- leverage_list$leverage_avg
 
+  N_G <- get_cluster_sizes(cluster_df)
 
   res <-
     list(
@@ -125,7 +120,9 @@ summclust.fixest <- function(
       beta_jack = beta_jack,
       partial_leverage = partial_leverage,
       cluster = unique_clusters,
-      params = params
+      params = params,
+      N_G = N_G,
+      call = call
     )
 
   class(res) <- "summclust"

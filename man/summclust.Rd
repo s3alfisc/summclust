@@ -15,7 +15,7 @@ summclust(obj, ...)
 Compute influence and leverage metrics for clustered inference
 }
 \examples{
-\dontrun{
+\donttest{
 library(summclust)
 library(haven)
 
@@ -31,11 +31,11 @@ lm_fit <- lm(
 res <- summclust(
    obj = lm_fit,
    cluster = ~ind_code,
-   type = "CRV3"
+   params = c("msp", "union")
  )
 
- summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
- plot(res, param = c("msp","union"))
+ summary(res)
+ coeftable(res)
+ plot(res)
 }
 }

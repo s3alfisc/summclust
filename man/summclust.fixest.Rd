@@ -28,10 +28,10 @@ Compute CR3 Jackknive variance covariance matrices of objects
 of type fixest
 }
 \examples{
-\dontrun{
+\donttest{
+library(summclust)
 library(haven)
 library(fixest)
-library(summclust)
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
@@ -39,25 +39,17 @@ nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "
 nlswork <- na.omit(nlswork)
 
 feols_fit <- feols(
-  ln_wage ~ union +  race + msp | grade + age + birth_yr + ind_code,
+  ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   data = nlswork)
 
-res1 <- summclust(
-  obj = feols_fit,
-  cluster = ~ind_code,
-  type = "CRV3",
-  absorb_cluster_fixef = TRUE
-)
+res <- summclust(
+   obj = lm_fit,
+   cluster = ~ind_code,
+   params = c("msp", "union")
+ )
 
-res2 <- summclust(
-  obj = feols_fit,
-  cluster = ~ind_code,
-  type = "CRV3",
-  absorb_cluster_fixef = FALSE
-)
-
-summary(res1, param = c("msp","union"))
-coeftable(res1, param = c("msp","union"))
-plot(res1, param = c("msp","union"))
+ summary(res)
+ coeftable(res)
+ plot(res)
 }
 }

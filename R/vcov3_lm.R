@@ -19,7 +19,11 @@ vcov_CR3J.lm <- function(
   #' @importFrom dreamerr check_arg
   #' @importFrom MASS ginv
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
+  #'
   #' @export
+  #'
+  #'@return An object of class \code{vcov_CR3J}
+  #'\item{res}
   #'
   #' @examples
   #' \dontrun{
@@ -55,6 +59,8 @@ vcov_CR3J.lm <- function(
   X <- model_matrix.lm(obj, type = "rhs", collin.rm = TRUE)
   y <- model.response(model.frame(obj))
 
+  N <- nrow(X)
+  k <- ncol(X)
   # beta_hat <- coefficients(obj)
 
   w <- weights(obj)
@@ -113,34 +119,29 @@ vcov_CR3J.lm <- function(
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-
-  unique_clusters <- as.character(unique(cluster_df[, , drop = TRUE]))
-
-  G <- length(unique_clusters)
-
-  k <- ncol(X)
-  N <- nrow(X)
+  i <- seq_along(cluster_df)
+  cluster_df[, i] <- lapply(i, function(x) factor(cluster_df[, x]))
 
   res <-
     cluster_jackknife(
-      obj = obj,
-      type = type,
       y = y,
       X = X,
       cluster_df = cluster_df,
-      unique_clusters = unique_clusters,
-      G = G,
-      k = k
+      type = type
     )
 
 
   if(return_all == TRUE){
-    res[["unique_clusters"]] <- unique_clusters
+    res[["X"]] <- X
+    res[["y"]] <- y
+    res[["N"]] <- N
+    res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
-
   } else {
     res <- res$vcov
   }
+
+  class(res) <- "vcov_CR3J"
 
   res
 }

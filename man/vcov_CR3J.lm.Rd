@@ -19,6 +19,10 @@ the vcov be returned (FALSE) or additional results (TRUE)}
 
 \item{...}{other function arguments passed to 'vcov'}
 }
+\value{
+An object of class \code{vcov_CR3J}
+\item{res}
+}
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest
 }

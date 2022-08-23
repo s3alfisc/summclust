@@ -6,7 +6,7 @@ summclust <- function(obj, ...) {
   #' @param ... Other arguments
   #' @export
   #' @examples
-  #' \dontrun{
+  #' \donttest{
   #' library(summclust)
   #' library(haven)
   #'
@@ -22,12 +22,12 @@ summclust <- function(obj, ...) {
   #' res <- summclust(
   #'    obj = lm_fit,
   #'    cluster = ~ind_code,
-  #'    type = "CRV3"
+  #'    params = c("msp", "union")
   #'  )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #'  summary(res)
+  #'  coeftable(res)
+  #'  plot(res)
   #' }
 
   UseMethod("summclust")

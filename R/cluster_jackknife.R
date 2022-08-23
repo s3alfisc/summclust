@@ -1,14 +1,23 @@
 cluster_jackknife <- function(
-    obj,
-    type,
     y,
     X,
     cluster_df,
-    G,
-    k,
-    unique_clusters){
+    type){
 
+  #' Confucts the Cluster Jackknife as in MNW (2022) for
+  #' CRV3 / CRV3J variance matrix estimation
+  #' @param y A vector containing a dependent variable
+  #' @param X A regression design matrix
+  #' @param cluster_df A data.frame containing a clustering variable
+  #' @param type Either "CRV3" or "CRV3J", where each implements the
+  #' variance-covariance estimator from MNW (2022) of the same name  #'
+  #' @noRd
+
+
+  unique_clusters <- as.character(unique(cluster_df[, , drop = TRUE]))
+  G <- length(unique_clusters)
   small_sample_correction <- (G - 1) / G
+
   # calculate X_g'X_g
   tXgXg <- lapply(
     unique_clusters,
@@ -61,19 +70,13 @@ cluster_jackknife <- function(
     res <- list(
       vcov = vcov,
       beta_jack = beta_jack,
-      X = X,
-      y = y,
-      # unique_clusters = unique_clusters,
+      unique_clusters = unique_clusters,
       tXgXg = tXgXg,
       tXX = tXX,
       tXy = tXy,
       G = G,
-      k = k,
-      #cluster_df = cluster_df,
       small_sample_correction = small_sample_correction
     )
-
-  class(res) <- "vcov3"
 
   res
 

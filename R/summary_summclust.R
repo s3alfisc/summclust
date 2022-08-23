@@ -2,7 +2,7 @@ summary.summclust <- function(object, ...) {
 
   #' `summary()` method for objects of type `summclust`
   #'
-  #' @param object An objet of type summclust
+  #' @param object An object of type summclust
   #' @param ... misc arguments
   #' @method summary summclust
   #' @export
@@ -34,6 +34,7 @@ summary.summclust <- function(object, ...) {
 
 
   param <- object$params
+
   # jackknifed'd betas
   beta_jack <- as.data.frame(t(object$beta_jack[param, , drop = FALSE]))
   beta <-
@@ -55,7 +56,7 @@ summary.summclust <- function(object, ...) {
   # leverage
   leverage <- summary(unlist(object$leverage_g))
 
-  res <- data.frame(
+  leverage <- data.frame(
     leverage = as.vector(leverage)
   )
 
@@ -82,13 +83,25 @@ summary.summclust <- function(object, ...) {
 
   names(partial) <- paste0("partial-leverage-", param)
 
+  # get number of clusters
+  N_G <- c(object$N_G)
+  N_G <- summary(N_G)
+
+  G <- length(N_G)
+  N <- object$N
+  call <- object$call
   # combine all results
-  res <- cbind(res, partial, beta)
-
-
+  res <- cbind(c(N_G), leverage, partial, beta)
+  colnames(res)[1] <- "N_G"
   # return the results
-  print(coeftable(object, param = param))
 
+  print(call)
+  cat("", "\n")
+  cat("Number of observations:", sum(N_G), "\n")
+  cat("Number of clusters:", G, "\n")
+  cat("", "\n")
+
+  print(coeftable(object))
   cat("", "\n")
   print(res)
 }

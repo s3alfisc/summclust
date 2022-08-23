@@ -22,7 +22,7 @@ summclust.lm <- function(
   #' @export
   #'
   #' @examples
-  #' \dontrun{
+  #' \donttest{
   #' library(summclust)
   #' library(haven)
   #'
@@ -38,17 +38,20 @@ summclust.lm <- function(
   #' res <- summclust(
   #'    obj = lm_fit,
   #'    cluster = ~ind_code,
-  #'    type = "CRV3"
+  #'    params = c("msp", "union")
   #'  )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #'  summary(res)
+  #'  coeftable(res)
+  #'  plot(res)
   #' }
+
+  call <- match.call()
 
   check_arg(cluster, "character scalar | formula")
   check_arg(params, "character scalar | character vector |formula")
   check_arg(type, "character scalar")
+
 
   if(inherits(params, "formula")){
     params <- attr(terms(params), "term.labels")
@@ -102,6 +105,8 @@ summclust.lm <- function(
   names(leverage_g) <- unique_clusters
   leverage_avg <- leverage_list$leverage_avg
 
+  N_G <- get_cluster_sizes(cluster_df)
+
   res <-
     list(
       coef_estimates = coef(obj),
@@ -112,7 +117,9 @@ summclust.lm <- function(
       partial_leverage = partial_leverage,
       cluster = unique_clusters,
       N = N,
-      params = params
+      params = params,
+      N_G = N_G,
+      call = call
     )
 
   class(res) <- "summclust"

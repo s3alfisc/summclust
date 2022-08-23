@@ -65,7 +65,8 @@ vcov_CR3J.fixest <- function(
   X <- model.matrix(obj, type = "rhs")
   y <- model.matrix(obj, type = "lhs")
 
-  N <- nobs(obj)
+  N <- nrow(X)
+  # k: see below
 
   w <- weights(obj)
 
@@ -191,26 +192,25 @@ vcov_CR3J.fixest <- function(
   }
 
   if(cluster_fixef_outprojected){
-    k <- dim(X)[2]
+    k <- ncol(X)
   } else {
     k <- obj$nparams
   }
 
   res <-
     cluster_jackknife(
-      obj = obj,
-      type = type,
       y = y,
       X = X,
       cluster_df = cluster_df,
-      unique_clusters = unique_clusters,
-      G = G,
-      k = k
+      type = type
     )
 
 
   if(return_all == TRUE){
-    res[["unique_clusters"]] <- unique_clusters
+    res[["X"]] <- X
+    res[["y"]] <- y
+    res[["N"]] <- N
+    res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
   } else {
     res <- res$vcov

@@ -14,7 +14,7 @@
 coverage](https://codecov.io/gh/s3alfisc/summclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/s3alfisc/summclust?branch=main)
 <!-- badges: end -->
 
-`summclust` is an R module for cluster level measures of leverage and
+`{summclust}` is an R module for cluster level measures of leverage and
 influence, and further implements CRV3 and CRV3J cluster robust variance
 estimators.
 
@@ -47,3 +47,10 @@ install.packages('summclust', repos ='https://s3alfisc.r-universe.dev')
 # install.packages("devtools")
 devtools::install_github("s3alfisc/summclust")
 ```
+
+<!-- ## Citation  -->
+<!-- If you are in `R`, you can simply run the following command to get the BibTeX citation for `{summclust}`: -->
+<!-- ```{r, warning = FALSE, message = FALSE} -->
+<!-- citation("summclust") -->
+<!-- ``` -->
+<!-- Alternatively, you can cite the paper by MacKinnon, Nielsen and Webb (2022). In this case, I would be super happy if you mentioned (e.g. in a footnote) that you are using the r-version of `{summclust}`. -->

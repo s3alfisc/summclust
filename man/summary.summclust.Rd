@@ -7,7 +7,7 @@
 \method{summary}{summclust}(object, ...)
 }
 \arguments{
-\item{object}{An objet of type summclust}
+\item{object}{An object of type summclust}
 
 \item{...}{misc arguments}
 }
