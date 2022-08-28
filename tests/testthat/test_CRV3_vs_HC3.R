@@ -23,10 +23,40 @@ test_that("CV3 = HC3 with N = G", {
     type = "CRV3"
   )
 
-  vcovHC3 <- vcovHC(lm_fit, type = "HC3")
+  vcovHC3 <- vcovHC(
+    lm_fit,
+    type = "HC3"
+  )
 
-  expect_equal(nobs(lm_fit) / (nobs(lm_fit) - 1) * vcovCR3,
+  N <- nobs(lm_fit)
+  expect_equal(N / (N-1) * vcovCR3,
     vcovHC3,
     ignore_attr = TRUE
   )
+
+
+  # test vcovCL - currently fails due to
+  # non-matching small sample corrections?
+
+  if(FALSE){
+    vcovCR3 <- vcov_CR3J(
+      obj = lm_fit,
+      cluster = ~ind_code,
+      type = "CRV3"
+    )
+
+    vcovCL3 <- vcovCL(
+      lm_fit,
+      cluster = ~ind_code,
+      type = "HC3",
+      cadjust = TRUE
+    )
+
+    expect_equal(N / (N-1) * vcovCR3,
+                 vcovCL3,
+                 ignore_attr = TRUE
+    )
+  }
+
+
 })
