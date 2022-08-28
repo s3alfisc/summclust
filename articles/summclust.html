@@ -111,30 +111,36 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># CRV3-based inference - exactly matches output of summclust-stata</span></span>
-<span><span class="fu"><a href="../reference/coeftable.html">coeftable</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             coef     tstat         se      p_val  conf_int_l  conf_int_u</span></span>
 <span><span class="co">#&gt; union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span></span>
 <span><span class="co">#&gt; msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
+<span><span class="co">#&gt; summclust.lm(obj = lm_fit, cluster = ~ind_code, params = c("msp", </span></span>
+<span><span class="co">#&gt;     "union"))</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; Number of observations: 11181.92 </span></span>
+<span><span class="co">#&gt; Number of clusters: 6 </span></span>
+<span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;             coef     tstat         se      p_val  conf_int_l  conf_int_u</span></span>
 <span><span class="co">#&gt; union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span></span>
 <span><span class="co">#&gt; msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span></span>
 <span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;            leverage partial-leverage-msp partial-leverage-union    beta-msp</span></span>
-<span><span class="co">#&gt; Min.     0.09332052         0.0006662968            0.001622359 -0.03320040</span></span>
-<span><span class="co">#&gt; 1st Qu.  0.70440923         0.0048899422            0.009133996 -0.02893131</span></span>
-<span><span class="co">#&gt; Median   3.51549151         0.0379535242            0.056682344 -0.02776470</span></span>
-<span><span class="co">#&gt; Mean     5.41666667         0.0833333333            0.083333333 -0.02691999</span></span>
-<span><span class="co">#&gt; 3rd Qu.  6.41132962         0.1004277711            0.106083114 -0.02610221</span></span>
-<span><span class="co">#&gt; Max.    20.28918187         0.3597669210            0.312994532 -0.01583453</span></span>
-<span><span class="co">#&gt;         beta-union</span></span>
-<span><span class="co">#&gt; Min.     0.1624754</span></span>
-<span><span class="co">#&gt; 1st Qu.  0.1994694</span></span>
-<span><span class="co">#&gt; Median   0.2045197</span></span>
-<span><span class="co">#&gt; Mean     0.2053997</span></span>
-<span><span class="co">#&gt; 3rd Qu.  0.2056569</span></span>
-<span><span class="co">#&gt; Max.     0.2754228</span></span></code></pre></div>
+<span><span class="co">#&gt;              N_G    leverage partial-leverage-msp partial-leverage-union</span></span>
+<span><span class="co">#&gt; Min.      38.000  0.09332052         0.0006662968            0.001622359</span></span>
+<span><span class="co">#&gt; 1st Qu.  172.000  0.70440923         0.0048899422            0.009133996</span></span>
+<span><span class="co">#&gt; Median   995.500  3.51549151         0.0379535242            0.056682344</span></span>
+<span><span class="co">#&gt; Mean    1594.167  5.41666667         0.0833333333            0.083333333</span></span>
+<span><span class="co">#&gt; 3rd Qu. 2047.250  6.41132962         0.1004277711            0.106083114</span></span>
+<span><span class="co">#&gt; Max.    6335.000 20.28918187         0.3597669210            0.312994532</span></span>
+<span><span class="co">#&gt;            beta-msp beta-union</span></span>
+<span><span class="co">#&gt; Min.    -0.03320040  0.1624754</span></span>
+<span><span class="co">#&gt; 1st Qu. -0.02893131  0.1994694</span></span>
+<span><span class="co">#&gt; Median  -0.02776470  0.2045197</span></span>
+<span><span class="co">#&gt; Mean    -0.02691999  0.2053997</span></span>
+<span><span class="co">#&gt; 3rd Qu. -0.02610221  0.2056569</span></span>
+<span><span class="co">#&gt; Max.    -0.01583453  0.2754228</span></span></code></pre></div>
 <p>To visually inspect the leverage statistics, use the <code>plot</code> method</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>
@@ -166,7 +172,14 @@
 <span>  <span class="va">vcov3J</span>, </span>
 <span>  <span class="va">summclust_res</span><span class="op">$</span><span class="va">vcov</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; [1] "Attributes: &lt; Names: 2 string mismatches &gt;"                          </span></span>
+<span><span class="co">#&gt; [2] "Attributes: &lt; Length mismatch: comparison on first 2 components &gt;"   </span></span>
+<span><span class="co">#&gt; [3] "Attributes: &lt; Component 1: Modes: character, numeric &gt;"              </span></span>
+<span><span class="co">#&gt; [4] "Attributes: &lt; Component 1: Lengths: 1, 2 &gt;"                          </span></span>
+<span><span class="co">#&gt; [5] "Attributes: &lt; Component 1: target is character, current is numeric &gt;"</span></span>
+<span><span class="co">#&gt; [6] "Attributes: &lt; Component 2: Modes: numeric, list &gt;"                   </span></span>
+<span><span class="co">#&gt; [7] "Attributes: &lt; Component 2: target is numeric, current is list &gt;"     </span></span>
+<span><span class="co">#&gt; [8] "target is vcov_CR3J, current is matrix"</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
 <span></span>
@@ -210,7 +223,7 @@
 <span><span class="co">#&gt; msp   -0.02751510 0.01406412 -1.956404 5.043213e-02</span></span>
 <span><span class="co">#&gt; union  0.20395972 0.08358587  2.440122 1.469134e-02</span></span>
 <span><span class="co">#&gt; race  -0.08619813 0.01904684 -4.525586 6.059226e-06</span></span></code></pre></div>
-<p>The p-value and confidence intervals for <code><a href="https://lrberge.github.io/fixest/reference/coeftable.html" class="external-link">fixest::coeftable()</a></code> differ from <code><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">lmtest::coeftest()</a></code> and <code><a href="../reference/coeftable.html">summclust::coeftable()</a></code>. This is due to the fact that <code><a href="https://lrberge.github.io/fixest/reference/coeftable.html" class="external-link">fixest::coeftable()</a></code> uses a different degree of freedom for the t-distribution used in these calculation (I believe it uses t(N-1)).</p>
+<p>The p-value and confidence intervals for <code><a href="https://lrberge.github.io/fixest/reference/coeftable.html" class="external-link">fixest::coeftable()</a></code> differ from <code><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">lmtest::coeftest()</a></code> and <code><a href="https://lrberge.github.io/fixest/reference/coeftable.html" class="external-link">summclust::coeftable()</a></code>. This is due to the fact that <code><a href="https://lrberge.github.io/fixest/reference/coeftable.html" class="external-link">fixest::coeftable()</a></code> uses a different degree of freedom for the t-distribution used in these calculation (I believe it uses t(N-1)).</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
