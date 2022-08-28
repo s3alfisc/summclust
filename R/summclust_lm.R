@@ -19,8 +19,26 @@ summclust.lm <- function(
   #' @importFrom dreamerr check_arg
   #' @importFrom MASS ginv
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
+  #'
   #' @export
   #'
+  #' @return An object of type `summclust`, including
+  #' a CRV3 variance-covariance estimate as described in
+  #' MacKinnon, Nielsen & Webb (2022)
+  #'
+  #' \item{coef_estimates}{The coefficient estimates of the linear model.}
+  #' \item{vcov}{A CRV3 or CRV3J variance-covariance matrix estimate
+  #' as described in MacKinnon, Nielsen & Webb (2022)}
+  #' \item{leverage_g}{A vector of leverages.}
+  #' \item{leverage_avg}{The cluster leverage.}
+  #' \item{partial_leverage}{The partial leverages.}
+  #' \item{beta_jack}{The jackknifed' leave-on-cluster-out
+  #' regression coefficients.}
+  #' \item{params}{The input parameter vector 'params'.}
+  #' \item{N_G}{The number of clusters- }
+  #' \item{call}{The `summclust()` function call.}
+  #' \item{cluster}{The names of the clusters.}
+
   #' @examples
   #' \donttest{
   #' library(summclust)
@@ -42,7 +60,7 @@ summclust.lm <- function(
   #'  )
   #'
   #'  summary(res)
-  #'  coeftable(res)
+  #'  tidy(res)
   #'  plot(res)
   #' }
 

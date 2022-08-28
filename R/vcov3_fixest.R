@@ -24,6 +24,8 @@ vcov_CR3J.fixest <- function(
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #' @export
   #'
+  #'@return An object of class \code{vcov_CR3J}
+  #'
   #' @examples
   #' \dontrun{
   #' library(summclust)
@@ -46,7 +48,7 @@ vcov_CR3J.fixest <- function(
   #'  )
   #'
   #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
+  #'  tidy(res, param = c("msp","union"))
   #'  plot(res, param = c("msp","union"))
   #' }
 

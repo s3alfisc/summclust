@@ -1,7 +1,7 @@
 model_matrix <- function(object, ...) {
 
   #' enhanced model.matrix functionalities
-  #' @param object An object of class `lm` or `felm``
+  #' @param object An object of class `lm` or `fixest`
   #' @param ... Other arguments
   #' @noRd
 
@@ -12,6 +12,7 @@ model_matrix <- function(object, ...) {
 model_matrix.lm <- function(object, collin.rm = TRUE, ...) {
 
   #' Enhanced model.matrix for objects of type lm
+  #'
   #' @method model_matrix lm
   #' @param object An object of class lm
   #' @param collin.rm Should collinear variables be dropped?
@@ -31,6 +32,7 @@ model_matrix.lm <- function(object, collin.rm = TRUE, ...) {
 model_matrix.fixest <- function(object, type, collin.rm = TRUE, ...) {
 
   #' Enhanced model.matrix for objects of type fixest
+  #'
   #' @method model_matrix fixest
   #' @param object An object of class fixest
   #' @param type rhs lhs or fixef

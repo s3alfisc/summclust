@@ -1,12 +1,23 @@
 summclust <- function(obj, ...) {
 
+  #' Compute Influence and Leverage Metrics
+  #'
   #' Compute influence and leverage metrics for clustered inference
+  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+  #' (2022)
   #'
   #' @param obj An object of class `lm` or `fixest`
   #' @param ... Other arguments
   #' @export
+  #'
+  #' @return An object of type `summclust`, including
+  #' a CRV3 variance-covariance estimate as described in
+  #' MacKinnon, Nielsen & Webb (2022)
+  #'
   #' @examples
+  #'
   #' \donttest{
+  #'
   #' library(summclust)
   #' library(haven)
   #'
@@ -21,12 +32,12 @@ summclust <- function(obj, ...) {
   #'
   #' res <- summclust(
   #'    obj = lm_fit,
+  #'    params = c("msp", "union"),
   #'    cluster = ~ind_code,
-  #'    params = c("msp", "union")
   #'  )
   #'
   #'  summary(res)
-  #'  coeftable(res)
+  #'  tidy(res)
   #'  plot(res)
   #' }
 

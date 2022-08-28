@@ -35,7 +35,7 @@ test_that("test against stata - CVR3 inference", {
                              type = "CRV3")
 
 
-  res <- summclust::coeftable(
+  res <- tidy(
     summclust_res
   )
 

@@ -23,7 +23,6 @@ vcov_CR3J.lm <- function(
   #' @export
   #'
   #'@return An object of class \code{vcov_CR3J}
-  #'\item{res}
   #'
   #' @examples
   #' \dontrun{
@@ -46,7 +45,7 @@ vcov_CR3J.lm <- function(
   #'  )
   #'
   #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
+  #'  tidy(res, param = c("msp","union"))
   #'  plot(res, param = c("msp","union"))
   #' }
 

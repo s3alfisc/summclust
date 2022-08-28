@@ -46,8 +46,8 @@ test_that("test methods", {
   )
 
   expect_equal(
-    summclust::coeftable(summ_feols, param = "treatment"),
-    summclust::coeftable(summ_lm, param = "treatment")
+    tidy(summ_feols, param = "treatment"),
+    tidy(summ_lm, param = "treatment")
   )
 
   expect_equal(

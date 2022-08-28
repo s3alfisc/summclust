@@ -21,7 +21,6 @@ the vcov be returned (FALSE) or additional results (TRUE)}
 }
 \value{
 An object of class \code{vcov_CR3J}
-\item{res}
 }
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest
@@ -47,7 +46,7 @@ res <- summclust(
  )
 
  summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
+ tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
 }

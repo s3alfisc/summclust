@@ -15,7 +15,8 @@
 \code{summary()} method for objects of type \code{summclust}
 }
 \examples{
-\dontrun{
+
+\donttest{
 library(summclust)
 library(haven)
 
@@ -30,12 +31,12 @@ lm_fit <- lm(
 
 res <- summclust(
    obj = lm_fit,
+   params = c("msp", "union"),
    cluster = ~ind_code,
-   type = "CRV3"
  )
 
- summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
- plot(res, param = c("msp","union"))
+ summary(res)
+ tidy(res)
+ plot(res)
 }
 }

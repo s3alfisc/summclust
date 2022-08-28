@@ -47,7 +47,7 @@ summclust_res <- summclust(
 )
 
 # CRV3-based inference - exactly matches output of summclust-stata
-coeftable(summclust_res)
+tidy(summclust_res)
 
 summary(summclust_res)
 ```

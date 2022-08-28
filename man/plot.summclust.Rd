@@ -11,11 +11,24 @@
 
 \item{...}{other optional function arguments}
 }
+\value{
+A list containing
+\item{residual_leverage}{A \code{ggplot} of the residual leverages}
+\item{coef_leverage}{A \code{ggplot} of the coefficient leverages}
+\item{coef_beta}{A \code{ggplot} of the leave-one-out cluster jackknife
+regression coefficients}
+}
 \description{
-Plotting method for objects of type \code{summclust}
+plots residual leverage, partial leverage and the
+leave-one-out jackknife regression coefficients as described
+in MNW (2022).
+}
+\details{
+Note that the function requires \code{ggplot2} to be installed.
 }
 \examples{
-\dontrun{
+
+\donttest{
 library(summclust)
 library(haven)
 
@@ -30,12 +43,13 @@ lm_fit <- lm(
 
 res <- summclust(
    obj = lm_fit,
+   params = c("msp", "union"),
    cluster = ~ind_code,
-   type = "CRV3"
  )
 
- summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
- plot(res, param = c("msp","union"))
+ summary(res)
+ tidy(res)
+ plot(res)
 }
+
 }

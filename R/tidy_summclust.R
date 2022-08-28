@@ -1,3 +1,8 @@
+#' @importFrom generics tidy
+#' @export
+generics::tidy
+
+
 tidy.summclust <- function(x, ...) {
 
 

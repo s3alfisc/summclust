@@ -6,8 +6,10 @@ summary.summclust <- function(object, ...) {
   #' @param ... misc arguments
   #' @method summary summclust
   #' @export
+  #'
   #' @examples
-  #' \dontrun{
+  #'
+  #' \donttest{
   #' library(summclust)
   #' library(haven)
   #'
@@ -22,15 +24,15 @@ summary.summclust <- function(object, ...) {
   #'
   #' res <- summclust(
   #'    obj = lm_fit,
+  #'    params = c("msp", "union"),
   #'    cluster = ~ind_code,
-  #'    type = "CRV3"
   #'  )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
-
+  #'  summary(res)
+  #'  tidy(res)
+  #'  plot(res)
   #' }
+
 
 
   param <- object$params
@@ -101,7 +103,7 @@ summary.summclust <- function(object, ...) {
   cat("Number of clusters:", G, "\n")
   cat("", "\n")
 
-  print(coeftable(object))
+  print(tidy(object))
   cat("", "\n")
   print(res)
 }

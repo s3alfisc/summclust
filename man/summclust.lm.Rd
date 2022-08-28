@@ -19,6 +19,24 @@ CRV3 by default}
 
 \item{...}{other function arguments passed to 'vcov'}
 }
+\value{
+An object of type \code{summclust}, including
+a CRV3 variance-covariance estimate as described in
+MacKinnon, Nielsen & Webb (2022)
+
+\item{coef_estimates}{The coefficient estimates of the linear model.}
+\item{vcov}{A CRV3 or CRV3J variance-covariance matrix estimate
+as described in MacKinnon, Nielsen & Webb (2022)}
+\item{leverage_g}{A vector of leverages.}
+\item{leverage_avg}{The cluster leverage.}
+\item{partial_leverage}{The partial leverages.}
+\item{beta_jack}{The jackknifed' leave-on-cluster-out
+regression coefficients.}
+\item{params}{The input parameter vector 'params'.}
+\item{N_G}{The number of clusters- }
+\item{call}{The \code{summclust()} function call.}
+\item{cluster}{The names of the clusters.}
+}
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest
 }
@@ -43,7 +61,7 @@ res <- summclust(
  )
 
  summary(res)
- coeftable(res)
+ tidy(res)
  plot(res)
 }
 }

@@ -2,13 +2,21 @@ plot.summclust <- function(x, ...) {
 
   #' Plotting method for objects of type `summclust`
   #'
+  #' plots residual leverage, partial leverage and the
+  #' leave-one-out jackknife regression coefficients as described
+  #' in MNW (2022).
+  #'
+  #' Note that the function requires `ggplot2` to be installed.
+  #'
   #' @param x An x of type summclust
   #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
   #' @importFrom utils stack
+  #'
   #' @examples
-  #' \dontrun{
+  #'
+  #' \donttest{
   #' library(summclust)
   #' library(haven)
   #'
@@ -23,14 +31,21 @@ plot.summclust <- function(x, ...) {
   #'
   #' res <- summclust(
   #'    obj = lm_fit,
+  #'    params = c("msp", "union"),
   #'    cluster = ~ind_code,
-  #'    type = "CRV3"
   #'  )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #'  summary(res)
+  #'  tidy(res)
+  #'  plot(res)
   #' }
+  #'
+  #' @return A list containing
+  #' \item{residual_leverage}{A `ggplot` of the residual leverages}
+  #' \item{coef_leverage}{A `ggplot` of the coefficient leverages}
+  #' \item{coef_beta}{A `ggplot` of the leave-one-out cluster jackknife
+  #' regression coefficients}
+
 
 
   if (requireNamespace("ggplot2")) {

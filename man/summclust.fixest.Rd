@@ -2,8 +2,7 @@
 % Please edit documentation in R/summclust_fixest.R
 \name{summclust.fixest}
 \alias{summclust.fixest}
-\title{Compute CR3 Jackknive variance covariance matrices of objects
-of type fixest}
+\title{Compute Influence and Leverage Metrics}
 \usage{
 \method{summclust}{fixest}(obj, cluster, params, absorb_cluster_fixef = TRUE, type, ...)
 }
@@ -17,39 +16,60 @@ should be computed. If NULL, leverage statistics will be computed for all
 k model covariates}
 
 \item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed
-effects be projected out? This increases numerical stability.}
+effects be projected out? This increases numerical stability and
+decreases computational costs}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb}
 
 \item{...}{other function arguments passed to 'vcov'}
 }
+\value{
+An object of type \code{summclust}, including
+a CRV3 variance-covariance estimate as described in
+MacKinnon, Nielsen & Webb (2022)
+
+\item{coef_estimates}{The coefficient estimates of the linear model.}
+\item{vcov}{A CRV3 or CRV3J variance-covariance matrix estimate
+as described in MacKinnon, Nielsen & Webb (2022)}
+\item{leverage_g}{A vector of leverages.}
+\item{leverage_avg}{The cluster leverage.}
+\item{partial_leverage}{The partial leverages.}
+\item{beta_jack}{The jackknifed' leave-on-cluster-out
+regression coefficients.}
+\item{params}{The input parameter vector 'params'.}
+\item{N_G}{The number of clusters- }
+\item{call}{The \code{summclust()} function call.}
+\item{cluster}{The names of the clusters.}
+}
 \description{
-Compute CR3 Jackknive variance covariance matrices of objects
-of type fixest
+Compute influence and leverage metrics for clustered inference
+based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{fixest}
 }
 \examples{
+
 \donttest{
 library(summclust)
 library(haven)
-library(fixest)
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
 nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
 nlswork <- na.omit(nlswork)
 
-feols_fit <- feols(
+lm_fit <- lm(
   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   data = nlswork)
 
 res <- summclust(
    obj = lm_fit,
+   params = c("msp", "union"),
    cluster = ~ind_code,
-   params = c("msp", "union")
  )
 
  summary(res)
- coeftable(res)
+ tidy(res)
  plot(res)
 }
+
 }

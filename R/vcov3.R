@@ -4,9 +4,11 @@ vcov_CR3J <- function(obj, ...) {
   #' jackknife
   #'
   #' @param obj An object of class `lm` or `fixest`
-  #' @param ... Other arguments
   #' computed?
+  #' @param ... misc function argument
   #' @export
+  #'
+  #' @return An object of type 'vcov_CR3J'
   #'
   #' @examples
   #' \dontrun{
@@ -29,7 +31,7 @@ vcov_CR3J <- function(obj, ...) {
   #'  )
   #'
   #'  summary(res, param = c("msp","union"))
-  #'  coeftable(res, param = c("msp","union"))
+  #'  tidy(res, param = c("msp","union"))
   #'  plot(res, param = c("msp","union"))
   #' }
 

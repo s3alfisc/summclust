@@ -8,10 +8,13 @@ jackknife}
 vcov_CR3J(obj, ...)
 }
 \arguments{
-\item{obj}{An object of class \code{lm} or \code{fixest}}
-
-\item{...}{Other arguments
+\item{obj}{An object of class \code{lm} or \code{fixest}
 computed?}
+
+\item{...}{misc function argument}
+}
+\value{
+An object of type 'vcov_CR3J'
 }
 \description{
 Compute CRV3 covariance matrices via a cluster
@@ -38,7 +41,7 @@ res <- summclust(
  )
 
  summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
+ tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
 }

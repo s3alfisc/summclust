@@ -29,6 +29,9 @@ effects be projected out? This increases numerical stability.}
 
 \item{...}{other function arguments passed to 'vcov'}
 }
+\value{
+An object of class \code{vcov_CR3J}
+}
 \description{
 Compute CR3 Jackknive variance covariance matrices of objects of type fixest
 }
@@ -54,7 +57,7 @@ res <- summclust(
  )
 
  summary(res, param = c("msp","union"))
- coeftable(res, param = c("msp","union"))
+ tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
 }

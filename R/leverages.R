@@ -6,6 +6,11 @@ get_partial_leverages <- function(
     params,
     cluster_df){
 
+  #' Calculate partial leverage statistics as described in MNW (2022)
+  #'
+  #' @return A list containing leverage and partial leverage statistics
+  #' @noRd
+
   #calculate partial leverage
   X_tilde_j <- lapply(
     k_coefs,
