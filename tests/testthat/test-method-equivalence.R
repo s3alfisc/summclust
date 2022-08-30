@@ -191,8 +191,4 @@ test_that("test method equivalence, with fixed effects", {
     summclust_lm$cluster
   )
 
-  # expect_equal(
-  #   summclust_feols$partial_leverage,
-  #   summclust_lm$partial_leverage,
-  #   ignore_attr = TRUE)
 })

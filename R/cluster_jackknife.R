@@ -79,6 +79,7 @@ cluster_jackknife <- function(
 
   rownames(beta_jack) <- colnames(tXX)
   colnames(beta_jack) <- unique_clusters
+  colnames(vcov) <- rownames(vcov) <- colnames(tXX)
 
     res <- list(
       vcov = vcov,

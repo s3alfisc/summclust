@@ -218,6 +218,9 @@ vcov_CR3J.fixest <- function(
     res <- res$vcov
   }
 
+  class(res) <- "vcov_CR3J"
+
+
   res
 }
 
