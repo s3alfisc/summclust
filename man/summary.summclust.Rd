@@ -11,10 +11,9 @@
 
 \item{...}{misc arguments}
 }
-\description{
-\code{summary()} method for objects of type \code{summclust}
-}
-\examples{
+\value{
+The function \code{summary.summclust} returns a range of
+cluster leverage statistics based on an object of type \code{summclust}
 
 \donttest{
 library(summclust)
@@ -39,4 +38,7 @@ res <- summclust(
  tidy(res)
  plot(res)
 }
+}
+\description{
+\code{summary()} method for objects of type \code{summclust}
 }
