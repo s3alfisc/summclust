@@ -14,7 +14,11 @@
 \value{
 The function \code{summary.summclust} returns a range of
 cluster leverage statistics based on an object of type \code{summclust}
-
+}
+\description{
+\code{summary()} method for objects of type \code{summclust}
+}
+\examples{
 \donttest{
 library(summclust)
 library(haven)
@@ -38,7 +42,4 @@ res <- summclust(
  tidy(res)
  plot(res)
 }
-}
-\description{
-\code{summary()} method for objects of type \code{summclust}
 }

@@ -7,11 +7,10 @@ summary.summclust <- function(object, ...) {
   #' @method summary summclust
   #' @export
   #'
-  #' @examples
-  #'
   #' @return The function `summary.summclust` returns a range of
   #' cluster leverage statistics based on an object of type `summclust`
   #'
+  #' @examples
   #' \donttest{
   #' library(summclust)
   #' library(haven)
