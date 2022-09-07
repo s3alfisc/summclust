@@ -66,6 +66,7 @@ test_that("test against stata - CVR3 inference", {
   expect_equal(round(res["msp", "conf_int_u"], 6),
                0.003440,
                ignore_attr = TRUE)
+
 })
 
 
@@ -233,4 +234,39 @@ test_that("test against stata - leverage, fixef absorb", {
     round(median(summclust_res$partial_leverage["msp",]), 6), 0.056073)
   expect_equal(
     round(mean(summclust_res$partial_leverage["msp",]), 6), 0.083333)
+
+
+  # coef of variation
+  expect_equal(
+    round(summclust_res$coef_var_leverage_g,6),
+    1.155829
+  )
+  expect_equal(
+    round(summclust_res$coef_var_N_G,2), 1.19
+  )
+
+  expect_equal(
+    round(summclust_res$coef_var_partial_leverage["msp"],6),
+    1.141658,
+    ignore_attr = TRUE
+  )
+  expect_equal(
+    round(summclust_res$coef_var_beta_jack["msp"],6),
+    0.120094,
+    ignore_attr = TRUE
+  )
+
+  expect_equal(
+    round(summclust_res$coef_var_beta_jack["msp"],6),
+    0.120094,
+    ignore_attr = TRUE
+  )
+
+
 })
+
+
+
+
+
+

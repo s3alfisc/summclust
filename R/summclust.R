@@ -4,7 +4,7 @@ summclust <- function(obj, ...) {
   #'
   #' Compute influence and leverage metrics for clustered inference
   #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-  #' (2022)
+  #' (2022).
   #'
   #' @param obj An object of class `lm` or `fixest`
   #' @param ... Other arguments
@@ -13,6 +13,12 @@ summclust <- function(obj, ...) {
   #' @return An object of type `summclust`, including
   #' a CRV3 variance-covariance estimate as described in
   #' MacKinnon, Nielsen & Webb (2022)
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @examples
   #'

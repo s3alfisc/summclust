@@ -1,6 +1,6 @@
 summary.summclust <- function(object, ...) {
 
-  #' `summary()` method for objects of type `summclust`
+  #' A `summary()` method for objects of type `summclust`
   #'
   #' @param object An object of type summclust
   #' @param ... misc arguments
@@ -9,6 +9,12 @@ summary.summclust <- function(object, ...) {
   #'
   #' @return The function `summary.summclust` returns a range of
   #' cluster leverage statistics based on an object of type `summclust`
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @examples
   #' \donttest{
@@ -35,9 +41,15 @@ summary.summclust <- function(object, ...) {
   #'  plot(res)
   #' }
 
-
-
   param <- object$params
+  N <- object$N
+
+  # get all coefficients of variation
+  coef_var_leverage_g <- object$coef_var_leverage_g
+  coef_var_partial_leverage <- object$coef_var_partial_leverage
+  coef_var_N_G <- object$coef_var_N_G
+  coef_var_beta_jack <- object$coef_var_beta_jack
+
 
   # jackknifed'd betas
   beta_jack <- as.data.frame(t(object$beta_jack[param, , drop = FALSE]))
@@ -45,7 +57,11 @@ summary.summclust <- function(object, ...) {
     lapply(
       seq_along(param),
       function(x) {
-        summary(beta_jack[, x, drop = TRUE])
+        summ <- summary(beta_jack[, x, drop = TRUE])
+        res <- c(summ, coef_var_beta_jack[x])
+        names(res)[7] <- "coefvar"
+        res
+
       }
     )
 
@@ -58,11 +74,14 @@ summary.summclust <- function(object, ...) {
   names(beta) <- paste0("beta-", param)
 
   # leverage
-  leverage <- summary(unlist(object$leverage_g))
+  leverage <- c(summary(unlist(object$leverage_g)))
 
-  leverage <- data.frame(
-    leverage = as.vector(leverage)
-  )
+  leverage <-  c(
+      leverage,
+      coef_var_leverage_g
+    )
+
+  names(leverage)[7] <- "coefvar"
 
   # partial leverage
   partial_leverage <- as.data.frame(
@@ -75,7 +94,14 @@ summary.summclust <- function(object, ...) {
     lapply(
       seq_along(param),
       function(x) {
-        summary(partial_leverage[, x, drop = TRUE])
+        summ <- c(
+          summary(
+            partial_leverage[, x, drop = TRUE]
+            )
+          )
+        res <- c(summ, coef_var_partial_leverage[x])
+        names(res)[7] <- "coefvar"
+        res
       }
     )
 
@@ -87,10 +113,13 @@ summary.summclust <- function(object, ...) {
 
   names(partial) <- paste0("partial-leverage-", param)
 
+
+
   # get number of clusters
   N_G <- c(object$N_G)
-  N_G <- summary(N_G)
-
+  N_G <- c(summary(N_G))
+  N_G <- c(N_G, coef_var_N_G)
+  names(N_G)[7] <- "coefvar"
   G <- length(N_G)
   N <- object$N
   call <- object$call
@@ -101,7 +130,7 @@ summary.summclust <- function(object, ...) {
 
   print(call)
   cat("", "\n")
-  cat("Number of observations:", sum(N_G), "\n")
+  cat("Number of observations:", N, "\n")
   cat("Number of clusters:", G, "\n")
   cat("", "\n")
 

@@ -10,7 +10,13 @@ summclust.fixest <- function(
   #'
   #' Compute influence and leverage metrics for clustered inference
   #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-  #' (2022) for objects of type `fixest`
+  #' (2022) for objects of type `fixest`.
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
@@ -35,18 +41,19 @@ summclust.fixest <- function(
   #' \donttest{
   #' library(summclust)
   #' library(haven)
+  #' library(fixest)
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
   #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
   #' nlswork <- na.omit(nlswork)
   #'
-  #' lm_fit <- lm(
+  #' feols_fit <- lm(
   #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   #'   data = nlswork)
   #'
   #' res <- summclust(
-  #'    obj = lm_fit,
+  #'    obj = feols_fit,
   #'    params = c("msp", "union"),
   #'    cluster = ~ind_code,
   #'  )
@@ -66,6 +73,11 @@ summclust.fixest <- function(
   #' \item{leverage_g}{A vector of leverages.}
   #' \item{leverage_avg}{The cluster leverage.}
   #' \item{partial_leverage}{The partial leverages.}
+  #' \item{coef_var_leverage_avg}{Coefficient of Variation for the leverage
+  #' statistic}
+  #' \item{coef_var_leverage_g}{Coefficient of Variation for the Partial
+  #' Leverage Statistics}
+  #' \item{coef_var_N_G}{Coefficient of Variation for the Cluster Sizes.}
   #' \item{beta_jack}{The jackknifed' leave-on-cluster-out
   #' regression coefficients.}
   #' \item{params}{The input parameter vector 'params'.}
@@ -131,11 +143,20 @@ summclust.fixest <- function(
       G = G
     )
 
+  # subset beta_jack df
+  beta_jack <- beta_jack[params,,drop = FALSE]
+
   leverage_g <- unlist(leverage_list$leverage_g)
   names(leverage_g) <- unique_clusters
   leverage_avg <- leverage_list$leverage_avg
 
   N_G <- get_cluster_sizes(cluster_df)
+
+  coef_var_leverage_g <- get_coef_of_variation(leverage_g)
+  coef_var_partial_leverage <- get_coef_of_variation(partial_leverage)
+  coef_var_N_G <- get_coef_of_variation(N_G)
+  coef_var_beta_jack <- get_coef_of_variation(as.matrix(beta_jack))
+
 
   res <-
     list(
@@ -145,6 +166,10 @@ summclust.fixest <- function(
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
       partial_leverage = partial_leverage,
+      coef_var_leverage_g = coef_var_leverage_g,
+      coef_var_partial_leverage = coef_var_partial_leverage,
+      coef_var_beta_jack = coef_var_beta_jack,
+      coef_var_N_G = coef_var_N_G,
       cluster = unique_clusters,
       params = params,
       N_G = N_G,

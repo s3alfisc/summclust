@@ -1,6 +1,7 @@
 Package: summclust
-Title: Module for Cluster Specific Information and Cluster Jackknife 
-Version: 0.4.0
+Title: Module to compute cluster specific information for regression models
+      with clustered errors, including leverage and influence statistics
+Version: 0.5
 Authors@R: 
     c(
     person(given = "Alexander",
@@ -8,7 +9,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "alexander-fischer1801@t-online.de")
     )
-Description: Module for Cluster Specific Information and Cluster Jackknife as in the 'summclust' 'STATA' package.
+Description: Module to compute cluster specific information for regression models
+        with clustered errors, including leverage and influence statistics. 
+        Models of type `lm` and `fixest`(from the `stats` and `fixest` packages)
+        are supported. `summclust` implements similar features as the 
+        user-written `summclust.ado` Stata module.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

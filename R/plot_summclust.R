@@ -8,11 +8,17 @@ plot.summclust <- function(x, ...) {
   #'
   #' Note that the function requires `ggplot2` to be installed.
   #'
-  #' @param x An x of type summclust
+  #' @param x An object of type `summclust`
   #' @param ... other optional function arguments
   #' @export
   #' @method plot summclust
   #' @importFrom utils stack
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @examples
   #'

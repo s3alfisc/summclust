@@ -3,7 +3,8 @@
 \name{vcov_CR3J}
 \alias{vcov_CR3J}
 \title{Compute CRV3 covariance matrices via a cluster
-jackknife}
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022)}
 \usage{
 vcov_CR3J(obj, ...)
 }
@@ -18,7 +19,8 @@ An object of type 'vcov_CR3J'
 }
 \description{
 Compute CRV3 covariance matrices via a cluster
-jackknife
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022)
 }
 \examples{
 \dontrun{
@@ -44,4 +46,10 @@ res <- summclust(
  tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

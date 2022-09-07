@@ -32,15 +32,13 @@ test_that("test method equivalence, no fixed effects", {
   summclust_feols <- summclust(
     obj = feols_fit,
     cluster = ~group_id1,
-    params = c("treatment"),
-    type = "CRV3J"
+    params = c("treatment")
   )
   #
   summclust_lm <- summclust(
     obj = lm_fit,
     cluster = ~group_id1,
-    params = c("treatment"),
-    type = "CRV3J"
+    params = c("treatment")
   )
   #
   expect_equal(
@@ -71,6 +69,26 @@ test_that("test method equivalence, no fixed effects", {
   expect_equal(
     summclust_feols$partial_leverage,
     summclust_lm$partial_leverage
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_leverage_g,
+    summclust_lm$coef_var_leverage_g
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_N_g,
+    summclust_lm$coef_var_N_g
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_partial_leverage,
+    summclust_lm$coef_var_partial_leverage
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_beta_jack,
+    summclust_lm$coef_var_beta_jack
   )
 })
 
@@ -117,8 +135,7 @@ test_that("test method equivalence, with fixed effects", {
   summclust_lm <- summclust(
     obj = lm_fit,
     cluster = ~group_id1,
-    params = c("treatment", "log_income"),
-    type = "CRV3J"
+    params = c("treatment", "log_income")
   )
   #
   params <- c("treatment", "log_income")
@@ -145,6 +162,26 @@ test_that("test method equivalence, with fixed effects", {
   expect_equal(
     summclust_feols$cluster,
     summclust_lm$cluster
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_leverage_g,
+    summclust_lm$coef_var_leverage_g
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_N_g,
+    summclust_lm$coef_var_N_g
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_partial_leverage,
+    summclust_lm$coef_var_partial_leverage
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_beta_jack,
+    summclust_lm$coef_var_beta_jack
   )
 
   # expect_equal(
@@ -189,6 +226,26 @@ test_that("test method equivalence, with fixed effects", {
   expect_equal(
     summclust_feols$cluster,
     summclust_lm$cluster
+  )
+
+  # expect_equal(
+  #   summclust_feols$coef_var_leverage_g + 1,
+  #   summclust_lm$coef_var_leverage_g
+  # )
+
+  expect_equal(
+    summclust_feols$coef_var_N_g,
+    summclust_lm$coef_var_N_g
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_partial_leverage,
+    summclust_lm$coef_var_partial_leverage
+  )
+
+  expect_equal(
+    summclust_feols$coef_var_beta_jack,
+    summclust_lm$coef_var_beta_jack
   )
 
 })

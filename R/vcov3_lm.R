@@ -6,7 +6,16 @@ vcov_CR3J.lm <- function(
     ...
     ){
 
-  #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+  #' Compute CRV3 covariance matrices via a cluster
+  #' jackknife as described in MacKinnon, Nielsen & Webb
+  #' (2022) for objects of type `lm`
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
+
   #' @param obj An object of type lm
   #' @param cluster A clustering vector
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.

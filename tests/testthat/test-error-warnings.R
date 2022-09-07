@@ -28,8 +28,7 @@ test_that("test errors and warnings ", {
   expect_error(
     summclust(
       obj = feols_fit,
-      cluster = ~ group_id1,
-      type = "CRV3J"
+      cluster = ~ group_id1
     )
   )
 
@@ -42,8 +41,7 @@ test_that("test errors and warnings ", {
   expect_error(
     summclust(
       obj = feols_fit,
-      cluster = ~ group_id1,
-      type = "CRV3J"
+      cluster = ~ group_id1
     )
   )
 
@@ -57,8 +55,7 @@ test_that("test errors and warnings ", {
   expect_error(
     summclust(
       obj = feols_fit,
-      cluster = ~ group_id1,
-      type = "CRV3J"
+      cluster = ~ group_id1
     )
   )
 

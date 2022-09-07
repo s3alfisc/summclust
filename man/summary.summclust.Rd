@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary_summclust.R
 \name{summary.summclust}
 \alias{summary.summclust}
-\title{\code{summary()} method for objects of type \code{summclust}}
+\title{A \code{summary()} method for objects of type \code{summclust}}
 \usage{
 \method{summary}{summclust}(object, ...)
 }
@@ -16,7 +16,7 @@ The function \code{summary.summclust} returns a range of
 cluster leverage statistics based on an object of type \code{summclust}
 }
 \description{
-\code{summary()} method for objects of type \code{summclust}
+A \code{summary()} method for objects of type \code{summclust}
 }
 \examples{
 \donttest{
@@ -42,4 +42,10 @@ res <- summclust(
  tidy(res)
  plot(res)
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

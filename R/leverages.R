@@ -75,3 +75,18 @@ get_leverage <- function(
   res
 
 }
+
+get_coef_of_variation <- function(x){
+
+  if(is.matrix(x) | is.data.frame(x)){
+    G <- ncol(x)
+    x_avg <- rowMeans(x)
+    sqrt(rowSums((x - x_avg)^2) / ((G-1)* x_avg^2 ))
+  } else {
+    G <- length(x)
+    x_avg <- mean(x)
+    sqrt(sum((x - x_avg)^2) / ((G-1)* x_avg^2 ))
+  }
+
+
+}

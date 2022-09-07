@@ -2,7 +2,7 @@
 % Please edit documentation in R/summclust_lm.R
 \name{summclust.lm}
 \alias{summclust.lm}
-\title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
+\title{Compute Influence and Leverage Metrics}
 \usage{
 \method{summclust}{lm}(obj, cluster, params, type = "CRV3", ...)
 }
@@ -38,7 +38,9 @@ regression coefficients.}
 \item{cluster}{The names of the clusters.}
 }
 \description{
-Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+Compute influence and leverage metrics for clustered inference
+based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{fixest}.
 }
 \examples{
 \donttest{
@@ -64,4 +66,10 @@ res <- summclust(
  tidy(res)
  plot(res)
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

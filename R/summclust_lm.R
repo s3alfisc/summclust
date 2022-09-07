@@ -6,7 +6,18 @@ summclust.lm <- function(
     ...
     ) {
 
-  #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+  #' Compute Influence and Leverage Metrics
+  #'
+  #' Compute influence and leverage metrics for clustered inference
+  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+  #' (2022) for objects of type `fixest`.
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
+  #'
   #' @param obj An object of type lm
   #' @param cluster A clustering vector
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.
@@ -119,11 +130,19 @@ summclust.lm <- function(
       G = G
     )
 
+  # subset beta_jack df
+  beta_jack <- beta_jack[params,,drop = FALSE]
+
   leverage_g <- unlist(leverage_list$leverage_g)
   names(leverage_g) <- unique_clusters
   leverage_avg <- leverage_list$leverage_avg
 
   N_G <- get_cluster_sizes(cluster_df)
+
+  coef_var_leverage_g <- get_coef_of_variation(leverage_g)
+  coef_var_partial_leverage <- get_coef_of_variation(partial_leverage)
+  coef_var_N_G <- get_coef_of_variation(N_G)
+  coef_var_beta_jack <- get_coef_of_variation(as.matrix(beta_jack))
 
   res <-
     list(
@@ -133,6 +152,10 @@ summclust.lm <- function(
       leverage_avg = leverage_avg,
       beta_jack = beta_jack,
       partial_leverage = partial_leverage,
+      coef_var_leverage_g = coef_var_leverage_g,
+      coef_var_partial_leverage = coef_var_partial_leverage,
+      coef_var_N_G = coef_var_N_G,
+      coef_var_beta_jack = coef_var_beta_jack,
       cluster = unique_clusters,
       N = N,
       params = params,

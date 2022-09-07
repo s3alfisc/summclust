@@ -33,15 +33,13 @@ test_that("test methods", {
   summclust(
     obj = feols_fit,
     cluster = ~ group_id1,
-    params = c("treatment", "log_income"),
-    type = "CRV3J"
+    params = c("treatment", "log_income")
   )
 
   summ_lm <-
   summclust(
     obj = feols_fit,
     cluster = ~ group_id1,
-    type = "CRV3J",
     params = c("treatment", "log_income"),
   )
 

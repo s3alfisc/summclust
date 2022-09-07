@@ -2,7 +2,9 @@
 % Please edit documentation in R/vcov3_lm.R
 \name{vcov_CR3J.lm}
 \alias{vcov_CR3J.lm}
-\title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
+\title{Compute CRV3 covariance matrices via a cluster
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{lm}}
 \usage{
 \method{vcov_CR3J}{lm}(obj, cluster, type = "CRV3", return_all = FALSE, ...)
 }
@@ -23,7 +25,9 @@ the vcov be returned (FALSE) or additional results (TRUE)}
 An object of class \code{vcov_CR3J}
 }
 \description{
-Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+Compute CRV3 covariance matrices via a cluster
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{lm}
 }
 \examples{
 \dontrun{
@@ -49,4 +53,10 @@ res <- summclust(
  tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

@@ -7,7 +7,16 @@ vcov_CR3J.fixest <- function(
     ...
 ){
 
-  #' Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+  #' Compute CRV3 covariance matrices via a cluster
+  #' jackknife as described in MacKinnon, Nielsen & Webb
+  #' (2022) for objects of type `fixest`
+  #'
+  #' @references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
+  #'
   #' @param obj An object of type fixest
   #' @param cluster A clustering vector
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed

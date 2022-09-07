@@ -8,7 +8,19 @@ tidy.summclust <- function(x, ...) {
 
   #' Extract a data.frame with various regression coefficients and
   #' inference based on a CRV3 variance-covariance matrix for an
-  #' object of type `summclust`
+  #' object of type `summclust`.
+  #'
+  #'   #' Compute Influence and Leverage Metrics
+  #'
+  #' Compute influence and leverage metrics for clustered inference
+  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+  #' (2022) for objects of type `fixest`.
+  #'
+  #'@references
+  #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+  #' "Leverage, influence, and the jackknife in clustered regression models:
+  #' Reliable inference using summclust."
+  #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param x An object of class 'summclust'
   #' @param ... Other arguments
@@ -38,9 +50,7 @@ tidy.summclust <- function(x, ...) {
   #'    cluster = ~ind_code,
   #'  )
   #'
-  #'  summary(res)
   #'  tidy(res)
-  #'  plot(res)
   #' }
   #'
   #' @return

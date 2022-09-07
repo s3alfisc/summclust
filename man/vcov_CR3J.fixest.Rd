@@ -2,7 +2,9 @@
 % Please edit documentation in R/vcov3_fixest.R
 \name{vcov_CR3J.fixest}
 \alias{vcov_CR3J.fixest}
-\title{Compute CR3 Jackknive variance covariance matrices of objects of type fixest}
+\title{Compute CRV3 covariance matrices via a cluster
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{fixest}}
 \usage{
 \method{vcov_CR3J}{fixest}(
   obj,
@@ -33,7 +35,9 @@ effects be projected out? This increases numerical stability.}
 An object of class \code{vcov_CR3J}
 }
 \description{
-Compute CR3 Jackknive variance covariance matrices of objects of type fixest
+Compute CRV3 covariance matrices via a cluster
+jackknife as described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{fixest}
 }
 \examples{
 \dontrun{
@@ -60,4 +64,10 @@ res <- summclust(
  tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

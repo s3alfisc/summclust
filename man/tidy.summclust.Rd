@@ -4,7 +4,7 @@
 \alias{tidy.summclust}
 \title{Extract a data.frame with various regression coefficients and
 inference based on a CRV3 variance-covariance matrix for an
-object of type \code{summclust}}
+object of type \code{summclust}.}
 \usage{
 \method{tidy}{summclust}(x, ...)
 }
@@ -20,9 +20,12 @@ intervals based on CRV3 variance-covariance matrix
 and t(G-1) distribution
 }
 \description{
-Extract a data.frame with various regression coefficients and
-inference based on a CRV3 variance-covariance matrix for an
-object of type \code{summclust}
+#' Compute Influence and Leverage Metrics
+}
+\details{
+Compute influence and leverage metrics for clustered inference
+based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+(2022) for objects of type \code{fixest}.
 }
 \examples{
 
@@ -45,9 +48,13 @@ res <- summclust(
    cluster = ~ind_code,
  )
 
- summary(res)
  tidy(res)
- plot(res)
 }
 
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

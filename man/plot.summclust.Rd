@@ -7,7 +7,7 @@
 \method{plot}{summclust}(x, ...)
 }
 \arguments{
-\item{x}{An x of type summclust}
+\item{x}{An object of type \code{summclust}}
 
 \item{...}{other optional function arguments}
 }
@@ -52,4 +52,10 @@ res <- summclust(
  plot(res)
 }
 
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

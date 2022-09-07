@@ -34,6 +34,11 @@ as described in MacKinnon, Nielsen & Webb (2022)}
 \item{leverage_g}{A vector of leverages.}
 \item{leverage_avg}{The cluster leverage.}
 \item{partial_leverage}{The partial leverages.}
+\item{coef_var_leverage_avg}{Coefficient of Variation for the leverage
+statistic}
+\item{coef_var_leverage_g}{Coefficient of Variation for the Partial
+Leverage Statistics}
+\item{coef_var_N_G}{Coefficient of Variation for the Cluster Sizes.}
 \item{beta_jack}{The jackknifed' leave-on-cluster-out
 regression coefficients.}
 \item{params}{The input parameter vector 'params'.}
@@ -44,25 +49,26 @@ regression coefficients.}
 \description{
 Compute influence and leverage metrics for clustered inference
 based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{fixest}
+(2022) for objects of type \code{fixest}.
 }
 \examples{
 
 \donttest{
 library(summclust)
 library(haven)
+library(fixest)
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
 nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
 nlswork <- na.omit(nlswork)
 
-lm_fit <- lm(
+feols_fit <- lm(
   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   data = nlswork)
 
 res <- summclust(
-   obj = lm_fit,
+   obj = feols_fit,
    params = c("msp", "union"),
    cluster = ~ind_code,
  )
@@ -72,4 +78,10 @@ res <- summclust(
  plot(res)
 }
 
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }

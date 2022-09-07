@@ -19,7 +19,7 @@ MacKinnon, Nielsen & Webb (2022)
 \description{
 Compute influence and leverage metrics for clustered inference
 based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-(2022)
+(2022).
 }
 \examples{
 
@@ -47,4 +47,10 @@ res <- summclust(
  tidy(res)
  plot(res)
 }
+}
+\references{
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).
 }
