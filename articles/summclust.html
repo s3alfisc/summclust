@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">summclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,27 +120,29 @@
 <span><span class="co">#&gt; summclust.lm(obj = lm_fit, cluster = ~ind_code, params = c("msp", </span></span>
 <span><span class="co">#&gt;     "union"))</span></span>
 <span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt; Number of observations: 11181.92 </span></span>
-<span><span class="co">#&gt; Number of clusters: 6 </span></span>
+<span><span class="co">#&gt; Number of observations: 19130 </span></span>
+<span><span class="co">#&gt; Number of clusters: 7 </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;             coef     tstat         se      p_val  conf_int_l  conf_int_u</span></span>
 <span><span class="co">#&gt; union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span></span>
 <span><span class="co">#&gt; msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span></span>
 <span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;              N_G    leverage partial-leverage-msp partial-leverage-union</span></span>
-<span><span class="co">#&gt; Min.      38.000  0.09332052         0.0006662968            0.001622359</span></span>
-<span><span class="co">#&gt; 1st Qu.  172.000  0.70440923         0.0048899422            0.009133996</span></span>
-<span><span class="co">#&gt; Median   995.500  3.51549151         0.0379535242            0.056682344</span></span>
-<span><span class="co">#&gt; Mean    1594.167  5.41666667         0.0833333333            0.083333333</span></span>
-<span><span class="co">#&gt; 3rd Qu. 2047.250  6.41132962         0.1004277711            0.106083114</span></span>
-<span><span class="co">#&gt; Max.    6335.000 20.28918187         0.3597669210            0.312994532</span></span>
+<span><span class="co">#&gt;                 N_G    leverage partial-leverage-msp partial-leverage-union</span></span>
+<span><span class="co">#&gt; Min.      38.000000  0.09332052         0.0006662968            0.001622359</span></span>
+<span><span class="co">#&gt; 1st Qu.  172.000000  0.70440923         0.0048899422            0.009133996</span></span>
+<span><span class="co">#&gt; Median   995.500000  3.51549151         0.0379535242            0.056682344</span></span>
+<span><span class="co">#&gt; Mean    1594.166667  5.41666667         0.0833333333            0.083333333</span></span>
+<span><span class="co">#&gt; 3rd Qu. 2047.250000  6.41132962         0.1004277711            0.106083114</span></span>
+<span><span class="co">#&gt; Max.    6335.000000 20.28918187         0.3597669210            0.312994532</span></span>
+<span><span class="co">#&gt; coefvar    1.187237  1.15296458         1.3313784379            1.141326117</span></span>
 <span><span class="co">#&gt;            beta-msp beta-union</span></span>
 <span><span class="co">#&gt; Min.    -0.03320040  0.1624754</span></span>
 <span><span class="co">#&gt; 1st Qu. -0.02893131  0.1994694</span></span>
 <span><span class="co">#&gt; Median  -0.02776470  0.2045197</span></span>
 <span><span class="co">#&gt; Mean    -0.02691999  0.2053997</span></span>
 <span><span class="co">#&gt; 3rd Qu. -0.02610221  0.2056569</span></span>
-<span><span class="co">#&gt; Max.    -0.01583453  0.2754228</span></span></code></pre></div>
+<span><span class="co">#&gt; Max.    -0.01583453  0.2754228</span></span>
+<span><span class="co">#&gt; coefvar  0.16289813  0.1279443</span></span></code></pre></div>
 <p>To visually inspect the leverage statistics, use the <code>plot</code> method</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">summclust_res</span><span class="op">)</span></span>

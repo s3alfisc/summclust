@@ -14,7 +14,7 @@ in MNW (2022)."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
     
     <a class="navbar-brand me-2" href="../index.html">summclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@ in MNW (2022).</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>An x of type summclust</p></dd>
+<dd><p>An object of type <code>summclust</code></p></dd>
 
 
 <dt>...</dt>
@@ -96,6 +96,13 @@ regression coefficients</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Note that the function requires <code>ggplot2</code> to be installed.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
+"Leverage, influence, and the jackknife in clustered regression models:
+Reliable inference using summclust."
+arXiv preprint arXiv:2205.03288 (2022).</p>
     </div>
 
     <div class="section level2">
@@ -124,20 +131,21 @@ regression coefficients</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summclust.lm(obj = lm_fit, cluster = ~ind_code, params = c("msp", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "union"))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of observations: 11181.92 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of clusters: 6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of observations: 19130 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of clusters: 7 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             coef     tstat         se      p_val  conf_int_l  conf_int_u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              N_G    leverage partial-leverage-msp partial-leverage-union</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min.      38.000  0.09332052         0.0006662968            0.001622359</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1st Qu.  172.000  0.70440923         0.0048899422            0.009133996</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   995.500  3.51549151         0.0379535242            0.056682344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean    1594.167  5.41666667         0.0833333333            0.083333333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3rd Qu. 2047.250  6.41132962         0.1004277711            0.106083114</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max.    6335.000 20.28918187         0.3597669210            0.312994532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 N_G    leverage partial-leverage-msp partial-leverage-union</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min.      38.000000  0.09332052         0.0006662968            0.001622359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1st Qu.  172.000000  0.70440923         0.0048899422            0.009133996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   995.500000  3.51549151         0.0379535242            0.056682344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean    1594.166667  5.41666667         0.0833333333            0.083333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3rd Qu. 2047.250000  6.41132962         0.1004277711            0.106083114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max.    6335.000000 20.28918187         0.3597669210            0.312994532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coefvar    1.187237  1.15296458         1.3313784379            1.141326117</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            beta-msp beta-union</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Min.    -0.03320040  0.1624754</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1st Qu. -0.02893131  0.1994694</span>
@@ -145,6 +153,7 @@ regression coefficients</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean    -0.02691999  0.2053997</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3rd Qu. -0.02610221  0.2056569</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Max.    -0.01583453  0.2754228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coefvar  0.16289813  0.1279443</span>
 <span class="r-in"><span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             coef     tstat         se      p_val  conf_int_l  conf_int_u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span>
