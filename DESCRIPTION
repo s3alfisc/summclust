@@ -1,6 +1,6 @@
 Package: summclust
-Title: Module to compute cluster specific information for regression models
-      with clustered errors, including leverage and influence statistics
+Title: Module to compute Custer Specific Information for Regression Models
+      with Clustered Errors, including Leverage and Influence Statistics
 Version: 0.5
 Authors@R: 
     c(

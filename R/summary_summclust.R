@@ -7,10 +7,7 @@ summary.summclust <- function(object, ...) {
   #' @method summary summclust
   #' @export
   #'
-  #' @return The function `summary.summclust` returns a range of
-  #' cluster leverage statistics based on an object of type `summclust`
-  #'
-  #'@references
+  #' @references
   #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
   #' "Leverage, influence, and the jackknife in clustered regression models:
   #' Reliable inference using summclust."
@@ -40,6 +37,12 @@ summary.summclust <- function(object, ...) {
   #'  summary(res)
   #' }
   #' }
+  #'
+  #' @return
+  #'
+  #' The function `summary.summclust` returns a range of
+  #' cluster leverage statistics based on an object of type `summclust`
+
 
   param <- object$params
   N <- object$N

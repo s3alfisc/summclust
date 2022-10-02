@@ -1,5 +1,15 @@
 ## R CMD check results
 
++ sumbission 7: 
+
+A while back, I received the following comments by the CRAN team, summarized in this [github issue](https://github.com/s3alfisc/summclust/issues/9). 
+
+All comments have been addressed. 
+
+The package has further been tested via github actions (multiple OS), 
+`pkgcheck::pkgcheck()`, `rhub::check_for_cran()` and `devtools::check_win_devel()`. No errors, no warnings. 
+
+
 + Submission 6: 
 
 This is a re-submission of submission 5, which happened during your (the CRAN team's) well deserved summer break. 

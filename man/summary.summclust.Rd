@@ -42,6 +42,7 @@ res <- summclust(
  summary(res)
 }
 }
+
 }
 \references{
 MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
