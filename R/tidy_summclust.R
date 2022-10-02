@@ -32,8 +32,7 @@ tidy.summclust <- function(x, ...) {
   #' @examples
   #'
   #' \donttest{
-  #' library(summclust)
-  #' library(haven)
+  #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -51,6 +50,7 @@ tidy.summclust <- function(x, ...) {
   #'  )
   #'
   #'  tidy(res)
+  #' }
   #' }
   #'
   #' @return

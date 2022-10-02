@@ -23,9 +23,7 @@ summclust <- function(obj, ...) {
   #' @examples
   #'
   #' \donttest{
-  #'
-  #' library(summclust)
-  #' library(haven)
+  #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -45,6 +43,7 @@ summclust <- function(obj, ...) {
   #'  summary(res)
   #'  tidy(res)
   #'  plot(res)
+  #' }
   #' }
 
   UseMethod("summclust")

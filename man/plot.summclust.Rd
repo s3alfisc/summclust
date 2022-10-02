@@ -29,6 +29,7 @@ Note that the function requires \code{ggplot2} to be installed.
 \examples{
 
 \donttest{
+if(requireNamespace("summclust") && requireNamespace("haven")){
 library(summclust)
 library(haven)
 
@@ -50,6 +51,7 @@ res <- summclust(
  summary(res)
  tidy(res)
  plot(res)
+}
 }
 
 }

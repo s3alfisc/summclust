@@ -23,6 +23,7 @@ plot.summclust <- function(x, ...) {
   #' @examples
   #'
   #' \donttest{
+  #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #' library(summclust)
   #' library(haven)
   #'
@@ -44,6 +45,7 @@ plot.summclust <- function(x, ...) {
   #'  summary(res)
   #'  tidy(res)
   #'  plot(res)
+  #' }
   #' }
   #'
   #' @return A list containing

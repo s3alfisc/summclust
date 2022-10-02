@@ -52,11 +52,10 @@ based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
 (2022) for objects of type \code{fixest}.
 }
 \examples{
-
 \donttest{
-library(summclust)
-library(haven)
-library(fixest)
+if(requireNamespace("summclust")
+ && requireNamespace("haven")
+ && requireNamespace("fixest")){
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
@@ -76,6 +75,7 @@ res <- summclust(
  summary(res)
  tidy(res)
  plot(res)
+}
 }
 
 }

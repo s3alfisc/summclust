@@ -52,8 +52,7 @@ summclust.lm <- function(
 
   #' @examples
   #' \donttest{
-  #' library(summclust)
-  #' library(haven)
+  #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -73,6 +72,7 @@ summclust.lm <- function(
   #'  summary(res)
   #'  tidy(res)
   #'  plot(res)
+  #' }
   #' }
 
   call <- match.call()

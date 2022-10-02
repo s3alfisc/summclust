@@ -18,9 +18,8 @@ vcov_CR3J <- function(obj, ...) {
   #' @return An object of type 'vcov_CR3J'
   #'
   #' @examples
-  #' \dontrun{
-  #' library(summclust)
-  #' library(haven)
+  #' \donttest{
+  #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -40,6 +39,7 @@ vcov_CR3J <- function(obj, ...) {
   #'  summary(res, param = c("msp","union"))
   #'  tidy(res, param = c("msp","union"))
   #'  plot(res, param = c("msp","union"))
+  #' }
   #' }
 
   UseMethod("vcov_CR3J")

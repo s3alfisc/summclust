@@ -30,8 +30,7 @@ based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
 \examples{
 
 \donttest{
-library(summclust)
-library(haven)
+if(requireNamespace("summclust") && requireNamespace("haven")){
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
@@ -49,6 +48,7 @@ res <- summclust(
  )
 
  tidy(res)
+}
 }
 
 }

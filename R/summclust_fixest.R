@@ -37,11 +37,10 @@ summclust.fixest <- function(
   #' @export
   #'
   #' @examples
-  #'
   #' \donttest{
-  #' library(summclust)
-  #' library(haven)
-  #' library(fixest)
+  #' if(requireNamespace("summclust")
+  #'  && requireNamespace("haven")
+  #'  && requireNamespace("fixest")){
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
@@ -61,6 +60,7 @@ summclust.fixest <- function(
   #'  summary(res)
   #'  tidy(res)
   #'  plot(res)
+  #' }
   #' }
   #'
   #' @return An object of type `summclust`, including

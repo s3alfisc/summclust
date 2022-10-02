@@ -40,10 +40,10 @@ jackknife as described in MacKinnon, Nielsen & Webb
 (2022) for objects of type \code{fixest}
 }
 \examples{
-\dontrun{
-library(summclust)
-library(haven)
-library(fixest)
+\donttest{
+if(requireNamespace("summclust")
+&& requireNamespace("haven")
+&& requireNamespace("fixest")){
 
 nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
 # drop NAs at the moment
@@ -63,6 +63,7 @@ res <- summclust(
  summary(res, param = c("msp","union"))
  tidy(res, param = c("msp","union"))
  plot(res, param = c("msp","union"))
+}
 }
 }
 \references{
