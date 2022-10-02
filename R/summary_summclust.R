@@ -19,6 +19,8 @@ summary.summclust <- function(object, ...) {
   #' @examples
   #' \donttest{
   #' if(requireNamespace("summclust") && requireNamespace("haven")){
+  #' library(summclust)
+  #' library(haven)
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment

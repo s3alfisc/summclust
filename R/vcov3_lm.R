@@ -37,6 +37,9 @@ vcov_CR3J.lm <- function(
   #' \donttest{
   #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
+  #' library(summclust)
+  #' library(haven)
+  #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
   #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]

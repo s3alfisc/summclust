@@ -30,6 +30,7 @@ Note that the function requires \code{ggplot2} to be installed.
 
 \donttest{
 if(requireNamespace("summclust") && requireNamespace("haven")){
+
 library(summclust)
 library(haven)
 

@@ -4,8 +4,7 @@ template:
 
 reference:
 - title: Compute influence and leverage metrics for clustered
-         inference based on the CRC3 Jackknife described in
-         MacKinnon, Nielsen & Webb (2022)
+         inference
   contents:
   - summclust
   - summclust.lm
@@ -15,8 +14,7 @@ reference:
   - summary.summclust
   - tidy.summclust
   - plot.summclust
-- title: Compute CRV3 covariance matrices via a cluster jackknife
-         as described in MacKinnon, Nielsen & Webb (2022)
+- title: Compute CRV3 covariance matrices
   contents:
   - vcov_CR3J
   - vcov_CR3J.lm
