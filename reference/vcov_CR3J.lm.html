@@ -115,7 +115,9 @@ arXiv preprint arXiv:2205.03288 (2022).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"summclust"</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"haven"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://s3alfisc.github.io/summclust/">summclust</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -128,16 +130,21 @@ arXiv preprint arXiv:2205.03288 (2022).</p>
 <span class="r-in"><span>  <span class="va">ln_wage</span> <span class="op">~</span> <span class="va">union</span> <span class="op">+</span>  <span class="va">race</span> <span class="op">+</span> <span class="va">msp</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">birth_yr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">nlswork</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="summclust.html">summclust</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="co"># CRV3 standard errors</span></span></span>
+<span class="r-in"><span><span class="va">vcov</span> <span class="op">&lt;-</span> <span class="fu"><a href="vcov_CR3J.html">vcov_CR3J</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>   obj <span class="op">=</span> <span class="va">lm_fit</span>,</span></span>
 <span class="r-in"><span>   cluster <span class="op">=</span> <span class="op">~</span><span class="va">ind_code</span>,</span></span>
 <span class="r-in"><span>   type <span class="op">=</span> <span class="st">"CRV3"</span></span></span>
-<span class="r-in"><span> <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>,<span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>,<span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"msp"</span>,<span class="st">"union"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># CRV3 standard errors</span></span></span>
+<span class="r-in"><span><span class="va">vcovJN</span> <span class="op">&lt;-</span> <span class="fu"><a href="vcov_CR3J.html">vcov_CR3J</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   obj <span class="op">=</span> <span class="va">lm_fit</span>,</span></span>
+<span class="r-in"><span>   cluster <span class="op">=</span> <span class="op">~</span><span class="va">ind_code</span>,</span></span>
+<span class="r-in"><span>   type <span class="op">=</span> <span class="st">"CRV3J"</span>,</span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

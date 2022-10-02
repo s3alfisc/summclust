@@ -91,6 +91,7 @@ arXiv preprint arXiv:2205.03288 (2022).</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"summclust"</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"haven"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://s3alfisc.github.io/summclust/">summclust</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -110,6 +111,7 @@ arXiv preprint arXiv:2205.03288 (2022).</p>
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> summclust.lm(obj = lm_fit, cluster = ~ind_code, params = c("msp", </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "union"))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
@@ -136,20 +138,6 @@ arXiv preprint arXiv:2205.03288 (2022).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3rd Qu. -0.02610221  0.2056569</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Max.    -0.01583453  0.2754228</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coefvar  0.16289813  0.1279443</span>
-<span class="r-in"><span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             coef     tstat         se      p_val  conf_int_l  conf_int_u</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> union  0.2039597  2.440122 0.08358587 0.03281561  0.01998847 0.387930980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> msp   -0.0275151 -1.956404 0.01406412 0.07628064 -0.05847002 0.003439815</span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $residual_leverage</span>
-<span class="r-plt img"><img src="summary.summclust-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $coef_leverage</span>
-<span class="r-plt img"><img src="summary.summclust-2.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $coef_beta</span>
-<span class="r-plt img"><img src="summary.summclust-3.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

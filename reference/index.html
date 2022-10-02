@@ -50,7 +50,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="compute-influence-and-leverage-metrics-for-clustered-inference">Compute influence and leverage metrics for clustered inference<a class="anchor" aria-label="anchor" href="#compute-influence-and-leverage-metrics-for-clustered-inference"></a></h2>
       
       
 
@@ -62,37 +62,57 @@
 
       <dl><dt>
           
-          <code><a href="plot.summclust.html">plot(<i>&lt;summclust&gt;</i>)</a></code> 
-        </dt>
-        <dd>Plotting method for objects of type <code>summclust</code></dd>
-      </dl><dl><dt>
-          
-          <code><a href="summary.summclust.html">summary(<i>&lt;summclust&gt;</i>)</a></code> 
-        </dt>
-        <dd>A <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method for objects of type <code>summclust</code></dd>
-      </dl><dl><dt>
-          
           <code><a href="summclust.html">summclust()</a></code> 
-        </dt>
-        <dd>Compute Influence and Leverage Metrics</dd>
-      </dl><dl><dt>
-          
-          <code><a href="summclust.fixest.html">summclust(<i>&lt;fixest&gt;</i>)</a></code> 
         </dt>
         <dd>Compute Influence and Leverage Metrics</dd>
       </dl><dl><dt>
           
           <code><a href="summclust.lm.html">summclust(<i>&lt;lm&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute Influence and Leverage Metrics</dd>
+        <dd>Compute Influence and Leverage Metrics for objects of type <code>lm</code></dd>
+      </dl><dl><dt>
+          
+          <code><a href="summclust.fixest.html">summclust(<i>&lt;fixest&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute Influence and Leverage Metrics for objects of type <code>fixest</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="methods-for-inspecting-objects-of-type-summclust-">Methods for inspecting objects of type <code>summclust</code><a class="anchor" aria-label="anchor" href="#methods-for-inspecting-objects-of-type-summclust-"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="summary.summclust.html">summary(<i>&lt;summclust&gt;</i>)</a></code> 
+        </dt>
+        <dd>A <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method for objects of type <code>summclust</code></dd>
       </dl><dl><dt>
           
           <code><a href="tidy.summclust.html">tidy(<i>&lt;summclust&gt;</i>)</a></code> 
         </dt>
-        <dd>Extract a data.frame with various regression coefficients and
-inference based on a CRV3 variance-covariance matrix for an
-object of type <code>summclust</code>.</dd>
+        <dd>S3 method to summarize objects of class boottest into tidy data.frame</dd>
       </dl><dl><dt>
+          
+          <code><a href="plot.summclust.html">plot(<i>&lt;summclust&gt;</i>)</a></code> 
+        </dt>
+        <dd>Plotting method for objects of type <code>summclust</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="compute-crv-covariance-matrices">Compute CRV3 covariance matrices<a class="anchor" aria-label="anchor" href="#compute-crv-covariance-matrices"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="vcov_CR3J.html">vcov_CR3J()</a></code> 
         </dt>
@@ -101,20 +121,21 @@ jackknife as described in MacKinnon, Nielsen &amp; Webb
 (2022)</dd>
       </dl><dl><dt>
           
-          <code><a href="vcov_CR3J.fixest.html">vcov_CR3J(<i>&lt;fixest&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute CRV3 covariance matrices via a cluster
-jackknife as described in MacKinnon, Nielsen &amp; Webb
-(2022) for objects of type <code>fixest</code></dd>
-      </dl><dl><dt>
-          
           <code><a href="vcov_CR3J.lm.html">vcov_CR3J(<i>&lt;lm&gt;</i>)</a></code> 
         </dt>
         <dd>Compute CRV3 covariance matrices via a cluster
 jackknife as described in MacKinnon, Nielsen &amp; Webb
 (2022) for objects of type <code>lm</code></dd>
+      </dl><dl><dt>
+          
+          <code><a href="vcov_CR3J.fixest.html">vcov_CR3J(<i>&lt;fixest&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute CRV3 covariance matrices via a cluster
+jackknife as described in MacKinnon, Nielsen &amp; Webb
+(2022) for objects of type <code>fixest</code></dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
