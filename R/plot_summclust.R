@@ -139,10 +139,12 @@ plot.summclust <- function(x, ...) {
   names(df_long) <- c("values", "cluster")
 
   df_long$variable <- rep(rownames(df), length(param))
-  df_long$coef_estimate <- rep(
-    x$coef_estimates[names(x$coef_estimates) %in% param],
-    length(param)
-  )
+  for(var_name in unique(df_long$variable)){
+    df_long[
+      which(df_long$variable == var_name),
+      "coef_estimate"
+    ] <- x$coef_estimates[var_name]
+  }
 
   coef_beta <-
     ggplot2::ggplot(
