@@ -48,7 +48,7 @@ regression coefficients.}
 }
 \description{
 Compute influence and leverage metrics for clustered inference
-based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+based on the Cluster Jackknife as described in MacKinnon, Nielsen & Webb
 (2022) for objects of type \code{fixest}.
 }
 \examples{

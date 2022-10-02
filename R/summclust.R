@@ -3,16 +3,21 @@ summclust <- function(obj, ...) {
   #' Compute Influence and Leverage Metrics
   #'
   #' Compute influence and leverage metrics for clustered inference
-  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
+  #' based on the Cluster Jackknife described in MacKinnon, Nielsen & Webb
   #' (2022).
   #'
   #' @param obj An object of class `lm` or `fixest`
   #' @param ... Other arguments
   #' @export
   #'
+  #'
   #' @return An object of type `summclust`, including
   #' a CRV3 variance-covariance estimate as described in
   #' MacKinnon, Nielsen & Webb (2022)
+  #'
+  #' @seealso
+  #'\link[summclust]{summclust.lm},
+  #'\link[summclust]{summclust.fixest}
   #'
   #'@references
   #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
@@ -27,6 +32,7 @@ summclust <- function(obj, ...) {
   #'
   #' library(summclust)
   #' library(haven)
+  #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
   #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]

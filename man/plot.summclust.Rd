@@ -19,9 +19,8 @@ A list containing
 regression coefficients}
 }
 \description{
-plots residual leverage, partial leverage and the
-leave-one-out jackknife regression coefficients as described
-in MNW (2022).
+Plots residual leverage, partial leverage and the
+leave-one-cluster-out regression coefficients
 }
 \details{
 Note that the function requires \code{ggplot2} to be installed.
@@ -49,8 +48,6 @@ res <- summclust(
    cluster = ~ind_code,
  )
 
- summary(res)
- tidy(res)
  plot(res)
 }
 }

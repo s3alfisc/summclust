@@ -6,15 +6,9 @@ generics::tidy
 tidy.summclust <- function(x, ...) {
 
 
-  #' Extract a data.frame with various regression coefficients and
-  #' inference based on a CRV3 variance-covariance matrix for an
-  #' object of type `summclust`.
+  #' S3 method to summarize objects of class boottest into tidy data.frame
   #'
-  #'   #' Compute Influence and Leverage Metrics
-  #'
-  #' Compute influence and leverage metrics for clustered inference
-  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-  #' (2022) for objects of type `fixest`.
+  #' Obtain results from a `summclust` object in a tidy data frame.
   #'
   #'@references
   #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.

@@ -2,9 +2,7 @@
 % Please edit documentation in R/tidy_summclust.R
 \name{tidy.summclust}
 \alias{tidy.summclust}
-\title{Extract a data.frame with various regression coefficients and
-inference based on a CRV3 variance-covariance matrix for an
-object of type \code{summclust}.}
+\title{S3 method to summarize objects of class boottest into tidy data.frame}
 \usage{
 \method{tidy}{summclust}(x, ...)
 }
@@ -20,12 +18,7 @@ intervals based on CRV3 variance-covariance matrix
 and t(G-1) distribution
 }
 \description{
-#' Compute Influence and Leverage Metrics
-}
-\details{
-Compute influence and leverage metrics for clustered inference
-based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{fixest}.
+Obtain results from a \code{summclust} object in a tidy data frame.
 }
 \examples{
 

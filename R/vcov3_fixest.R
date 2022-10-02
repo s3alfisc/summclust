@@ -37,6 +37,7 @@ vcov_CR3J.fixest <- function(
   #'
   #' @examples
   #' \donttest{
+  #'
   #' if(requireNamespace("summclust")
   #' && requireNamespace("haven")
   #' && requireNamespace("fixest")){
@@ -50,19 +51,23 @@ vcov_CR3J.fixest <- function(
   #' nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr", "union", "race", "msp", "ind_code")]
   #' nlswork <- na.omit(nlswork)
   #'
-  #' lm_fit <- feols(
+  #' feols_fit <- feols(
   #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   #'   data = nlswork)
   #'
-  #' res <- summclust(
-  #'    obj = lm_fit,
+  #' # CRV3 standard errors
+  #' vcov <- vcov_CR3J(
+  #'    obj = feols_fit,
   #'    cluster = ~ind_code,
   #'    type = "CRV3"
-  #'  )
+  #' )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  tidy(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #' # CRV3 standard errors
+  #' vcovJN <- vcov_CR3J(
+  #'    obj = feols_fit,
+  #'    cluster = ~ind_code,
+  #'    type = "CRV3J",
+  #' )
   #' }
   #' }
 

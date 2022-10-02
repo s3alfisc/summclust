@@ -38,8 +38,6 @@ summary.summclust <- function(object, ...) {
   #'  )
   #'
   #'  summary(res)
-  #'  tidy(res)
-  #'  plot(res)
   #' }
   #' }
 

@@ -49,15 +49,19 @@ vcov_CR3J.lm <- function(
   #'   ln_wage ~ union +  race + msp + as.factor(birth_yr) + as.factor(age) + as.factor(grade),
   #'   data = nlswork)
   #'
-  #' res <- summclust(
+  #' # CRV3 standard errors
+  #' vcov <- vcov_CR3J(
   #'    obj = lm_fit,
   #'    cluster = ~ind_code,
   #'    type = "CRV3"
-  #'  )
+  #' )
   #'
-  #'  summary(res, param = c("msp","union"))
-  #'  tidy(res, param = c("msp","union"))
-  #'  plot(res, param = c("msp","union"))
+  #' # CRV3 standard errors
+  #' vcovJN <- vcov_CR3J(
+  #'    obj = lm_fit,
+  #'    cluster = ~ind_code,
+  #'    type = "CRV3J",
+  #' )
   #' }
   #' }
 

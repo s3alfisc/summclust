@@ -40,8 +40,6 @@ res <- summclust(
  )
 
  summary(res)
- tidy(res)
- plot(res)
 }
 }
 }

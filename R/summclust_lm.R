@@ -9,8 +9,8 @@ summclust.lm <- function(
   #' Compute Influence and Leverage Metrics for objects of type `lm`
   #'
   #' Compute influence and leverage metrics for clustered inference
-  #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb
-  #' (2022) for objects of type `fixest`.
+  #' based on the Cluster Jackknife as described in MacKinnon, Nielsen & Webb
+  #' (2022) for objects of type `lm`.
   #'
   #'@references
   #' MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb.
@@ -55,7 +55,7 @@ summclust.lm <- function(
   #' if(requireNamespace("summclust") && requireNamespace("haven")){
   #'
   #' library(summclust)
-  #' library(fixest)
+  #' library(haven)
   #'
   #' nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
   #' # drop NAs at the moment
