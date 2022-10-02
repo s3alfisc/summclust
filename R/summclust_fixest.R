@@ -6,7 +6,7 @@ summclust.fixest <- function(
     type,
     ...) {
 
-  #' Compute Influence and Leverage Metrics
+  #' Compute Influence and Leverage Metrics for objects of type `fixest`
   #'
   #' Compute influence and leverage metrics for clustered inference
   #' based on the CRC3 Jackknife described in MacKinnon, Nielsen & Webb

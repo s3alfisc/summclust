@@ -2,7 +2,7 @@
 % Please edit documentation in R/summclust_lm.R
 \name{summclust.lm}
 \alias{summclust.lm}
-\title{Compute Influence and Leverage Metrics}
+\title{Compute Influence and Leverage Metrics for objects of type \code{lm}}
 \usage{
 \method{summclust}{lm}(obj, cluster, params, type = "CRV3", ...)
 }

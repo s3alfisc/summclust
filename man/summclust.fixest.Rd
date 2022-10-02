@@ -2,7 +2,7 @@
 % Please edit documentation in R/summclust_fixest.R
 \name{summclust.fixest}
 \alias{summclust.fixest}
-\title{Compute Influence and Leverage Metrics}
+\title{Compute Influence and Leverage Metrics for objects of type \code{fixest}}
 \usage{
 \method{summclust}{fixest}(obj, cluster, params, absorb_cluster_fixef = TRUE, type, ...)
 }

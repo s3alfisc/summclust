@@ -2,3 +2,24 @@ url: https://s3alfisc.github.io/summclust/
 template:
   bootstrap: 5
 
+reference:
+- title: Compute influence and leverage metrics for clustered
+         inference based on the CRC3 Jackknife described in
+         MacKinnon, Nielsen & Webb (2022)
+  contents:
+  - summclust
+  - summclust.lm
+  - summclust.fixest
+- title: Methods for inspecting objects of type `summclust`
+  contents:
+  - summary.summclust
+  - tidy.summclust
+  - plot.summclust
+- title: Compute CRV3 covariance matrices via a cluster jackknife
+         as described in MacKinnon, Nielsen & Webb (2022)
+  contents:
+  - vcov_CR3J
+  - vcov_CR3J.lm
+  - vcov_CR3J.fixest
+
+
