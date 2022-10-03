@@ -1,6 +1,5 @@
 Package: summclust
-Title: Module to compute Custer Specific Information for Regression Models
-      with Clustered Errors, including Leverage and Influence Statistics
+Title: Module to Compute Influence and Leverage Statistics for Regression Models with Clustered Errors
 Version: 0.5
 Authors@R: 
     c(
@@ -11,9 +10,10 @@ Authors@R:
     )
 Description: Module to compute cluster specific information for regression models
         with clustered errors, including leverage and influence statistics. 
-        Models of type `lm` and `fixest`(from the `stats` and `fixest` packages)
-        are supported. `summclust` implements similar features as the 
-        user-written `summclust.ado` Stata module.
+        Models of type 'lm' and 'fixest'(from the 'stats' and 'fixest' packages)
+        are supported. 'summclust' implements similar features as the 
+        user-written 'summclust.ado' Stata module (MacKinnon, Nielsen & Webb, 2022; 
+        <arXiv:2205.03288v1>).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

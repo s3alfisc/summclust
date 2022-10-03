@@ -1,5 +1,30 @@
 ## R CMD check results
 
++ re-submission: 
+
+I received the following comments, all of which have been addressed. 
+
+I further reran tests on rhub and github actions, all of which passed. 
+I am sorry about the title case error from the last submission - I only ran 
+rhub once, which notified me of the error, and did not rerun it as I thought 
+I had appropriately addressed the issue. 
+
+1) The Title field should be in title case. Current version is:
+   'Module to compute Custer Specific Information for Regression Models
+with Clustered Errors, including Leverage and Influence Statistics'
+
+   In title case that is:
+   'Module to Compute Custer Specific Information for Regression Models
+with Clustered Errors, Including Leverage and Influence Statistics'
+
+but please also reduce to less than 65 chars.
+
+2)  Please use undirected quotes on the Description field above.
+
+
+3) Is there some reference about the method you can add in the Description
+field in the form Authors (year) <doi:10.....> or <arXiv:.....>?
+
 + sumbission 7: 
 
 A while back, I received the following comments by the CRAN team, summarized in this [github issue](https://github.com/s3alfisc/summclust/issues/9). 
