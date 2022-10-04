@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/s3alfisc/summclust/workflows/R-CMD-check/badge.svg)](https://github.com/s3alfisc/summclust/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/summclust)](https://CRAN.R-project.org/package=summclust)
 <!-- [![pkgcheck](https://github.com/s3alfisc/summclust/workflows/pkgcheck/badge.svg)](https://github.com/s3alfisc/summclust/actions?query=workflow%3Apkgcheck) -->
 ![runiverse-package](https://s3alfisc.r-universe.dev/badges/summclust)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/summclust?color=blue)](https://cran.r-project.org/package=summclust)
