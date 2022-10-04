@@ -33,8 +33,7 @@ For an introduction to the package, take a look at its [vignette](https://s3alfi
 For a quick overview of different CRV estimators, take a look at the [cluster robust
 variance estimation vignette](https://s3alfisc.github.io/summclust/articles/Cluster-Robust-Variance-Estimators-CRV-1-3.html).
 
-For a very detailed description of the implemented methods, in particular a
-discussion of the different leverage and influence metrics, see:
+For a very detailed description of the implemented methods, in particular a discussion of the different leverage and influence metrics, see:
 
 [MacKinnon, J.G., Nielsen, M.Ø., Webb, M.D., 2022. Leverage, influence, and the jackknife in clustered regression models: Reliable inference using summclust](https://arxiv.org/abs/2205.03288). QED Working Paper 1483. Queen’s University.
 
@@ -42,9 +41,12 @@ For the Stata version of the package, see [here](https://github.com/mattdwebb/su
 
 ## Installation
 
-You can install the development version of summclust from [GitHub](https://github.com/) and [r-universe](https://r-universe.dev/) with:
+You can install the development version of summclust from CRAN, [GitHub](https://github.com/) and [r-universe](https://r-universe.dev/) with:
 
 ``` r
+# install from CRAN
+install.packages('summclust')
+
 # from r-universe (windows & mac, compiled R > 4.0 required)
 install.packages('summclust', repos ='https://s3alfisc.r-universe.dev')
 

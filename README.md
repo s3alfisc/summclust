@@ -41,11 +41,14 @@ For the Stata version of the package, see
 
 ## Installation
 
-You can install the development version of summclust from
+You can install the development version of summclust from CRAN,
 [GitHub](https://github.com/) and [r-universe](https://r-universe.dev/)
 with:
 
 ``` r
+# install from CRAN
+install.packages('summclust')
+
 # from r-universe (windows & mac, compiled R > 4.0 required)
 install.packages('summclust', repos ='https://s3alfisc.r-universe.dev')
 
