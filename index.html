@@ -84,6 +84,7 @@
 </h1></div>
 <!-- badges: start -->
 <p><a href="https://s3alfisc.github.io/summclust/">summclust</a> is an R module for cluster level measures of leverage and influence, and further implements CRV3 and CRV3J cluster robust variance estimators.</p>
+<p>For an introduction to the package, take a look at its <a href="https://s3alfisc.github.io/summclust/articles/summclust.html">vignette</a>.</p>
 <p>For a quick overview of different CRV estimators, take a look at the <a href="https://s3alfisc.github.io/summclust/articles/Cluster-Robust-Variance-Estimators-CRV-1-3.html">cluster robust variance estimation vignette</a>.</p>
 <p>For a very detailed description of the implemented methods, in particular a discussion of the different leverage and influence metrics, see:</p>
 <p><a href="https://arxiv.org/abs/2205.03288" class="external-link">MacKinnon, J.G., Nielsen, M.Ø., Webb, M.D., 2022. Leverage, influence, and the jackknife in clustered regression models: Reliable inference using summclust</a>. QED Working Paper 1483. Queen’s University.</p>
@@ -91,9 +92,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of summclust from <a href="https://github.com/" class="external-link">GitHub</a> and <a href="https://r-universe.dev/" class="external-link">r-universe</a> with:</p>
+<p>You can install the development version of summclust from CRAN, <a href="https://github.com/" class="external-link">GitHub</a> and <a href="https://r-universe.dev/" class="external-link">r-universe</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># from r-universe (windows &amp; mac, compiled R &gt; 4.0 required)</span></span>
+<code class="sourceCode R"><span><span class="co"># install from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'summclust'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># from r-universe (windows &amp; mac, compiled R &gt; 4.0 required)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'summclust'</span>, repos <span class="op">=</span><span class="st">'https://s3alfisc.r-universe.dev'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># install.packages("devtools")</span></span>
