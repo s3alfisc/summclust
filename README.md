@@ -20,6 +20,9 @@ coverage](https://codecov.io/gh/s3alfisc/summclust/branch/main/graph/badge.svg)]
 influence, and further implements CRV3 and CRV3J cluster robust variance
 estimators.
 
+For an introduction to the package, take a look at its
+[vignette](https://s3alfisc.github.io/summclust/articles/summclust.html).
+
 For a quick overview of different CRV estimators, take a look at the
 [cluster robust variance estimation
 vignette](https://s3alfisc.github.io/summclust/articles/Cluster-Robust-Variance-Estimators-CRV-1-3.html).
