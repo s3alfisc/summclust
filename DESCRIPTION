@@ -1,6 +1,6 @@
 Package: summclust
 Title: Module to Compute Influence and Leverage Statistics for Regression Models with Clustered Errors
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: 
     c(
     person(given = "Alexander",
@@ -17,13 +17,14 @@ Description: Module to compute cluster specific information for regression model
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Imports: 
     utils, 
     dreamerr, 
     MASS, 
     collapse, 
-    generics
+    generics, 
+    cli
 Suggests: 
     ggplot2,
     latex2exp,

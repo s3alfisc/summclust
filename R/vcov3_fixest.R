@@ -78,7 +78,9 @@ vcov_CR3J.fixest <- function(
 
 
   if(obj$method != "feols"){
-    stop("'summclust' currently only works with estimation method 'feols'.")
+    cli::cli_abort(
+      "'summclust' currently only works with estimation method 'feols'."
+    )
   }
 
   call_env <- obj$call_env
@@ -92,8 +94,10 @@ vcov_CR3J.fixest <- function(
   w <- weights(obj)
 
   if(!is.null(w)){
-    stop("Weighted least squares (WLS) is currently not supported for objects
-         of type fixest.")
+    cli::cli_abort(
+    "Weighted least squares (WLS) is currently not supported for objects
+         of type fixest."
+    )
     X <- sqrt(w) * X
     y <- sqrt(w) * y
   }
@@ -138,13 +142,14 @@ vcov_CR3J.fixest <- function(
       )$message
     )
   ) {
-    stop(
+    cli::cli_abort(
       "In your model, you have specified multiple fixed effects,
       none of which are of type factor. While `fixest::feols()` handles
       this case gracefully,  `summclust()` currently cannot handle this
       case - please change the type of (at least one) fixed effect(s) to
       factor. If this does not solve the error, please report the issue
-      at https://github.com/s3alfisc/summclust")
+      at https://github.com/s3alfisc/summclust"
+    )
   }
 
   cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
@@ -176,7 +181,7 @@ vcov_CR3J.fixest <- function(
   if(has_fe){
 
     fixef_vars <- obj$fixef_vars
-    fe <- model_matrix.fixest(obj, type = "fixef")
+    fe <- summclust:::model_matrix.fixest(obj, type = "fixef")
 
     # if the clustering variable is a cluster fixed effect & if absorb_cluster_fixef == TRUE,
     # then demean X and y by the cluster fixed effect

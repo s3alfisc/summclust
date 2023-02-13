@@ -36,7 +36,9 @@ create_data <-
     if (requireNamespace("fabricatr")) {
       fabricatr_installed <- TRUE
     } else {
-      stop("Please install the 'fabricatr' package to use this function")
+      cli::cli_abort(
+        "Please install the 'fabricatr' package to use this function"
+      )
     }
 
 

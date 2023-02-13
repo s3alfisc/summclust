@@ -59,10 +59,12 @@ plot.summclust <- function(x, ...) {
     if (requireNamespace("latex2exp")) {
       latex2exp_installed <- TRUE
     } else {
-      stop("Please install the 'latex2exp' package to use this function")
+      cli::cli_abort(
+        "Please install the 'latex2exp' package to use this function")
     }
   } else {
-    stop("Please install the 'ggplot2' package to use this function")
+    cli::cli_abort(
+      "Please install the 'ggplot2' package to use this function")
   }
 
   param <- x$params

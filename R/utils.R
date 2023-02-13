@@ -2,8 +2,10 @@
 matrix_split <- function (x, fac, dim) {
   if (is.vector(x)) {
     if (dim != "both")
-      stop(paste0("Object must be a matrix in order to subset by ",
-                  dim, "."))
+      cli::cli_abort(
+        paste0("Object must be a matrix in order to subset by ",
+                  dim, ".")
+      )
     x_list <- split(x, fac)
     lapply(x_list, function(x) diag(x, nrow = length(x)))
   }

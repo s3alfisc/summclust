@@ -25,6 +25,8 @@ summclust <- function(obj, ...) {
   #' Reliable inference using summclust."
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
+  #' @importFrom cli cli_abort
+  #'
   #' @examples
   #'
   #' \donttest{
