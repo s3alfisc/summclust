@@ -82,7 +82,7 @@ summclust.lm <- function(
 
   check_arg(cluster, "character scalar | formula")
   check_arg(params, "character scalar | character vector |formula")
-  check_arg(type, "character scalar")
+  check_arg(type, "charin(CRV3, CRV3J)")
 
 
   if(inherits(params, "formula")){
@@ -93,7 +93,7 @@ summclust.lm <- function(
     vcov_CR3J.lm(
     obj = obj,
     cluster = cluster,
-    type = "CRV3",
+    type = type,
     return_all = TRUE
   )
 
