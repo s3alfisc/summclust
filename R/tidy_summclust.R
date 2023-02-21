@@ -64,7 +64,7 @@ tidy.summclust <- function(x, ...) {
   G <- length(x$cluster)
   param_ <- which(names(x$coef_estimates) %in% param)
   param_vals <- x$coef_estimates[param_]
-  se <- diag(sqrt(vcov[param_, param_, drop = FALSE]))
+  se <- sqrt(diag(vcov[param_, param_, drop = FALSE]))
   cv3t <- param_vals / se
 
   conduct_inference <- function(x, param_vals, se, cv3t) {
