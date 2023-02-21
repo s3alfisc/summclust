@@ -3,7 +3,7 @@ summclust.fixest <- function(
     cluster,
     params,
     absorb_cluster_fixef = TRUE,
-    type,
+    type = "CRV3",
     ...) {
 
   #' Compute Influence and Leverage Metrics for objects of type `fixest`
