@@ -76,17 +76,12 @@ vcov_CR3J.lm <- function(
 
   N <- nrow(X)
   k <- ncol(X)
-  # beta_hat <- coefficients(obj)
 
   w <- weights(obj)
 
   if (!is.null(w)) {
     X <- sqrt(w) * X
     y <- sqrt(w) * y
-    cli::cli_abort(
-      "Weighted least squares (WLS) is currently not
-      supported for objects of type fixest."
-    )
   }
 
 
@@ -156,8 +151,6 @@ vcov_CR3J.lm <- function(
     res[["N"]] <- N
     res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
-  } else {
-    res <- res$vcov
   }
 
   class(res) <- "vcov_CR3J"

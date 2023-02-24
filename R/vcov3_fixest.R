@@ -94,10 +94,6 @@ vcov_CR3J.fixest <- function(
   w <- weights(obj)
 
   if(!is.null(w)){
-    cli::cli_abort(
-    "Weighted least squares (WLS) is currently not supported for objects
-         of type fixest."
-    )
     X <- sqrt(w) * X
     y <- sqrt(w) * y
   }
@@ -238,8 +234,6 @@ vcov_CR3J.fixest <- function(
     res[["N"]] <- N
     res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
-  } else {
-    res <- res$vcov
   }
 
   class(res) <- "vcov_CR3J"
