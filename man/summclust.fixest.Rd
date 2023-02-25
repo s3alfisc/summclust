@@ -4,7 +4,14 @@
 \alias{summclust.fixest}
 \title{Compute Influence and Leverage Metrics for objects of type \code{fixest}}
 \usage{
-\method{summclust}{fixest}(obj, cluster, params, absorb_cluster_fixef = TRUE, type, ...)
+\method{summclust}{fixest}(
+  obj,
+  cluster,
+  params,
+  absorb_cluster_fixef = TRUE,
+  type = "CRV3",
+  ...
+)
 }
 \arguments{
 \item{obj}{An object of type fixest}
