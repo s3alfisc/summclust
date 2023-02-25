@@ -171,7 +171,7 @@ vcov_CR3J.fixest <- function(
   if(has_fe){
 
     fixef_vars <- obj$fixef_vars
-    fe <- summclust:::model_matrix.fixest(obj, type = "fixef")
+    fe <- model_matrix.fixest(obj, type = "fixef")
 
     # if the clustering variable is a cluster fixed effect & if absorb_cluster_fixef == TRUE,
     # then demean X and y by the cluster fixed effect
