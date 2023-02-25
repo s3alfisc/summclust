@@ -90,13 +90,7 @@ vcov_CR3J.fixest <- function(
 
   N <- nrow(X)
   # k: see below
-
   w <- weights(obj)
-
-  if(!is.null(w)){
-    X <- sqrt(w) * X
-    y <- sqrt(w) * y
-  }
 
   # get the clustering variable
 
@@ -199,8 +193,8 @@ vcov_CR3J.fixest <- function(
       }
 
       g <- collapse::GRP(cluster_df, call = FALSE)
-      X <- collapse::fwithin(X, g)
-      y <- collapse::fwithin(y, g)
+      X <- collapse::fwithin(X, g, w = w)
+      y <- collapse::fwithin(y, g, w = w)
 
     } else {
 
@@ -209,9 +203,16 @@ vcov_CR3J.fixest <- function(
       add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
       # drop the intercept
       X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
+
     }
 
   }
+
+  if(!is.null(w)){
+    X <- sqrt(w) * X
+    y <- sqrt(w) * y
+  }
+
 
   if(cluster_fixef_outprojected){
     k <- ncol(X)
@@ -234,6 +235,8 @@ vcov_CR3J.fixest <- function(
     res[["N"]] <- N
     res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
+  } else {
+    res <- res$vcov
   }
 
   class(res) <- "vcov_CR3J"

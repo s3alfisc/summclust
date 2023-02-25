@@ -151,6 +151,8 @@ vcov_CR3J.lm <- function(
     res[["N"]] <- N
     res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
+  } else {
+    res <- res$vcov
   }
 
   class(res) <- "vcov_CR3J"
