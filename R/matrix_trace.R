@@ -4,7 +4,8 @@ matrix_trace <- function(x) {
   #'
   #' @param x a square matrix
   #' @return returns the trace of the matrix x
+  #' @importFrom Matrix diag
   #' @noRd
 
-  sum(diag(x))
+  sum(Matrix::diag(x))
 }

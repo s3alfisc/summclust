@@ -24,6 +24,8 @@ cluster_jackknife <- function(
   #' \item{tXy}{t(X) %*% y}
   #' \item{G}{The number of unique clusters}
   #' \item{small_sample_correction}{The employed small sample correction}
+  #' @importFrom Matrix crossprod, tcrossprod, t
+
   #' @noRd
 
 
@@ -34,16 +36,20 @@ cluster_jackknife <- function(
   # calculate X_g'X_g
   tXgXg <- lapply(
     unique_clusters,
-    function(x) crossprod(X[cluster_df == x, , drop = FALSE])
+    function(x) Matrix::crossprod(X[c(cluster_df == x), , drop = FALSE])
   )
   names(tXgXg) <- unique_clusters
   tXX <- Reduce("+", tXgXg)
   # all.equal(tXX, crossprod(X))
 
+  if(inherits(X, "Matrix")){
+    y <- Matrix::Matrix(y)
+  }
+
   tXgyg <- lapply(
     unique_clusters,
     function(x) {
-      t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]
+      Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*% y[c(cluster_df == x), drop = FALSE]
     }
   )
   names(tXgyg) <- unique_clusters
@@ -53,11 +59,13 @@ cluster_jackknife <- function(
   beta_hat <- solve(tXX) %*% tXy
   # initiate jackknife
 
+  tXX <- as.matrix(tXX)
+
   beta_jack <-
     lapply(
       unique_clusters,
       function(x) {
-        MASS::ginv(tXX - tXgXg[[x]]) %*% (tXy - (t(X[cluster_df == x, , drop = FALSE]) %*% y[cluster_df == x, drop = FALSE]))
+        MASS::ginv(tXX - as.matrix(tXgXg[[x]])) %*% (tXy - (Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*% y[c(cluster_df == x), drop = FALSE]))
       }
     )
 
@@ -70,7 +78,7 @@ cluster_jackknife <- function(
   V3 <- lapply(
     seq_along(unique_clusters),
     function(x) {
-      tcrossprod(beta_jack[[x]] - beta_center)
+      Matrix::tcrossprod(beta_jack[[x]] - beta_center)
     }
   )
 

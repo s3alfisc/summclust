@@ -25,7 +25,10 @@ summclust.fixest <- function(
   #' k model covariates
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
   #'        effects be projected out? This increases numerical stability and
-  #'        decreases computational costs
+  #'        decreases computational costs. If FALSE, or if there is more than
+  #'        one fixed effect, or if the single fixed effect is not a cluster
+  #'        fixed effects, defaults to attaching the fixed effects as sparse
+  #'        dummies to the design matrix.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param ... other function arguments passed to 'vcov'
   #'
@@ -165,10 +168,10 @@ summclust.fixest <- function(
   res <-
     list(
       coef_estimates = coef(obj),
-      vcov = vcov,
+      vcov = as.matrix(vcov),
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
-      beta_jack = beta_jack,
+      beta_jack = as.matrix(beta_jack),
       partial_leverage = partial_leverage,
       coef_var_leverage_g = coef_var_leverage_g,
       coef_var_partial_leverage = coef_var_partial_leverage,

@@ -150,10 +150,10 @@ summclust.lm <- function(
   res <-
     list(
       coef_estimates = coef(obj),
-      vcov = vcov,
+      vcov = as.matrix(vcov),
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
-      beta_jack = beta_jack,
+      beta_jack = as.matrix(beta_jack),
       partial_leverage = partial_leverage,
       coef_var_leverage_g = coef_var_leverage_g,
       coef_var_partial_leverage = coef_var_partial_leverage,

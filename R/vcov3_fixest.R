@@ -30,6 +30,7 @@ vcov_CR3J.fixest <- function(
   #' @importFrom stats coef weights coefficients model.matrix
   #' @importFrom dreamerr check_arg
   #' @importFrom MASS ginv
+  #' @importFrom Matrix sparse.model.matrix
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #' @export
   #'
@@ -200,10 +201,10 @@ vcov_CR3J.fixest <- function(
 
       add_fe <- fe[, fixef_vars, drop = FALSE]
       fml_fe <- reformulate(fixef_vars, response = NULL)
-      add_fe_dummies <- model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
+      add_fe_dummies <- Matrix::sparse.model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
       # drop the intercept
-      X <- as.matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
-
+      #X <- Matrix::Matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
+      X <- cbind(X, add_fe_dummies)
     }
 
   }
@@ -236,7 +237,7 @@ vcov_CR3J.fixest <- function(
     res[["k"]] <- k
     res[["cluster_df"]] <- cluster_df
   } else {
-    res <- res$vcov
+    res <- as.matrix(res$vcov)
   }
 
   class(res) <- "vcov_CR3J"
