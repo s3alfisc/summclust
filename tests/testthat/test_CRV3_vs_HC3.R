@@ -14,7 +14,7 @@ test_that("CV3 = HC3 with N = G", {
 
   lm_fit <- lm(
     ln_wage ~ union + race + msp,
-    data = nlswork
+    data = nlswork[1:100, ]
   )
 
   vcovCR3 <- vcov_CR3J(

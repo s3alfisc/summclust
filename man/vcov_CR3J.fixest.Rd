@@ -12,6 +12,7 @@ jackknife as described in MacKinnon, Nielsen & Webb
   type = "CRV3",
   return_all = FALSE,
   absorb_cluster_fixef = TRUE,
+  sparse = TRUE,
   ...
 )
 }
@@ -28,6 +29,12 @@ the vcov be returned (FALSE) or additional results (TRUE)}
 
 \item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed
 effects be projected out? This increases numerical stability.}
+
+\item{sparse}{Logical scalar, TRUE by default. Should sparse matrices
+be used? This is recommended for large datasets as it is considerably
+faster. However, for \code{summclust}, \code{sparse = FALSE} is used so that
+results match Stata. The \code{vcov} will be identical, but the individual
+\code{beta_jack}s will not be.}
 
 \item{...}{other function arguments passed to 'vcov'}
 }

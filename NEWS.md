@@ -1,8 +1,9 @@
 # summclust 0.7
 
-* Sparsifies `vcov_fixest`. This reduces the computational cost of 
+* Adds option to sparsify `vcov_CR3J.fixest`. This reduces the computational cost of 
   computing CRV3 covariance matrices when the regression's design matrix 
-  gets very sparse. 
+  gets very sparse. It can't be used within `summclust` because the `beta_jack` do not 
+  match. However, it's useful when users just want to access `vcov_CR3J.fixest`.
 
 # summclust 0.6
 

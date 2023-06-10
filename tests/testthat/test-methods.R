@@ -48,26 +48,31 @@ test_that("test methods", {
     tidy(summ_lm, param = "treatment")
   )
 
+  quietly = function(x) {
+    sink(file="/dev/null") 
+    x 
+    sink()
+  }
+
   expect_equal(
-    summary(summ_feols, param = "treatment"),
-    summary(summ_lm, param = "treatment")
+    quietly(summary(summ_feols, param = "treatment")),
+    quietly(summary(summ_lm, param = "treatment"))
   )
 
   expect_equal(
-    plot(summ_feols, param = "treatment")$residual_leverage,
-    plot(summ_lm, param = "treatment")$residual_leverage
+    quietly(plot(summ_feols, param = "treatment")$residual_leverage),
+    quietly(plot(summ_lm, param = "treatment")$residual_leverage)
   )
 
   expect_equal(
-    plot(summ_feols, param = "treatment")$coef_leverage,
-    plot(summ_lm, param = "treatment")$coef_leverage
+    quietly(plot(summ_feols, param = "treatment")$coef_leverage),
+    quietly(plot(summ_lm, param = "treatment")$coef_leverage)
   )
 
   expect_equal(
-    plot(summ_feols, param = "treatment")$coef_beta,
-    plot(summ_lm, param = "treatment")$coef_beta
+    quietly(plot(summ_feols, param = "treatment")$coef_beta),
+    quietly(plot(summ_lm, param = "treatment")$coef_beta)
   )
-
 
 
 })
