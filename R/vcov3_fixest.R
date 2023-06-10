@@ -364,7 +364,11 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
     res[["y"]] <- y
     res[["N"]] <- N
     res[["k"]] <- k
+<<<<<<< HEAD
     res[["cluster_df"]] <- data.frame(g = cluster_vec)
+=======
+    res[["cluster_vec"]] <- cluster_vec
+>>>>>>> 307ba54e7fc23f37dd6992efe2e72eef4eba5375
   } else {
     res <- res$vcov
   }
