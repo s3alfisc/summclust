@@ -284,7 +284,7 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
   cluster_vars = attr(terms(cluster), "term.labels")
   
   # Grabs data from the fixest object
-  data = fixest:::fetch_data(obj, "To apply 'sparse_model_matrix', ")
+  data = fetch_data(obj, "To apply 'sparse_model_matrix', ")
 
   # Check that cluster vars are in the original estimation dataset
   cluster_vars_in_data = cluster_vars %in% colnames(data)
