@@ -1,6 +1,7 @@
 Package: summclust
-Title: Module to Compute Influence and Leverage Statistics for Regression Models with Clustered Errors
-Version: 0.6.0
+Title: Module to Compute Influence and Leverage Statistics for Regression Models
+       with Clustered Errors
+Version: 0.7.0
 Authors@R: 
     c(
     person(given = "Alexander",
@@ -8,7 +9,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "alexander-fischer1801@t-online.de")
     )
-Description: Module to compute cluster specific information for regression models
+Description: Module to compute cluster robust covariance matrices (CRV3 and 
+        CRV3J) and cluster specific information for regression models
         with clustered errors, including leverage and influence statistics. 
         Models of type 'lm' and 'fixest'(from the 'stats' and 'fixest' packages)
         are supported. 'summclust' implements similar features as the 

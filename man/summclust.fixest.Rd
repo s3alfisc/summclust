@@ -24,7 +24,10 @@ k model covariates}
 
 \item{absorb_cluster_fixef}{TRUE by default. Should the cluster fixed
 effects be projected out? This increases numerical stability and
-decreases computational costs}
+decreases computational costs. If FALSE, or if there is more than
+one fixed effect, or if the single fixed effect is not a cluster
+fixed effects, defaults to attaching the fixed effects as sparse
+dummies to the design matrix.}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb}
 
