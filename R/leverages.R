@@ -17,7 +17,10 @@ get_partial_leverages <- function(
     k_coefs,
     function(j){
       X[,j] - X[,-j] %*% (
-        Matrix::solve(Matrix::crossprod(X[,-j])) %*% (Matrix::t(X[,-j])   %*% X[,j])
+        Matrix::solve(
+          Matrix::crossprod(X[,-j]),
+          Matrix::crossprod(X[,-j], X[,j])
+        )
       )
     }
   )
@@ -65,9 +68,12 @@ get_leverage <- function(
     tXX,
     G){
 
-  leverage_g <- lapply(unique_clusters,
-                       function(x) matrix_trace(
-                         tXgXg[[x]] %*% MASS::ginv(tXX)))
+  leverage_g <- lapply(
+    unique_clusters,
+    function(x) matrix_trace(
+      tXgXg[[x]] %*% MASS::ginv(tXX)
+    )
+  )
   leverage_avg <- Reduce("+", leverage_g) / G
 
   res <- list(
