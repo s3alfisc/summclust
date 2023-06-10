@@ -24,8 +24,6 @@ cluster_jackknife <- function(
   #' \item{tXy}{t(X) %*% y}
   #' \item{G}{The number of unique clusters}
   #' \item{small_sample_correction}{The employed small sample correction}
-  #' @importFrom Matrix crossprod, tcrossprod, t
-
   #' @noRd
 
 

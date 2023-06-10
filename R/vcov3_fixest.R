@@ -93,20 +93,6 @@ vcov_CR3J.fixest <- function(
   # k: see below
   w <- weights(obj)
 
-  if(is.null(matrix_solve)){
-
-    if(absorb_cluster_fixef){
-
-      matrix_solve <- "Matrix::solve"
-
-    } else {
-
-      matrix_solve <- "MASS::ginv"
-
-    }
-
-  }
-
   # get the clustering variable
 
   if(!inherits(cluster, "formula")){
@@ -238,8 +224,7 @@ vcov_CR3J.fixest <- function(
       y = y,
       X = X,
       cluster_df = cluster_df,
-      type = type,
-      matrix_solve = matrix_solve
+      type = type
     )
 
 
