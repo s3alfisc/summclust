@@ -111,7 +111,8 @@ summclust.fixest <- function(
       cluster = cluster,
       absorb_cluster_fixef = absorb_cluster_fixef,
       type = type,
-      return_all = TRUE
+      return_all = TRUE,
+      sparse = FALSE
     )
 
   vcov <- get_vcov$vcov

@@ -74,7 +74,7 @@ vcov_CR3J.fixest <- function(
 
   check_arg(return_all, "logical scalar")
   check_arg(cluster, "character scalar | formula")
-  check_arg(type, "character scalar")
+  check_arg(type, "character scalar") 
   check_arg(absorb_cluster_fixef, "logical scalar")
 
 
@@ -83,6 +83,13 @@ vcov_CR3J.fixest <- function(
       "'summclust' currently only works with estimation method 'feols'."
     )
   }
+
+  res = calculate_beta_jack_dense(obj, cluster, type, absorb_cluster_fixef, return_all)
+
+  res
+}
+
+calculate_beta_jack_dense = function(obj, cluster, type, absorb_cluster_fixef, return_all) {
 
   call_env <- obj$call_env
 
@@ -202,6 +209,8 @@ vcov_CR3J.fixest <- function(
       add_fe <- fe[, fixef_vars, drop = FALSE]
       fml_fe <- reformulate(fixef_vars, response = NULL)
       add_fe_dummies <- Matrix::sparse.model.matrix(fml_fe, model.frame(fml_fe , data = as.data.frame(add_fe)))
+      # drop the intercept
+      #X <- Matrix::Matrix(collapse::add_vars(as.data.frame(X), add_fe_dummies))
       X <- cbind(X, add_fe_dummies)
     }
 
@@ -244,3 +253,113 @@ vcov_CR3J.fixest <- function(
   res
 }
 
+calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, return_all) {
+
+  X <- fixest::sparse_model_matrix(obj, type = c("rhs", "fixef"), collin.rm = TRUE)
+  y <- model.matrix(obj, type = "lhs")
+
+  N <- nrow(X)
+  # k: see below
+  w <- weights(obj)
+
+  if(!is.null(w)){
+    X <- sqrt(w) * X
+    y <- sqrt(w) * y
+  }
+
+  # get the clustering variable
+  if(!inherits(cluster, "formula")){
+    cluster <- reformulate(cluster)
+  }
+  cluster_vars = attr(terms(cluster), "term.labels")
+  
+  # Grabs data from the fixest object
+  data = fixest:::fetch_data(obj, "To apply 'sparse_model_matrix', ")
+
+  # Check that cluster vars are in the original estimation dataset
+  cluster_vars_in_data = cluster_vars %in% colnames(data)
+  if (any(!(cluster_vars_in_data))) {
+    stop(paste0(
+      "The following variables are not found in the dataset used in your `feols` call: ", 
+      paste(cluster_vars[!cluster_vars_in_data], collapse = ", ")
+    ))
+  }
+
+  # Assumes that length(cluster_vars) == 1 (for now; can modify later for multi-way clustering) 
+  if (length(cluster_vars) > 1) stop("Only 1 cluster variable supported right now")
+
+  cluster_vec = data[[cluster_vars]]
+  unique_clusters <- as.character(unique(cluster_vec))
+
+  N_g = table(cluster_vec)[unique_clusters]
+  G <- length(unique_clusters)
+  small_sample_correction <- (G - 1) / G
+  k <- obj$nparams
+
+  # Absorb cluster fixef effect if needed
+  cluster_fixef_outprojected <- FALSE
+
+  fixef_vars <- obj$fixef_vars
+  if (length(obj$fixef_vars) > 0) {
+
+    # if the clustering variable is a cluster fixed effect & if 
+    # absorb_cluster_fixef == TRUE, then demean X and y by the 
+    # cluster fixed effect
+    if (absorb_cluster_fixef && (cluster_vars %in% fixef_vars)) {
+
+      cluster_fixef_outprojected <- TRUE
+      cols_X = colnames(X)
+      cols_to_keep = !grepl(paste0(cluster_vars, "::"), cols_X)
+
+      cluster_fixefs = X[, !cols_to_keep, drop = FALSE]
+      X <- X[, cols_to_keep, drop = FALSE]
+
+      # Check
+      # head(fixest::demean(as.matrix(X), nlswork[[cluster_vars]]))
+
+      # Within-transform X and y
+      X <- X - cluster_fixefs %*% 
+        Matrix::solve(
+          Matrix::crossprod(cluster_fixefs),
+          Matrix::crossprod(cluster_fixefs, X)
+        )
+      y <- y - cluster_fixefs %*%
+        Matrix::solve(
+          Matrix::crossprod(cluster_fixefs),
+          Matrix::crossprod(cluster_fixefs, y)
+        )
+    } 
+
+  }
+
+
+  if(cluster_fixef_outprojected){
+    k <- ncol(X)
+  } else {
+    k <- obj$nparams
+  }
+
+  res <-
+    cluster_jackknife_sparse(
+      y = y,
+      X = X,
+      cluster_vec = cluster_vec,
+      type = type
+    )
+
+  res$vcov = as.matrix(res$vcov)
+
+  if(return_all == TRUE){
+    res[["X"]] <- X
+    res[["y"]] <- y
+    res[["N"]] <- N
+    res[["k"]] <- k
+    res[["cluster_vec"]] <- cluster_vec
+  } else {
+    res <- res$vcov
+  }
+
+  class(res) <- "vcov_CR3J"
+
+  res
+}
