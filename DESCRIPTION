@@ -1,6 +1,6 @@
 Package: summclust
 Title: Module to Compute Influence and Leverage Statistics for Regression Models with Clustered Errors
-Version: 0.6
+Version: 0.7.0
 Authors@R: 
     c(
     person(given = "Alexander",

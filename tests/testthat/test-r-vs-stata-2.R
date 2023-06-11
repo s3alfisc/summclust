@@ -10,9 +10,6 @@ test_that("test against stata - CVR3 inference", {
 
   skip_on_cran()
 
-  library(summclust)
-  library(fixest)
-
   set.seed(98765)
   # few large clusters (around 10000 obs)
 
@@ -30,11 +27,12 @@ test_that("test against stata - CVR3 inference", {
   )
   data$group_id1[data$group_id1 %in% c(1,2)] <- "a"
 
+  data1 <<- data
   #data.table::fwrite(data, "C:/Users/alexa/Dropbox/datasets/summclust1.csv")
 
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income,
-    data = data
+    data = data1
   )
 
   summclust_res <- summclust(obj = lm_fit,
@@ -101,11 +99,12 @@ test_that("test against stata - leverage", {
   )
   data$group_id1[data$group_id1 %in% c(1,2)] <- "a"
 
+  data1 <<- data
   #data.table::fwrite(data, "C:/Users/alexa/Dropbox/datasets/summclust1.csv")
 
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income + as.factor(Q1_immigration) + as.factor(Q2_defense),
-    data = data
+    data = data1
   )
 
   summclust_res <- summclust(obj = lm_fit,
@@ -188,16 +187,18 @@ test_that("test against stata - leverage, fixef absorb", {
   data <- data[data$group_id1 != 3,]
   #data.table::fwrite(data, "C:/Users/alexa/Dropbox/datasets/summclust2.csv")
 
+  data1 <<- data
+
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income + as.factor(Q1_immigration) +
       as.factor(Q2_defense) + as.factor(group_id1),
-    data = data
+    data = data1
   )
 
   feols_fit <- feols(
     proposition_vote ~ treatment + log_income | Q1_immigration +
       Q2_defense + group_id1,
-    data = data
+    data = data1
   )
 
   summclust_res_lm <- summclust(obj = lm_fit,

@@ -89,52 +89,12 @@ vcov_CR3J.lm <- function(
     cluster <- reformulate(cluster)
   }
 
-  # fetch the clustering variable
-  cluster_tmp <-
-    try(
-      if ("Formula" %in% loadedNamespaces()) { ## FIXME to suppress potential warnings due to | in Formula
-        suppressWarnings(expand.model.frame(
-          model = obj,
-          extras = cluster,
-          na.expand = FALSE,
-          envir = call_env
-        ))
-      } else {
-        expand.model.frame(
-          obj,
-          cluster,
-          na.expand = FALSE,
-          envir = call_env
-        )
-      }
-    )
-
-  if (
-    inherits(
-      cluster_tmp,
-      "try-error"
-    ) &&
-    grepl(
-      "non-numeric argument to binary operator$",
-      attr(
-        cluster_tmp,
-        "condition"
-      )$message
-    )
-  ) {
-    cli::cli_abort(
-      "In your model, you have specified multiple fixed effects,
-      none of which are of type factor. While `fixest::feols()` handles
-      this case gracefully,  `summclust()` currently cannot handle this
-      case - please change the type of (at least one) fixed effect(s) to
-      factor. If this does not solve the error, please report the issue
-      at https://github.com/s3alfisc/summclust"
-    )
-  }
-
-  cluster_df <- model.frame(cluster, cluster_tmp, na.action = na.pass)
-  i <- seq_along(cluster_df)
-  cluster_df[, i] <- lapply(i, function(x) factor(cluster_df[, x]))
+  cluster_df <- get_cluster(
+    object = obj,
+    cluster = cluster,
+    N = N,
+    call_env = call_env
+  )$cluster_df
 
   res <-
     cluster_jackknife(
