@@ -91,15 +91,15 @@ vcov_CR3J.fixest <- function(
   }
 
   if (sparse) {
-    res = calculate_beta_jack_sparse(obj, cluster, type, absorb_cluster_fixef, return_all)
+    res <- calculate_beta_jack_sparse(obj, cluster, type, absorb_cluster_fixef, return_all)
   } else {
-    res = calculate_beta_jack_dense(obj, cluster, type, absorb_cluster_fixef, return_all)
+    res <- calculate_beta_jack_dense(obj, cluster, type, absorb_cluster_fixef, return_all)
   }
 
   res
 }
 
-calculate_beta_jack_dense = function(obj, cluster, type, absorb_cluster_fixef, return_all) {
+calculate_beta_jack_dense <- function(obj, cluster, type, absorb_cluster_fixef, return_all) {
 
   call_env <- obj$call_env
 
@@ -263,7 +263,7 @@ calculate_beta_jack_dense = function(obj, cluster, type, absorb_cluster_fixef, r
   res
 }
 
-calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, return_all) {
+calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef, return_all) {
 
   X <- fixest::sparse_model_matrix(obj, type = c("rhs", "fixef"), collin.rm = TRUE)
   y <- model.matrix(obj, type = "lhs")
@@ -281,13 +281,13 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
   if(!inherits(cluster, "formula")){
     cluster <- reformulate(cluster)
   }
-  cluster_vars = attr(terms(cluster), "term.labels")
+  cluster_vars <- attr(terms(cluster), "term.labels")
   
   # Grabs data from the fixest object
   data = fetch_data(obj, "To apply 'sparse_model_matrix', ")
 
   # Check that cluster vars are in the original estimation dataset
-  cluster_vars_in_data = cluster_vars %in% colnames(data)
+  cluster_vars_in_data <- cluster_vars %in% colnames(data)
   if (any(!(cluster_vars_in_data))) {
     stop(paste0(
       "The following variables are not found in the dataset used in your `feols` call: ", 
@@ -298,10 +298,10 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
   # Assumes that length(cluster_vars) == 1 (for now; can modify later for multi-way clustering) 
   if (length(cluster_vars) > 1) stop("Only 1 cluster variable supported right now")
 
-  cluster_vec = data[[cluster_vars]]
+  cluster_vec <- data[[cluster_vars]]
   unique_clusters <- as.character(unique(cluster_vec))
 
-  N_g = table(cluster_vec)[unique_clusters]
+  N_g <- table(cluster_vec)[unique_clusters]
   G <- length(unique_clusters)
   small_sample_correction <- (G - 1) / G
   k <- obj$nparams
@@ -318,10 +318,10 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
     if (absorb_cluster_fixef && (cluster_vars %in% fixef_vars)) {
 
       cluster_fixef_outprojected <- TRUE
-      cols_X = colnames(X)
-      cols_to_keep = !grepl(paste0(cluster_vars, "::"), cols_X)
+      cols_X <- colnames(X)
+      cols_to_keep <- !grepl(paste0(cluster_vars, "::"), cols_X)
 
-      cluster_fixefs = X[, !cols_to_keep, drop = FALSE]
+      cluster_fixefs <- X[, !cols_to_keep, drop = FALSE]
       X <- X[, cols_to_keep, drop = FALSE]
 
       # Check
@@ -357,7 +357,7 @@ calculate_beta_jack_sparse = function(obj, cluster, type, absorb_cluster_fixef, 
       type = type
     )
 
-  res$vcov = as.matrix(res$vcov)
+  res$vcov <- as.matrix(res$vcov)
 
   if(return_all == TRUE){
     res[["X"]] <- X

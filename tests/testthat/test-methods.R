@@ -48,7 +48,7 @@ test_that("test methods", {
     tidy(summ_lm, param = "treatment")
   )
 
-  quietly = function(x) {
+  quietly <- function(x) {
     sink(file="/dev/null") 
     x 
     sink()

@@ -134,8 +134,8 @@ cluster_jackknife_sparse <- function(
   #' 
   #' @noRd
 
-  unique_clusters = as.character(unique(cluster_vec))
-  g_idx = split(seq_len(nrow(X)), cluster_vec)
+  unique_clusters <- as.character(unique(cluster_vec))
+  g_idx <- split(seq_len(nrow(X)), cluster_vec)
   G <- length(g_idx)
   small_sample_correction <- (G - 1) / G
 
@@ -145,24 +145,24 @@ cluster_jackknife_sparse <- function(
 
   # calculate X_g'X_g
   # Do this because subsetting is slow
-  n = nrow(X)
-  K = ncol(X)
-  X_triplet = methods::as(X, "TsparseMatrix")
-  i = X_triplet@i + 1
-  j = X_triplet@j + 1
+  n <- nrow(X)
+  K <- ncol(X)
+  X_triplet <- methods::as(X, "TsparseMatrix")
+  i <- X_triplet@i + 1
+  j <- X_triplet@j + 1
 
   res <- lapply(
     g_idx,
     function(idx) {
-      keep = which(i %in% idx)
+      keep <- which(i %in% idx)
       
-      Xg = Matrix::sparseMatrix(
+      Xg <- Matrix::sparseMatrix(
         i = i[keep],
         j = j[keep],
         x = X_triplet@x[keep], 
         dims = c(n, K)
       )
-      yg = Matrix::sparseVector(
+      yg <- Matrix::sparseVector(
         x = y[idx], i = idx, length = n
       )
 
@@ -191,10 +191,10 @@ cluster_jackknife_sparse <- function(
     lapply(
       seq_len(G),
       function(g) {
-        tXX_diff = tXX - tXgXg[[g]]
-        tXy_diff = tXy - tXgyg[[g]]
+        tXX_diff <- tXX - tXgXg[[g]]
+        tXy_diff <- tXy - tXgyg[[g]]
         
-        beta = tryCatch(
+        beta <- tryCatch(
           {
             Matrix::solve(tXX_diff, tXy_diff)
           }, 
