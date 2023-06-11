@@ -24,7 +24,8 @@ Imports:
     MASS, 
     collapse, 
     generics, 
-    cli
+    cli, 
+    rlang
 Suggests: 
     ggplot2,
     latex2exp,

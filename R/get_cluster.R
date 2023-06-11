@@ -16,6 +16,9 @@ get_cluster <-
     #'
     #' @return a list, containing a data.frame of the
     #'  cluster variables
+    #'
+    #'  @importFrom stats update
+    #'
 
     # ----------------------------------------------------------------------- #
     # Note: a large part of the following code was taken and adapted from the
