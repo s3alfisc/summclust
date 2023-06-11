@@ -7,7 +7,7 @@ test_that("NA value in cluster throws error", {
   N <- 1000
   N_G1 <- 10
 
-  data1 <- summclust:::create_data(
+  data <- summclust:::create_data(
     N = N,
     N_G1 = N_G1,
     icc1 = 0.8,
@@ -20,17 +20,18 @@ test_that("NA value in cluster throws error", {
 
   feols_fit <- feols(
     proposition_vote ~ treatment + log_income,
-    data = data1
+    data = data
   )
 
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income,
-    data = data1
+    data = data
   )
 
 
   # NA in cluster variables
-  data1$group_id1[1] <- NA
+  data$group_id1[1] <- NA
+  data1 <<- data
 
   expect_error(
     summclust::vcov_CR3J(
@@ -62,17 +63,17 @@ test_that("NA value in cluster throws error", {
   )
 
   # NA in covariates
-  data1 <- na.omit(data1)
-  data1$treatment[1] <- NA
+  data2 <<- na.omit(data)
+  data2$treatment[1] <- NA
 
   feols_fit <- feols(
     proposition_vote ~ treatment + log_income,
-    data = data1
+    data = data2
   )
 
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income,
-    data = data1
+    data = data2
   )
 
   testthat::expect_no_error(
