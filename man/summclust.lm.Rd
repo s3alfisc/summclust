@@ -9,7 +9,8 @@
 \arguments{
 \item{obj}{An object of type lm}
 
-\item{cluster}{A clustering vector}
+\item{cluster}{A clustering vector. Can be a character vector of
+variable names or a formula.}
 
 \item{params}{A character vector of variables for which leverage statistics
 should be computed.}

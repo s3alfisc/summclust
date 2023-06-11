@@ -16,7 +16,8 @@
 \arguments{
 \item{obj}{An object of type fixest}
 
-\item{cluster}{A clustering vector}
+\item{cluster}{A clustering vector. Can be a character vector of
+variable names or a formula.}
 
 \item{params}{A character vector of variables for which leverage statistics
 should be computed. If NULL, leverage statistics will be computed for all

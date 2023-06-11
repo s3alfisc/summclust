@@ -19,7 +19,8 @@ jackknife as described in MacKinnon, Nielsen & Webb
 \arguments{
 \item{obj}{An object of type fixest}
 
-\item{cluster}{A clustering vector}
+\item{cluster}{A clustering vector. Can be a character vector of
+variable names or a formula.}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.
 CRV3 by default}

@@ -19,7 +19,8 @@ summclust.lm <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type lm
-  #' @param cluster A clustering vector
+  #' @param cluster A clustering vector. Can be a character vector of 
+  #' variable names or a formula.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.
   #' CRV3 by default
   #' @param params A character vector of variables for which leverage statistics

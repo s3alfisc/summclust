@@ -19,7 +19,8 @@ vcov_CR3J.fixest <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type fixest
-  #' @param cluster A clustering vector
+  #' @param cluster A clustering vector. Can be a character vector of 
+  #' variable names or a formula.
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
   #'        effects be projected out? This increases numerical stability.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.

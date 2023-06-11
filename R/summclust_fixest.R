@@ -19,7 +19,8 @@ summclust.fixest <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type fixest
-  #' @param cluster A clustering vector
+  #' @param cluster A clustering vector. Can be a character vector of 
+  #' variable names or a formula.
   #' @param params A character vector of variables for which leverage statistics
   #' should be computed. If NULL, leverage statistics will be computed for all
   #' k model covariates
