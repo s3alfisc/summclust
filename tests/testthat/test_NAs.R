@@ -6,6 +6,7 @@ test_that("NA value in cluster throws error", {
   # few large clusters (around 10000 obs)
   N <- 1000
   N_G1 <- 10
+
   data1 <- summclust:::create_data(
     N = N,
     N_G1 = N_G1,
