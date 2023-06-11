@@ -28,7 +28,6 @@ vcov_CR3J.lm <- function(
   #' @method vcov_CR3J lm
   #' @importFrom stats coef weights coefficients model.matrix
   #' @importFrom dreamerr check_arg
-  #' @importFrom MASS ginv
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #'
   #' @export

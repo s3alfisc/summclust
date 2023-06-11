@@ -71,7 +71,7 @@ get_leverage <- function(
   leverage_g <- lapply(
     unique_clusters,
     function(x) matrix_trace(
-      tXgXg[[x]] %*% MASS::ginv(tXX)
+      tXgXg[[x]] %*% MPinv(tXX)
     )
   )
   leverage_avg <- Reduce("+", leverage_g) / G

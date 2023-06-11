@@ -35,7 +35,6 @@ summclust.fixest <- function(
   #'
   #' @importFrom stats coef weights coefficients model.matrix nobs terms
   #' @importFrom dreamerr check_arg
-  #' @importFrom MASS ginv
   #' @importFrom collapse fwithin add_vars GRP
 
   #' @export

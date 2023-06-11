@@ -63,7 +63,9 @@ cluster_jackknife <- function(
     lapply(
       unique_clusters,
       function(x) {
-        MASS::ginv(tXX - as.matrix(tXgXg[[x]])) %*% (tXy - (Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*% y[c(cluster_df == x), drop = FALSE]))
+        MPinv(tXX - as.matrix(tXgXg[[x]])) %*% 
+        (tXy - (Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*% 
+        y[c(cluster_df == x), drop = FALSE]))
       }
     )
 
@@ -200,7 +202,7 @@ cluster_jackknife_sparse <- function(
           }, 
           error = function(e) {
             # message(paste0("Error when dropping cluster ", g, ". Using Psuedo-Inverse instead."))
-            MASS::ginv(as.matrix(tXX_diff)) %*% as.matrix(tXy_diff)
+            MPinv(as.matrix(tXX_diff)) %*% as.matrix(tXy_diff)
           }
         ) 
 
