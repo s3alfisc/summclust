@@ -1,21 +1,32 @@
 test_that("CV3 = HC3 with N = G", {
-  library(sandwich)
+
   library(summclust)
-  library(haven)
+  library(sandwich)
 
-  skip_on_cran()
+  set.seed(98765)
+  # few large clusters (around 10000 obs)
+  N <- 1000
+  N_G1 <- 10
+  df <- summclust:::create_data(
+    N = N,
+    N_G1 = N_G1,
+    icc1 = 0.8,
+    N_G2 = 10,
+    icc2 = 0.8,
+    numb_fe1 = 10,
+    numb_fe2 = 10,
+    seed = 12
+  )
 
-  nlswork <- read_dta("http://www.stata-press.com/data/r9/nlswork.dta")
-  # drop NAs at the moment
-  nlswork <- nlswork[, c("ln_wage", "grade", "age", "birth_yr",
-                         "union", "race", "msp", "ind_code")]
-  nlswork <- na.omit(nlswork)
-  nlswork$count <- seq_len(nrow(nlswork))
+  df$count <- 1:N
+
+  df2 <<- df
 
   lm_fit <- lm(
-    ln_wage ~ union + race + msp,
-    data = nlswork
+    proposition_vote ~ treatment + log_income,
+    data = df2
   )
+
 
   vcovCR3 <- vcov_CR3J(
     obj = lm_fit,

@@ -85,8 +85,8 @@ CRV3 <- lmtest::coeftest(lm_fit, vcov3J, df = df)
 CRV1[c("union", "race", "msp"),]
 CRV3[c("union", "race", "msp"),]
 
-lmtest::confint(CRV1)[c("union", "race", "msp"),]
-lmtest::confint(CRV3)[c("union", "race", "msp"),]
+stats::confint(CRV1)[c("union", "race", "msp"),]
+stats::confint(CRV3)[c("union", "race", "msp"),]
 ```
 
 ```{r}

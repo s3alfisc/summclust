@@ -7,7 +7,7 @@ test_that("test method equivalence, no fixed effects", {
   # few large clusters (around 10000 obs)
   N <- 1000
   N_G1 <- 10
-  data <- summclust:::create_data(
+  data1 <<- summclust:::create_data(
     N = N,
     N_G1 = N_G1,
     icc1 = 0.8,
@@ -21,12 +21,12 @@ test_that("test method equivalence, no fixed effects", {
   feols_fit <- feols(
     proposition_vote ~ treatment + log_income,
     cluster = ~group_id1,
-    data = data
+    data = data1
   )
   #
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income,
-    data = data
+    data = data1
   )
   #
   summclust_feols <- summclust(
@@ -115,13 +115,13 @@ test_that("test method equivalence, with fixed effects", {
   feols_fit <- feols(
     proposition_vote ~ treatment + log_income | group_id1 + group_id2,
     cluster = ~group_id1,
-    data = data
+    data = data1
   )
   #
   lm_fit <- lm(
     proposition_vote ~ treatment + log_income + as.factor(group_id1)
     + as.factor(group_id2),
-    data = data
+    data = data1
   )
   #
   # Test 1: absorb_cluster_fixef == FALSE
