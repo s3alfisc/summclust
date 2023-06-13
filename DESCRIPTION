@@ -39,6 +39,7 @@ Suggests:
     knitr,
     rmarkdown,
     covr
+Remotes: kylebutts/fixest/tree/sparse-matrix
 Config/testthat/edition: 3
 URL: https://s3alfisc.github.io/summclust/
 BugReports: https://github.com/s3alfisc/summclust/issues
