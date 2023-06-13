@@ -19,7 +19,7 @@ vcov_CR3J.fixest <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type fixest
-  #' @param cluster A clustering vector. Can be a character vector of 
+  #' @param cluster A clustering vector. Can be a character vector of
   #' variable names or a formula.
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
   #'        effects be projected out? This increases numerical stability.
@@ -80,7 +80,7 @@ vcov_CR3J.fixest <- function(
 
   check_arg(return_all, "logical scalar")
   check_arg(cluster, "character scalar | formula")
-  check_arg(type, "character scalar") 
+  check_arg(type, "character scalar")
   check_arg(absorb_cluster_fixef, "logical scalar")
 
 
@@ -216,6 +216,14 @@ calculate_beta_jack_dense <- function(obj, cluster, type, absorb_cluster_fixef, 
 
 calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef, return_all) {
 
+  installed_version <- as.character(packageVersion("fixest"))
+
+  if(!base::requireNamespace("fixest", quietly = FALSE) || compareVersion(installed_version, "0.11.1") < 0){
+    cli::cli_abort(
+      message = "`fixest` version 0.1x or higher is required. "
+    )
+  }
+
   X <- fixest::sparse_model_matrix(obj, type = c("rhs", "fixef"), collin.rm = TRUE)
   y <- model.matrix(obj, type = "lhs")
 
@@ -233,7 +241,7 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
     cluster <- reformulate(cluster)
   }
   cluster_vars <- attr(terms(cluster), "term.labels")
-  
+
   # Grabs data from the fixest object
   data = fetch_data(obj, "To apply 'sparse_model_matrix', ")
 
@@ -241,12 +249,12 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
   cluster_vars_in_data <- cluster_vars %in% colnames(data)
   if (any(!(cluster_vars_in_data))) {
     stop(paste0(
-      "The following variables are not found in the dataset used in your `feols` call: ", 
+      "The following variables are not found in the dataset used in your `feols` call: ",
       paste(cluster_vars[!cluster_vars_in_data], collapse = ", ")
     ))
   }
 
-  # Assumes that length(cluster_vars) == 1 (for now; can modify later for multi-way clustering) 
+  # Assumes that length(cluster_vars) == 1 (for now; can modify later for multi-way clustering)
   if (length(cluster_vars) > 1) stop("Only 1 cluster variable supported right now")
 
   cluster_vec <- data[[cluster_vars]]
@@ -263,8 +271,8 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
   fixef_vars <- obj$fixef_vars
   if (length(obj$fixef_vars) > 0) {
 
-    # if the clustering variable is a cluster fixed effect & if 
-    # absorb_cluster_fixef == TRUE, then demean X and y by the 
+    # if the clustering variable is a cluster fixed effect & if
+    # absorb_cluster_fixef == TRUE, then demean X and y by the
     # cluster fixed effect
     if (absorb_cluster_fixef && (cluster_vars %in% fixef_vars)) {
 
@@ -279,7 +287,7 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
       # head(fixest::demean(as.matrix(X), nlswork[[cluster_vars]]))
 
       # Within-transform X and y
-      X <- X - cluster_fixefs %*% 
+      X <- X - cluster_fixefs %*%
         Matrix::solve(
           Matrix::crossprod(cluster_fixefs),
           Matrix::crossprod(cluster_fixefs, X)
@@ -289,7 +297,7 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
           Matrix::crossprod(cluster_fixefs),
           Matrix::crossprod(cluster_fixefs, y)
         )
-    } 
+    }
 
   }
 
