@@ -23,10 +23,12 @@ test_that("test against stata - CVR3 inference", {
                          "ind_code")]
   nlswork <- na.omit(nlswork)
 
+  df2 <<- nlswork
+
   lm_fit <- lm(
     ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) +
       union + race + msp,
-    data = nlswork
+    data = df2
   )
 
   summclust_res <- summclust(obj = lm_fit,
@@ -90,10 +92,12 @@ test_that("test against stata - leverage", {
                          "ind_code")]
   nlswork <- na.omit(nlswork)
 
+  df2 <<- nlswork
+
   lm_fit <- lm(
     ln_wage ~ as.factor(grade) + as.factor(age) + as.factor(birth_yr) +
       union + race + msp,
-    data = nlswork
+    data = df2
   )
 
   summclust_res <- summclust(
@@ -159,14 +163,16 @@ test_that("test against stata - leverage, fixef absorb", {
                 "ind_code")]
   nlswork <- na.omit(nlswork)
 
+  df2 <<- nlswork
+
   feols_fit <- feols(ln_wage ~ union + race + msp |
                        grade + age + birth_yr + ind_code,
-                     data = nlswork)
+                     data = df2)
 
   lm_fit <- lm(
     ln_wage ~ union + race + msp + as.factor(grade) + as.factor(age) +
       as.factor(birth_yr) + as.factor(ind_code),
-    data = nlswork
+    data = df2
   )
 
   summclust_res <- summclust(obj = feols_fit,
@@ -264,7 +270,6 @@ test_that("test against stata - leverage, fixef absorb", {
 
 
 })
-
 
 
 

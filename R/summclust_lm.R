@@ -27,9 +27,10 @@ summclust.lm <- function(
   #' should be computed.
   #' @param ... other function arguments passed to 'vcov'
   #' @method summclust lm
-  #' @importFrom stats coef weights coefficients model.matrix
+  #' @importFrom stats coef weights coefficients model.matrix update model.frame expand.model.frame
   #' @importFrom dreamerr check_arg
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
+  #' @importFrom rlang abort
   #'
   #' @export
   #'
