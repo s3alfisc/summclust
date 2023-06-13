@@ -258,6 +258,27 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
   if (length(cluster_vars) > 1) stop("Only 1 cluster variable supported right now")
 
   cluster_vec <- data[[cluster_vars]]
+
+  # drop columns as fixest
+  if(N != length(cluster)){
+    cluster_vec <- cluster_vec[unlist(obj$obs_selection)]
+  }
+
+  if (length(cluster_vec) != N) {
+    rlang::abort(
+      "The number of observations in 'cluster' and 'nobs()' do not match",
+      use_cli_format = TRUE
+    )
+  }
+
+  if (any(is.na(cluster_vec))) {
+    rlang::abort(
+      "`vcov_CR3J()` cannot handle NAs in `cluster` variables that are not
+        part of the estimated model object.",
+      use_cli_format = TRUE
+    )
+  }
+
   unique_clusters <- as.character(unique(cluster_vec))
 
   N_g <- table(cluster_vec)[unique_clusters]
