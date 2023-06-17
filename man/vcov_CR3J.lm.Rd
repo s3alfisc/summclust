@@ -4,14 +4,16 @@
 \alias{vcov_CR3J.lm}
 \title{Compute CRV3 covariance matrices via a cluster
 jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{lm}}
+(2022) for objects of type `lm`}
 \usage{
 \method{vcov_CR3J}{lm}(obj, cluster, type = "CRV3", return_all = FALSE, ...)
 }
 \arguments{
 \item{obj}{An object of type lm}
 
-\item{cluster}{A clustering vector}
+\item{cluster}{A clustering vector. Can be a character vector of 
+variable names or a formula.. Can be a character vector of 
+variable names or a formula.}
 
 \item{type}{"CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.
 CRV3 by default}
@@ -27,7 +29,7 @@ An object of class \code{vcov_CR3J}
 \description{
 Compute CRV3 covariance matrices via a cluster
 jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{lm}
+(2022) for objects of type `lm`
 }
 \examples{
 \donttest{

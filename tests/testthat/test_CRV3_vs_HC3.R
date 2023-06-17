@@ -23,6 +23,7 @@ test_that("CV3 = HC3 with N = G", {
   df2 <<- df
 
   lm_fit <- lm(
+
     proposition_vote ~ treatment + log_income,
     data = df2
   )

@@ -19,19 +19,22 @@ summclust.fixest <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type fixest
-  #' @param cluster A clustering vector
+  #' @param cluster A clustering vector. Can be a character vector of 
+  #' variable names or a formula.
   #' @param params A character vector of variables for which leverage statistics
   #' should be computed. If NULL, leverage statistics will be computed for all
   #' k model covariates
   #' @param absorb_cluster_fixef TRUE by default. Should the cluster fixed
   #'        effects be projected out? This increases numerical stability and
-  #'        decreases computational costs
+  #'        decreases computational costs. If FALSE, or if there is more than
+  #'        one fixed effect, or if the single fixed effect is not a cluster
+  #'        fixed effects, defaults to attaching the fixed effects as sparse
+  #'        dummies to the design matrix.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb
   #' @param ... other function arguments passed to 'vcov'
   #'
   #' @importFrom stats coef weights coefficients model.matrix nobs terms
   #' @importFrom dreamerr check_arg
-  #' @importFrom MASS ginv
   #' @importFrom collapse fwithin add_vars GRP
 
   #' @export
@@ -108,7 +111,8 @@ summclust.fixest <- function(
       cluster = cluster,
       absorb_cluster_fixef = absorb_cluster_fixef,
       type = type,
-      return_all = TRUE
+      return_all = TRUE,
+      sparse = FALSE
     )
 
   vcov <- get_vcov$vcov
@@ -165,10 +169,10 @@ summclust.fixest <- function(
   res <-
     list(
       coef_estimates = coef(obj),
-      vcov = vcov,
+      vcov = as.matrix(vcov),
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
-      beta_jack = beta_jack,
+      beta_jack = as.matrix(beta_jack),
       partial_leverage = partial_leverage,
       coef_var_leverage_g = coef_var_leverage_g,
       coef_var_partial_leverage = coef_var_partial_leverage,

@@ -1,6 +1,7 @@
 Package: summclust
-Title: Module to Compute Influence and Leverage Statistics for Regression Models with Clustered Errors
-Version: 0.7.0
+Title: Module to Compute Influence and Leverage Statistics for Regression Models
+       with Clustered Errors
+Version: 0.8.0
 Authors@R: 
     c(
     person(given = "Alexander",
@@ -8,7 +9,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "alexander-fischer1801@t-online.de")
     )
-Description: Module to compute cluster specific information for regression models
+Description: Module to compute cluster robust covariance matrices (CRV3 and 
+        CRV3J) and cluster specific information for regression models
         with clustered errors, including leverage and influence statistics. 
         Models of type 'lm' and 'fixest'(from the 'stats' and 'fixest' packages)
         are supported. 'summclust' implements similar features as the 
@@ -16,16 +18,15 @@ Description: Module to compute cluster specific information for regression model
         <arXiv:2205.03288v1>).
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
 Imports: 
     utils, 
     dreamerr, 
-    MASS, 
     collapse, 
     generics, 
     cli, 
-    rlang
+    Matrix, 
+    Rcpp (>= 1.0.9), 
+    RcppEigen
 Suggests: 
     ggplot2,
     latex2exp,
@@ -38,7 +39,10 @@ Suggests:
     knitr,
     rmarkdown,
     covr
+LinkingTo: Rcpp, RcppEigen
+Remotes: kylebutts/fixest/tree/sparse-matrix
 Config/testthat/edition: 3
 URL: https://s3alfisc.github.io/summclust/
 BugReports: https://github.com/s3alfisc/summclust/issues
 VignetteBuilder: knitr
+RoxygenNote: 7.2.3

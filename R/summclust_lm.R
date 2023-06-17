@@ -19,7 +19,8 @@ summclust.lm <- function(
   #' arXiv preprint arXiv:2205.03288 (2022).
   #'
   #' @param obj An object of type lm
-  #' @param cluster A clustering vector
+  #' @param cluster A clustering vector. Can be a character vector of 
+  #' variable names or a formula.
   #' @param type "CRV3" or "CRV3J" following MacKinnon, Nielsen & Webb.
   #' CRV3 by default
   #' @param params A character vector of variables for which leverage statistics
@@ -28,7 +29,6 @@ summclust.lm <- function(
   #' @method summclust lm
   #' @importFrom stats coef weights coefficients model.matrix update model.frame expand.model.frame
   #' @importFrom dreamerr check_arg
-  #' @importFrom MASS ginv
   #' @importFrom stats expand.model.frame formula model.frame model.response na.pass pt qt reformulate
   #' @importFrom rlang abort
   #'
@@ -151,10 +151,10 @@ summclust.lm <- function(
   res <-
     list(
       coef_estimates = coef(obj),
-      vcov = vcov,
+      vcov = as.matrix(vcov),
       leverage_g = leverage_g,
       leverage_avg = leverage_avg,
-      beta_jack = beta_jack,
+      beta_jack = as.matrix(beta_jack),
       partial_leverage = partial_leverage,
       coef_var_leverage_g = coef_var_leverage_g,
       coef_var_partial_leverage = coef_var_partial_leverage,

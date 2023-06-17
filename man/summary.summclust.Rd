@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary_summclust.R
 \name{summary.summclust}
 \alias{summary.summclust}
-\title{A \code{summary()} method for objects of type \code{summclust}}
+\title{A `summary()` method for objects of type `summclust`}
 \usage{
 \method{summary}{summclust}(object, ...)
 }
@@ -12,11 +12,11 @@
 \item{...}{misc arguments}
 }
 \value{
-The function \code{summary.summclust} returns a range of
-cluster leverage statistics based on an object of type \code{summclust}
+The function `summary.summclust` returns a range of
+cluster leverage statistics based on an object of type `summclust`
 }
 \description{
-A \code{summary()} method for objects of type \code{summclust}
+A `summary()` method for objects of type `summclust`
 }
 \examples{
 \donttest{

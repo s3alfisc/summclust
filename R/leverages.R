@@ -9,6 +9,7 @@ get_partial_leverages <- function(
   #' Calculate partial leverage statistics as described in MNW (2022)
   #'
   #' @return A list containing leverage and partial leverage statistics
+  #' @importFrom Matrix solve crossprod
   #' @noRd
 
   #calculate partial leverage
@@ -16,7 +17,10 @@ get_partial_leverages <- function(
     k_coefs,
     function(j){
       X[,j] - X[,-j] %*% (
-        solve(crossprod(X[,-j])) %*% (t(X[,-j])   %*% X[,j])
+        Matrix::solve(
+          Matrix::crossprod(X[,-j]),
+          Matrix::crossprod(X[,-j], X[,j])
+        )
       )
     }
   )
@@ -29,9 +33,11 @@ get_partial_leverages <- function(
           lapply(
             unique_clusters,
             function(g){
-              crossprod(
-                X_tilde_j[[j]][cluster_df == g, ]
-              ) / crossprod(X_tilde_j[[j]])
+              as.matrix(
+                Matrix::crossprod(
+                  X_tilde_j[[j]][c(cluster_df == g), ]
+                ) / Matrix::crossprod(X_tilde_j[[j]])
+              )
             }
           )
         unlist(res2)
@@ -62,9 +68,12 @@ get_leverage <- function(
     tXX,
     G){
 
-  leverage_g <- lapply(unique_clusters,
-                       function(x) matrix_trace(
-                         tXgXg[[x]] %*% MASS::ginv(tXX)))
+  leverage_g <- lapply(
+    unique_clusters,
+    function(x) matrix_trace(
+      tXgXg[[x]] %*% MPinv(tXX)
+    )
+  )
   leverage_avg <- Reduce("+", leverage_g) / G
 
   res <- list(

@@ -7,12 +7,12 @@
 summclust(obj, ...)
 }
 \arguments{
-\item{obj}{An object of class \code{lm} or \code{fixest}}
+\item{obj}{An object of class `lm` or `fixest`}
 
 \item{...}{Other arguments}
 }
 \value{
-An object of type \code{summclust}, including
+An object of type `summclust`, including
 a CRV3 variance-covariance estimate as described in
 MacKinnon, Nielsen & Webb (2022)
 }
