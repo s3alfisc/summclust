@@ -2,7 +2,7 @@
 % Please edit documentation in R/summclust_fixest.R
 \name{summclust.fixest}
 \alias{summclust.fixest}
-\title{Compute Influence and Leverage Metrics for objects of type \code{fixest}}
+\title{Compute Influence and Leverage Metrics for objects of type `fixest`}
 \usage{
 \method{summclust}{fixest}(
   obj,
@@ -16,7 +16,7 @@
 \arguments{
 \item{obj}{An object of type fixest}
 
-\item{cluster}{A clustering vector. Can be a character vector of
+\item{cluster}{A clustering vector. Can be a character vector of 
 variable names or a formula.}
 
 \item{params}{A character vector of variables for which leverage statistics
@@ -35,7 +35,7 @@ dummies to the design matrix.}
 \item{...}{other function arguments passed to 'vcov'}
 }
 \value{
-An object of type \code{summclust}, including
+An object of type `summclust`, including
 a CRV3 variance-covariance estimate as described in
 MacKinnon, Nielsen & Webb (2022)
 
@@ -54,13 +54,13 @@ Leverage Statistics}
 regression coefficients.}
 \item{params}{The input parameter vector 'params'.}
 \item{N_G}{The number of clusters- }
-\item{call}{The \code{summclust()} function call.}
+\item{call}{The `summclust()` function call.}
 \item{cluster}{The names of the clusters.}
 }
 \description{
 Compute influence and leverage metrics for clustered inference
 based on the Cluster Jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{fixest}.
+(2022) for objects of type `fixest`.
 }
 \examples{
 \donttest{

@@ -9,7 +9,7 @@ jackknife as described in MacKinnon, Nielsen & Webb
 vcov_CR3J(obj, ...)
 }
 \arguments{
-\item{obj}{An object of class \code{lm} or \code{fixest}
+\item{obj}{An object of class `lm` or `fixest`
 computed?}
 
 \item{...}{misc function argument}

@@ -2,20 +2,20 @@
 % Please edit documentation in R/plot_summclust.R
 \name{plot.summclust}
 \alias{plot.summclust}
-\title{Plotting method for objects of type \code{summclust}}
+\title{Plotting method for objects of type `summclust`}
 \usage{
 \method{plot}{summclust}(x, ...)
 }
 \arguments{
-\item{x}{An object of type \code{summclust}}
+\item{x}{An object of type `summclust`}
 
 \item{...}{other optional function arguments}
 }
 \value{
 A list containing
-\item{residual_leverage}{A \code{ggplot} of the residual leverages}
-\item{coef_leverage}{A \code{ggplot} of the coefficient leverages}
-\item{coef_beta}{A \code{ggplot} of the leave-one-out cluster jackknife
+\item{residual_leverage}{A `ggplot` of the residual leverages}
+\item{coef_leverage}{A `ggplot` of the coefficient leverages}
+\item{coef_beta}{A `ggplot` of the leave-one-out cluster jackknife
 regression coefficients}
 }
 \description{
@@ -23,7 +23,7 @@ Plots residual leverage, partial leverage and the
 leave-one-cluster-out regression coefficients
 }
 \details{
-Note that the function requires \code{ggplot2} to be installed.
+Note that the function requires `ggplot2` to be installed.
 }
 \examples{
 

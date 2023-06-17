@@ -2,14 +2,14 @@
 % Please edit documentation in R/summclust_lm.R
 \name{summclust.lm}
 \alias{summclust.lm}
-\title{Compute Influence and Leverage Metrics for objects of type \code{lm}}
+\title{Compute Influence and Leverage Metrics for objects of type `lm`}
 \usage{
 \method{summclust}{lm}(obj, cluster, params, type = "CRV3", ...)
 }
 \arguments{
 \item{obj}{An object of type lm}
 
-\item{cluster}{A clustering vector. Can be a character vector of
+\item{cluster}{A clustering vector. Can be a character vector of 
 variable names or a formula.}
 
 \item{params}{A character vector of variables for which leverage statistics
@@ -21,7 +21,7 @@ CRV3 by default}
 \item{...}{other function arguments passed to 'vcov'}
 }
 \value{
-An object of type \code{summclust}, including
+An object of type `summclust`, including
 a CRV3 variance-covariance estimate as described in
 MacKinnon, Nielsen & Webb (2022)
 
@@ -35,13 +35,13 @@ as described in MacKinnon, Nielsen & Webb (2022)}
 regression coefficients.}
 \item{params}{The input parameter vector 'params'.}
 \item{N_G}{The number of clusters- }
-\item{call}{The \code{summclust()} function call.}
+\item{call}{The `summclust()` function call.}
 \item{cluster}{The names of the clusters.}
 }
 \description{
 Compute influence and leverage metrics for clustered inference
 based on the Cluster Jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{lm}.
+(2022) for objects of type `lm`.
 }
 \examples{
 \donttest{

@@ -4,7 +4,7 @@
 \alias{vcov_CR3J.fixest}
 \title{Compute CRV3 covariance matrices via a cluster
 jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{fixest}}
+(2022) for objects of type `fixest`}
 \usage{
 \method{vcov_CR3J}{fixest}(
   obj,
@@ -33,9 +33,9 @@ effects be projected out? This increases numerical stability.}
 
 \item{sparse}{Logical scalar, TRUE by default. Should sparse matrices
 be used? This is recommended for large datasets as it is considerably
-faster. However, for \code{summclust}, \code{sparse = FALSE} is used so that
-results match Stata. The \code{vcov} will be identical, but the individual
-\code{beta_jack}s will not be.}
+faster. However, for `summclust`, `sparse = FALSE` is used so that
+results match Stata. The `vcov` will be identical, but the individual
+`beta_jack`s will not be.}
 
 \item{...}{other function arguments passed to 'vcov'}
 }
@@ -45,7 +45,7 @@ An object of class \code{vcov_CR3J}
 \description{
 Compute CRV3 covariance matrices via a cluster
 jackknife as described in MacKinnon, Nielsen & Webb
-(2022) for objects of type \code{fixest}
+(2022) for objects of type `fixest`
 }
 \examples{
 \donttest{

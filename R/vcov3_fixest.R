@@ -216,6 +216,9 @@ calculate_beta_jack_dense <- function(obj, cluster, type, absorb_cluster_fixef, 
 
 calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef, return_all) {
 
+  #' calculate leave-one out regression coefficients
+  #' @importFrom utils compareVersion
+
   installed_version <- as.character(packageVersion("fixest"))
 
   if(!base::requireNamespace("fixest", quietly = FALSE) || compareVersion(installed_version, "0.11.1") < 0){
@@ -260,7 +263,7 @@ calculate_beta_jack_sparse <- function(obj, cluster, type, absorb_cluster_fixef,
   cluster_vec <- data[[cluster_vars]]
 
   # drop columns as fixest
-  if(N != length(cluster)){
+  if(N != length(cluster_vec)){
     cluster_vec <- cluster_vec[unlist(obj$obs_selection)]
   }
 

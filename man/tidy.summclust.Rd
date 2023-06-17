@@ -18,7 +18,7 @@ intervals based on CRV3 variance-covariance matrix
 and t(G-1) distribution
 }
 \description{
-Obtain results from a \code{summclust} object in a tidy data frame.
+Obtain results from a `summclust` object in a tidy data frame.
 }
 \examples{
 

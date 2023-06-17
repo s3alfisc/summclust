@@ -18,15 +18,15 @@ Description: Module to compute cluster robust covariance matrices (CRV3 and
         <arXiv:2205.03288v1>).
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
 Imports: 
     utils, 
     dreamerr, 
     collapse, 
     generics, 
     cli, 
-    Matrix
+    Matrix, 
+    Rcpp (>= 1.0.9), 
+    RcppEigen
 Suggests: 
     ggplot2,
     latex2exp,
@@ -39,8 +39,10 @@ Suggests:
     knitr,
     rmarkdown,
     covr
+LinkingTo: Rcpp, RcppEigen
 Remotes: kylebutts/fixest/tree/sparse-matrix
 Config/testthat/edition: 3
 URL: https://s3alfisc.github.io/summclust/
 BugReports: https://github.com/s3alfisc/summclust/issues
 VignetteBuilder: knitr
+RoxygenNote: 7.2.3

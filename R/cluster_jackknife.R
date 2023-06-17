@@ -63,8 +63,8 @@ cluster_jackknife <- function(
     lapply(
       unique_clusters,
       function(x) {
-        MPinv(tXX - as.matrix(tXgXg[[x]])) %*% 
-        (tXy - (Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*% 
+        summclust:::eigen_pinv(as.matrix(tXX - as.matrix(tXgXg[[x]]))) %*%
+        (tXy - (Matrix::t(X[c(cluster_df == x), , drop = FALSE]) %*%
         y[c(cluster_df == x), drop = FALSE]))
       }
     )
@@ -133,7 +133,7 @@ cluster_jackknife_sparse <- function(
   #' \item{G}{The number of unique clusters}
   #' \item{small_sample_correction}{The employed small sample correction}
   #' @importFrom Matrix crossprod tcrossprod t
-  #' 
+  #'
   #' @noRd
 
   unique_clusters <- as.character(unique(cluster_vec))
@@ -157,11 +157,11 @@ cluster_jackknife_sparse <- function(
     g_idx,
     function(idx) {
       keep <- which(i %in% idx)
-      
+
       Xg <- Matrix::sparseMatrix(
         i = i[keep],
         j = j[keep],
-        x = X_triplet@x[keep], 
+        x = X_triplet@x[keep],
         dims = c(n, K)
       )
       yg <- Matrix::sparseVector(
@@ -185,7 +185,7 @@ cluster_jackknife_sparse <- function(
   # all(tXX == crossprod(X))
   tXy <- Reduce("+", tXgyg)
   # all(tXy == crossprod(X, y))
-  
+
   beta_hat <- Matrix::solve(tXX, tXy)
 
   # initiate jackknife
@@ -195,16 +195,16 @@ cluster_jackknife_sparse <- function(
       function(g) {
         tXX_diff <- tXX - tXgXg[[g]]
         tXy_diff <- tXy - tXgyg[[g]]
-        
+
         beta <- tryCatch(
           {
             Matrix::solve(tXX_diff, tXy_diff)
-          }, 
+          },
           error = function(e) {
             # message(paste0("Error when dropping cluster ", g, ". Using Psuedo-Inverse instead."))
-            MPinv(as.matrix(tXX_diff)) %*% as.matrix(tXy_diff)
+            summclust:::eigen_pinv(as.matrix(tXX_diff %*% tXy_diff))
           }
-        ) 
+        )
 
         return(beta)
       }

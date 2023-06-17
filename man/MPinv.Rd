@@ -7,7 +7,7 @@
 MPinv(X, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
-\item{X}{(object) two-dimensional, for which a Moore-Penrose inverse
+\item{X}{(object) two-dimensional, for which a Moore-Penrose inverse 
 has to be computed}
 
 \item{tol}{(numeric) tolerance value to be used in comparisons}
@@ -16,9 +16,9 @@ has to be computed}
 (object) A Moore-Penrose inverse of X.
 }
 \description{
-This function is originally implemented in package 'MASS' as function
-\code{ginv}.
-It was adapted to be able to deal with matrices from the 'Matrix' package,
+This function is originally implemented in package 'MASS' as function 
+\code{ginv}.  
+It was adapted to be able to deal with matrices from the 'Matrix' package, 
 e.g. sparse matrices.
 }
 \author{
